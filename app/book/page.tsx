@@ -8,6 +8,7 @@ import DateRangePicker from '@/components/booking/DateRangePicker';
 import RoomSelector from '@/components/booking/RoomSelector';
 import GuestForm from '@/components/booking/GuestForm';
 import BookingSummary from '@/components/booking/BookingSummary';
+import BookingConfirmation from '@/components/booking/BookingConfirmation';
 
 function BookingSteps() {
     const { step } = useBooking();
@@ -79,32 +80,7 @@ function BookingSteps() {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -20 }}
                         >
-                            <h2 className="text-3xl font-bold mb-8 text-gradient">Review & Confirm</h2>
-                            <div className="glass-card space-y-6">
-                                <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
-                                    <h3 className="text-xl font-bold text-white mb-4">Almost There!</h3>
-                                    <p className="text-slate-400 mb-6">
-                                        Please review your booking details on the right. If everything looks correct, click the "Confirm Reservation" button to complete your booking.
-                                    </p>
-                                    <div className="flex items-center gap-4 text-sm text-slate-500">
-                                        <span className="flex items-center gap-2">
-                                            <span className="w-2 h-2 rounded-full bg-[#39ff14]"></span>
-                                            Instant Confirmation
-                                        </span>
-                                        <span className="flex items-center gap-2">
-                                            <span className="w-2 h-2 rounded-full bg-[#39ff14]"></span>
-                                            No Hidden Fees
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <button
-                                    onClick={() => useBooking().setStep(3)}
-                                    className="text-slate-400 hover:text-white transition-colors text-sm"
-                                >
-                                    ← Edit Guest Details
-                                </button>
-                            </div>
+                            <BookingConfirmation />
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -123,7 +99,7 @@ export default function BookingPage() {
             <main className="min-h-screen bg-primary">
                 <Navigation />
 
-                <div className="pt-24 md:pt-32 pb-24 px-6 md:px-8 max-w-7xl mx-auto">
+                <div className="pt-20 md:pt-32 pb-24 px-6 md:px-8 max-w-7xl mx-auto">
                     <header className="mb-12">
                         <h1 className="section-title text-4xl md:text-5xl lg:text-6xl mb-4">
                             Book Your <span className="text-gradient">Stay</span>

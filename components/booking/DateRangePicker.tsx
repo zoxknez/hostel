@@ -60,7 +60,7 @@ export default function DateRangePicker() {
           <button
             disabled={!isStepValid}
             onClick={() => setStep(2)}
-            className="btn-primary w-full py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:grayscale transition-all shadow-[0_0_30px_rgba(57,255,20,0.2)]"
+            className="btn-primary w-full py-4 text-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:grayscale transition-all shadow-[0_0_30px_rgba(57,255,20,0.3)]"
           >
             Select Room →
           </button>

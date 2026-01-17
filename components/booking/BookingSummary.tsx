@@ -80,48 +80,7 @@ export default function BookingSummary() {
                     </div>
                 </div>
 
-                {step === 4 && (
-                    <button
-                        onClick={async () => {
-                            if (!roomId || !checkIn || !checkOut || !guestName || !guestEmail) {
-                                alert('Please complete all required fields.');
-                                return;
-                            }
-
-                            try {
-                                const res = await fetch('/api/bookings', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    body: JSON.stringify({
-                                        roomId,
-                                        checkIn: checkIn.toISOString(),
-                                        checkOut: checkOut.toISOString(),
-                                        guestName,
-                                        guestEmail,
-                                        guestPhone,
-                                        numberOfGuests,
-                                        specialRequests,
-                                        guestCountry: 'Unknown' // Default or fetch from context if available
-                                    })
-                                });
-
-                                if (res.ok) {
-                                    alert('Booking Successful! Check your email.');
-                                    window.location.href = '/';
-                                } else {
-                                    const data = await res.json();
-                                    alert('Error: ' + (data.error || 'Booking failed'));
-                                }
-                            } catch (error) {
-                                console.error(error);
-                                alert('Something went wrong. Please try again.');
-                            }
-                        }}
-                        className="btn-primary w-full py-4 mt-4 shadow-[0_0_30px_rgba(57,255,20,0.4)]"
-                    >
-                        Confirm Reservation
-                    </button>
-                )}
+                {/* Confirm button moved to main BookingConfirmation component */}
             </div>
         </div>
     );

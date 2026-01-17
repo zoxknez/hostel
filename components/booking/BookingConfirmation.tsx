@@ -77,7 +77,7 @@ export default function BookingConfirmation() {
                 animate={{ opacity: 1, scale: 1 }}
                 className="glass-card text-center py-20"
             >
-                <div className="w-24 h-24 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center text-5xl mx-auto mb-8 animate-bounce">
+                <div className="w-24 h-24 bg-[#39ff14]/20 text-[#39ff14] rounded-full flex items-center justify-center text-5xl mx-auto mb-8 animate-bounce">
                     ✓
                 </div>
                 <h2 className="text-4xl font-bold mb-4 text-white">Booking Confirmed!</h2>
@@ -88,7 +88,7 @@ export default function BookingConfirmation() {
 
                 <div className="bg-primary/50 border border-white/10 p-6 rounded-2xl max-w-sm mx-auto mb-12 text-left space-y-3">
                     <p className="text-xs text-slate-500 uppercase tracking-widest">Booking Number</p>
-                    <p className="text-2xl font-mono font-bold text-cyan-400">{bookingData?.bookingNumber}</p>
+                    <p className="text-2xl font-mono font-bold text-[#39ff14]">{bookingData?.bookingNumber}</p>
                     <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
                         <div>
                             <p className="text-[10px] text-slate-500 uppercase">Check-In</p>
@@ -124,7 +124,7 @@ export default function BookingConfirmation() {
             <div className="space-y-8">
                 <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-4">
-                        <h4 className="text-cyan-400 font-bold uppercase tracking-widest text-xs">Stay Information</h4>
+                        <h4 className="text-[#39ff14] font-bold uppercase tracking-widest text-xs">Stay Information</h4>
                         <div className="space-y-2">
                             <p className="text-white"><span className="text-slate-500 mr-2">Check-In:</span> {format(checkIn!, 'PPPP')}</p>
                             <p className="text-white"><span className="text-slate-500 mr-2">Check-Out:</span> {format(checkOut!, 'PPPP')}</p>
@@ -133,7 +133,7 @@ export default function BookingConfirmation() {
                     </div>
 
                     <div className="space-y-4">
-                        <h4 className="text-cyan-400 font-bold uppercase tracking-widest text-xs">Guest Information</h4>
+                        <h4 className="text-[#39ff14] font-bold uppercase tracking-widest text-xs">Guest Information</h4>
                         <div className="space-y-2">
                             <p className="text-white"><span className="text-slate-500 mr-2">Name:</span> {guestName}</p>
                             <p className="text-white"><span className="text-slate-500 mr-2">Email:</span> {guestEmail}</p>
@@ -153,7 +153,7 @@ export default function BookingConfirmation() {
                     <button
                         disabled={loading}
                         onClick={handleConfirm}
-                        className="btn-primary flex-1 py-4 text-lg shadow-[0_0_40px_rgba(0,245,255,0.4)]"
+                        className="btn-primary flex-1 py-4 text-lg shadow-[0_0_30px_rgba(57,255,20,0.3)]"
                     >
                         {loading ? 'Processing...' : 'Confirm & Book Now'}
                     </button>

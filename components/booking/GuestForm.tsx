@@ -107,7 +107,7 @@ export default function GuestForm() {
                 </button>
                 <button
                     type="submit"
-                    className="btn-primary px-12 py-4 shadow-[0_0_20px_rgba(57,255,20,0.2)]"
+                    className="btn-primary px-12 py-4 shadow-[0_0_30px_rgba(57,255,20,0.3)]"
                 >
                     Review Booking →
                 </button>
