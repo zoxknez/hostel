@@ -19,15 +19,18 @@ function BookingSteps() {
                     {/* Progress Line */}
                     <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white/10 -translate-y-1/2 -z-10" />
 
-                    {[1, 2, 3].map((s) => (
+                    {/* Progress Line */}
+                    <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white/10 -translate-y-1/2 -z-10" />
+
+                    {[1, 2, 3, 4].map((s) => (
                         <div
                             key={s}
                             className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-500 ${step >= s
-                                    ? 'bg-cyan-400 text-primary shadow-[0_0_20px_rgba(0,245,255,0.5)]'
-                                    : 'bg-primary-light text-slate-500 border border-white/10'
+                                ? 'bg-[#39ff14] text-primary shadow-[0_0_20px_rgba(57,255,20,0.5)]'
+                                : 'bg-primary-light text-slate-500 border border-white/10'
                                 }`}
                         >
-                            {s}
+                            {s === 4 ? '✓' : s}
                         </div>
                     ))}
                 </div>
@@ -68,6 +71,42 @@ function BookingSteps() {
                             <GuestForm />
                         </motion.div>
                     )}
+
+                    {step === 4 && (
+                        <motion.div
+                            key="step-4"
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                        >
+                            <h2 className="text-3xl font-bold mb-8 text-gradient">Review & Confirm</h2>
+                            <div className="glass-card space-y-6">
+                                <div className="p-6 rounded-2xl bg-white/5 border border-white/10">
+                                    <h3 className="text-xl font-bold text-white mb-4">Almost There!</h3>
+                                    <p className="text-slate-400 mb-6">
+                                        Please review your booking details on the right. If everything looks correct, click the "Confirm Reservation" button to complete your booking.
+                                    </p>
+                                    <div className="flex items-center gap-4 text-sm text-slate-500">
+                                        <span className="flex items-center gap-2">
+                                            <span className="w-2 h-2 rounded-full bg-[#39ff14]"></span>
+                                            Instant Confirmation
+                                        </span>
+                                        <span className="flex items-center gap-2">
+                                            <span className="w-2 h-2 rounded-full bg-[#39ff14]"></span>
+                                            No Hidden Fees
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <button
+                                    onClick={() => useBooking().setStep(3)}
+                                    className="text-slate-400 hover:text-white transition-colors text-sm"
+                                >
+                                    ← Edit Guest Details
+                                </button>
+                            </div>
+                        </motion.div>
+                    )}
                 </AnimatePresence>
             </div>
 
@@ -84,7 +123,7 @@ export default function BookingPage() {
             <main className="min-h-screen bg-primary">
                 <Navigation />
 
-                <div className="pt-32 pb-24 px-6 md:px-8 max-w-7xl mx-auto">
+                <div className="pt-24 md:pt-32 pb-24 px-6 md:px-8 max-w-7xl mx-auto">
                     <header className="mb-12">
                         <h1 className="section-title text-4xl md:text-5xl lg:text-6xl mb-4">
                             Book Your <span className="text-gradient">Stay</span>

@@ -10,15 +10,15 @@ interface StatsCardProps {
 }
 
 const colorMap = {
-    cyan: 'from-cyan-400/20 to-cyan-400/5 text-cyan-400 border-cyan-400/20',
-    purple: 'from-purple-400/20 to-purple-400/5 text-purple-400 border-purple-400/20',
-    emerald: 'from-emerald-400/20 to-emerald-400/5 text-emerald-400 border-emerald-400/20',
-    gold: 'from-amber-400/20 to-amber-400/5 text-amber-400 border-amber-400/20',
+    cyan: 'from-[#39ff14]/20 to-[#39ff14]/5 text-[#39ff14] border-[#39ff14]/20',
+    purple: 'from-[#ffff00]/20 to-[#ffff00]/5 text-[#ffff00] border-[#ffff00]/20',
+    emerald: 'from-[#00754a]/40 to-[#00754a]/10 text-[#39ff14] border-[#00754a]/40',
+    gold: 'from-[#ffff00]/20 to-[#ffff00]/5 text-[#ffff00] border-[#ffff00]/20',
 };
 
 export default function StatsCard({ label, value, icon, trend, color, highlight }: StatsCardProps) {
     return (
-        <div className={`glass-card p-6 bg-gradient-to-br ${colorMap[color]} ${highlight ? 'ring-2 ring-purple-500 ring-offset-4 ring-offset-[#02040a]' : ''}`}>
+        <div className={`glass-card p-6 bg-gradient-to-br ${colorMap[color]} ${highlight ? 'ring-2 ring-[#ffff00] ring-offset-4 ring-offset-[#02040a]' : ''}`}>
             <div className="flex items-start justify-between mb-4">
                 <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center text-2xl border border-white/10">
                     {icon}

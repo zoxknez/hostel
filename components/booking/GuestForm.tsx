@@ -43,7 +43,7 @@ export default function GuestForm() {
                     <label className="text-sm font-medium text-slate-400">Full Name</label>
                     <input
                         {...register('guestName')}
-                        className={`w-full bg-primary/50 border rounded-xl px-4 py-3 text-white focus:border-cyan-400 outline-none transition-all ${errors.guestName ? 'border-red-500/50' : 'border-white/10'
+                        className={`w-full bg-primary/50 border rounded-xl px-4 py-3 text-white focus:border-[#39ff14] outline-none transition-all relative z-20 ${errors.guestName ? 'border-red-500/50' : 'border-white/10'
                             }`}
                         placeholder="John Doe"
                     />
@@ -54,7 +54,7 @@ export default function GuestForm() {
                     <label className="text-sm font-medium text-slate-400">Email Address</label>
                     <input
                         {...register('guestEmail')}
-                        className={`w-full bg-primary/50 border rounded-xl px-4 py-3 text-white focus:border-cyan-400 outline-none transition-all ${errors.guestEmail ? 'border-red-500/50' : 'border-white/10'
+                        className={`w-full bg-primary/50 border rounded-xl px-4 py-3 text-white focus:border-[#39ff14] outline-none transition-all relative z-20 ${errors.guestEmail ? 'border-red-500/50' : 'border-white/10'
                             }`}
                         placeholder="john@example.com"
                     />
@@ -65,7 +65,7 @@ export default function GuestForm() {
                     <label className="text-sm font-medium text-slate-400">Phone Number</label>
                     <input
                         {...register('guestPhone')}
-                        className={`w-full bg-primary/50 border rounded-xl px-4 py-3 text-white focus:border-cyan-400 outline-none transition-all ${errors.guestPhone ? 'border-red-500/50' : 'border-white/10'
+                        className={`w-full bg-primary/50 border rounded-xl px-4 py-3 text-white focus:border-[#39ff14] outline-none transition-all relative z-20 ${errors.guestPhone ? 'border-red-500/50' : 'border-white/10'
                             }`}
                         placeholder="+381 6..."
                     />
@@ -77,7 +77,7 @@ export default function GuestForm() {
                     <input
                         type="number"
                         {...register('numberOfGuests', { valueAsNumber: true })}
-                        className={`w-full bg-primary/50 border rounded-xl px-4 py-3 text-white focus:border-cyan-400 outline-none transition-all ${errors.numberOfGuests ? 'border-red-500/50' : 'border-white/10'
+                        className={`w-full bg-primary/50 border rounded-xl px-4 py-3 text-white focus:border-[#39ff14] outline-none transition-all relative z-20 ${errors.numberOfGuests ? 'border-red-500/50' : 'border-white/10'
                             }`}
                     />
                     {errors.numberOfGuests && <p className="text-red-400 text-xs">{errors.numberOfGuests.message}</p>}
@@ -89,18 +89,27 @@ export default function GuestForm() {
                 <textarea
                     {...register('specialRequests')}
                     rows={4}
-                    className="w-full bg-primary/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-cyan-400 outline-none transition-all"
+                    {...register('specialRequests')}
+                    rows={4}
+                    className="w-full bg-primary/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#39ff14] outline-none transition-all relative z-20"
                     placeholder="Early check-in, dietary requirements, etc."
                 />
             </div>
 
             <div className="flex justify-between items-center pt-6">
-                <button type="button" onClick={() => setStep(2)} className="text-slate-400 hover:text-white transition-colors">
-                    ← Back to rooms
+                <button
+                    type="button"
+                    onClick={() => setStep(2)}
+                    className="group flex items-center gap-3 text-slate-400 hover:text-white transition-all px-4 py-2 rounded-full hover:bg-white/5"
+                >
+                    <span className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[#39ff14] group-hover:text-[#39ff14] transition-colors shadow-[0_0_10px_rgba(0,0,0,0.2)]">
+                        ←
+                    </span>
+                    <span className="font-medium tracking-wide">Back to rooms</span>
                 </button>
                 <button
                     type="submit"
-                    className="btn-primary px-12 py-4 shadow-[0_0_20px_rgba(0,245,255,0.2)]"
+                    className="btn-primary px-12 py-4 shadow-[0_0_20px_rgba(57,255,20,0.2)]"
                 >
                     Review Booking →
                 </button>

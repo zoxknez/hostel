@@ -58,7 +58,7 @@ export default function RoomSelector() {
                     <motion.div
                         key={room.id}
                         whileHover={{ y: -8 }}
-                        className={`glass-card p-0 overflow-hidden cursor-pointer transition-all border-2 ${roomId === room.id ? 'border-cyan-400 ring-4 ring-cyan-400/20' : 'border-transparent'
+                        className={`glass-card p-0 overflow-hidden cursor-pointer transition-all border-2 ${roomId === room.id ? 'border-[#39ff14] ring-4 ring-[#39ff14]/20' : 'border-transparent'
                             }`}
                         onClick={() => setRoomId(room.id)}
                     >
@@ -69,7 +69,7 @@ export default function RoomSelector() {
                                 fill
                                 className="object-cover"
                             />
-                            <div className="absolute top-4 right-4 bg-primary/80 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-cyan-400 font-bold">
+                            <div className="absolute top-4 right-4 bg-primary/80 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-[#39ff14] font-bold">
                                 €{room.pricePerNight} <span className="text-[10px] text-slate-400">/ night</span>
                             </div>
                         </div>
@@ -94,7 +94,7 @@ export default function RoomSelector() {
                                     <span>🛏️ {room.beds} Beds</span>
                                 </div>
                                 {roomId === room.id && (
-                                    <span className="text-cyan-400 font-bold text-sm">✓ Selected</span>
+                                    <span className="text-[#39ff14] font-bold text-sm">✓ Selected</span>
                                 )}
                             </div>
                         </div>
@@ -103,8 +103,14 @@ export default function RoomSelector() {
             </div>
 
             <div className="flex justify-between items-center mt-12 bg-primary-light p-6 rounded-2xl border border-white/5">
-                <button onClick={() => setStep(1)} className="text-slate-400 hover:text-white transition-colors">
-                    ← Back to dates
+                <button
+                    onClick={() => setStep(1)}
+                    className="group flex items-center gap-3 text-slate-400 hover:text-white transition-all px-4 py-2 rounded-full hover:bg-white/5"
+                >
+                    <span className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center group-hover:border-[#39ff14] group-hover:text-[#39ff14] transition-colors shadow-[0_0_10px_rgba(0,0,0,0.2)]">
+                        ←
+                    </span>
+                    <span className="font-medium tracking-wide">Back to dates</span>
                 </button>
                 <button
                     disabled={!roomId}

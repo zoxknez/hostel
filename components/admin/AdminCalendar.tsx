@@ -70,9 +70,9 @@ export default function AdminCalendar() {
                         <div
                             key={day.toString()}
                             style={{ gridColumnStart: idx === 0 ? day.getDay() + 1 : undefined }}
-                            className={`min-h-[120px] p-2 bg-primary/20 hover:bg-white/5 transition-colors relative group ${isTodayCheck ? 'ring-1 ring-inset ring-cyan-400/50' : ''}`}
+                            className={`min-h-[120px] p-2 bg-primary/20 hover:bg-white/5 transition-colors relative group ${isTodayCheck ? 'ring-1 ring-inset ring-[#39ff14]/50' : ''}`}
                         >
-                            <span className={`text-sm font-bold ${isTodayCheck ? 'text-cyan-400' : 'text-slate-400'}`}>
+                            <span className={`text-sm font-bold ${isTodayCheck ? 'text-[#39ff14]' : 'text-slate-400'}`}>
                                 {format(day, 'd')}
                             </span>
 
@@ -81,8 +81,8 @@ export default function AdminCalendar() {
                                     <div
                                         key={b.id}
                                         className={`text-[10px] p-1 rounded border leading-tight truncate ${b.status === 'CONFIRMED'
-                                                ? 'bg-emerald-400/10 border-emerald-400/20 text-emerald-400'
-                                                : 'bg-amber-400/10 border-amber-400/20 text-amber-400'
+                                            ? 'bg-[#39ff14]/10 border-[#39ff14]/20 text-[#39ff14]'
+                                            : 'bg-[#ffff00]/10 border-[#ffff00]/20 text-[#ffff00]'
                                             }`}
                                         title={`${b.guestName} - ${b.room.name}`}
                                     >
@@ -97,15 +97,15 @@ export default function AdminCalendar() {
 
             <div className="mt-8 flex gap-6 text-xs">
                 <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded bg-amber-400/20 border border-amber-400/30" />
+                    <div className="w-3 h-3 rounded bg-[#ffff00]/20 border border-[#ffff00]/30" />
                     <span className="text-slate-500">Pending</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded bg-emerald-400/20 border border-emerald-400/30" />
+                    <div className="w-3 h-3 rounded bg-[#39ff14]/20 border border-[#39ff14]/30" />
                     <span className="text-slate-500">Confirmed</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 rounded ring-1 ring-cyan-400/50" />
+                    <div className="w-3 h-3 rounded ring-1 ring-[#39ff14]/50" />
                     <span className="text-slate-500">Today</span>
                 </div>
             </div>

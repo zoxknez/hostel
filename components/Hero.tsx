@@ -56,7 +56,7 @@ export default function Hero() {
                 </motion.div>
 
                 {/* Main Heading */}
-                <h1 className="section-title text-5xl sm:text-6xl md:text-7xl lg:text-8xl mb-8">
+                <h1 className="section-title text-4xl sm:text-6xl md:text-7xl lg:text-8xl mb-8">
                     <span className="text-white">Welcome to</span>
                     <br />
                     <span className="text-gradient">Downtown Inn</span>
@@ -67,7 +67,7 @@ export default function Hero() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.4 }}
-                    className="text-lg md:text-xl lg:text-2xl mb-12 max-w-3xl mx-auto leading-relaxed"
+                    className="text-lg md:text-xl lg:text-2xl mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed"
                     style={{ color: '#94a3b8' }}
                 >
                     Experience Belgrade like never before. Premium comfort meets
@@ -97,10 +97,9 @@ export default function Hero() {
 
                 {/* Trust Indicators */}
                 <motion.div
-                    initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1, delay: 1 }}
-                    className="mt-16 flex flex-wrap justify-center gap-8 md:gap-12"
+                    className="mt-10 md:mt-16 flex flex-wrap justify-center gap-8 md:gap-12"
                 >
                     {[
                         { value: '4.8★', label: 'TripAdvisor Rating' },

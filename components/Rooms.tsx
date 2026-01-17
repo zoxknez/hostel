@@ -17,7 +17,7 @@ export default function Rooms() {
         <>
             <section
                 id="rooms"
-                className="relative py-32 px-6 md:px-8 overflow-hidden"
+                className="relative py-16 md:py-24 lg:py-32 px-6 md:px-8 overflow-hidden"
                 style={{
                     background: 'linear-gradient(180deg, #050816 0%, #0c1428 50%, #050816 100%)'
                 }}

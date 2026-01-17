@@ -5,8 +5,21 @@ import { useBooking } from '@/lib/context/BookingContext';
 import { format, startOfToday } from 'date-fns';
 import 'react-day-picker/dist/style.css';
 
+import { useState, useEffect } from 'react';
+
 export default function DateRangePicker() {
   const { checkIn, checkOut, setDates, setStep } = useBooking();
+  const [numMonths, setNumMonths] = useState(2);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setNumMonths(window.innerWidth < 768 ? 1 : 2);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleSelect = (range: DateRange | undefined) => {
     setDates(range?.from, range?.to);
@@ -16,14 +29,14 @@ export default function DateRangePicker() {
 
   return (
     <div className="glass-card">
-      <div className="flex flex-col lg:flex-row gap-8 items-center justify-center p-4 lg:p-8">
+      <div className="flex flex-col lg:flex-row gap-8 items-center justify-center lg:p-8">
         <div className="booking-calendar overflow-hidden rounded-2xl">
           <DayPicker
             mode="range"
             selected={{ from: checkIn, to: checkOut }}
             onSelect={handleSelect}
             disabled={{ before: startOfToday() }}
-            numberOfMonths={2}
+            numberOfMonths={numMonths}
             className="!bg-transparent text-white"
           />
         </div>

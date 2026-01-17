@@ -5,7 +5,7 @@ import { differenceInDays, format } from 'date-fns';
 import { useState, useEffect } from 'react';
 
 export default function BookingSummary() {
-    const { checkIn, checkOut, roomId, guestName, guestEmail, step, setStep } = useBooking();
+    const { checkIn, checkOut, roomId, guestName, guestEmail, guestPhone, numberOfGuests, specialRequests, step, setStep } = useBooking();
     const [room, setRoom] = useState<any>(null);
 
     useEffect(() => {
@@ -34,7 +34,7 @@ export default function BookingSummary() {
                     {checkIn && checkOut ? (
                         <div className="flex items-center justify-between text-sm text-white">
                             <span>{format(checkIn, 'MMM d')} - {format(checkOut, 'MMM d')}</span>
-                            <span className="bg-cyan-400/10 text-cyan-400 px-2 py-0.5 rounded border border-cyan-400/20">
+                            <span className="bg-[#39ff14]/10 text-[#39ff14] px-2 py-0.5 rounded border border-[#39ff14]/20">
                                 {nights} nights
                             </span>
                         </div>
@@ -74,16 +74,50 @@ export default function BookingSummary() {
                         <span className="text-slate-400 text-sm">City Tax (estimated)</span>
                         <span className="text-white font-medium">€{(nights * 1.35).toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between items-center bg-cyan-400/10 p-4 rounded-xl border border-cyan-400/20">
+                    <div className="flex justify-between items-center bg-[#39ff14]/10 p-4 rounded-xl border border-[#39ff14]/20">
                         <span className="text-white font-bold">Total</span>
-                        <span className="text-cyan-400 text-2xl font-black">€{(total + (nights * 1.35)).toFixed(2)}</span>
+                        <span className="text-[#39ff14] text-2xl font-black">€{(total + (nights * 1.35)).toFixed(2)}</span>
                     </div>
                 </div>
 
                 {step === 4 && (
                     <button
-                        onClick={() => {/* Final Payment/Booking logic */ }}
-                        className="btn-primary w-full py-4 mt-4 shadow-[0_0_30px_rgba(0,245,255,0.4)]"
+                        onClick={async () => {
+                            if (!roomId || !checkIn || !checkOut || !guestName || !guestEmail) {
+                                alert('Please complete all required fields.');
+                                return;
+                            }
+
+                            try {
+                                const res = await fetch('/api/bookings', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({
+                                        roomId,
+                                        checkIn: checkIn.toISOString(),
+                                        checkOut: checkOut.toISOString(),
+                                        guestName,
+                                        guestEmail,
+                                        guestPhone,
+                                        numberOfGuests,
+                                        specialRequests,
+                                        guestCountry: 'Unknown' // Default or fetch from context if available
+                                    })
+                                });
+
+                                if (res.ok) {
+                                    alert('Booking Successful! Check your email.');
+                                    window.location.href = '/';
+                                } else {
+                                    const data = await res.json();
+                                    alert('Error: ' + (data.error || 'Booking failed'));
+                                }
+                            } catch (error) {
+                                console.error(error);
+                                alert('Something went wrong. Please try again.');
+                            }
+                        }}
+                        className="btn-primary w-full py-4 mt-4 shadow-[0_0_30px_rgba(57,255,20,0.4)]"
                     >
                         Confirm Reservation
                     </button>

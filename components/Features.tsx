@@ -10,7 +10,7 @@ export default function Features() {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     return (
-        <section id="features" className="relative py-32 px-6 md:px-8 overflow-hidden">
+        <section id="features" className="relative py-16 md:py-24 lg:py-32 px-6 md:px-8 overflow-hidden">
             {/* Background Decoration */}
             <div
                 className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-px"

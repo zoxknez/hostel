@@ -10,7 +10,7 @@ export default function Testimonials() {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     return (
-        <section className="relative py-24 px-6 md:px-8 overflow-hidden">
+        <section className="relative py-16 md:py-24 px-6 md:px-8 overflow-hidden">
             <Script src="https://elfsightcdn.com/platform.js" strategy="lazyOnload" />
 
             {/* Background Decoration */}
