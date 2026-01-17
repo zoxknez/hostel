@@ -3,7 +3,7 @@
 import { useBooking } from '@/lib/context/BookingContext';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 
 export default function BookingConfirmation() {
     const {
@@ -22,6 +22,19 @@ export default function BookingConfirmation() {
     const [complete, setComplete] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [bookingData, setBookingData] = useState<any>(null);
+
+    // Safety guard: If accessed without valid dates (e.g. refresh), redirect or show empty
+    if (!checkIn || !checkOut) {
+        // You might want to trigger a redirect here via useEffect, but for render safety:
+        return (
+            <div className="glass-card p-8 text-center">
+                <p className="text-slate-400 mb-4">No booking details found. Please start over.</p>
+                <button onClick={() => window.location.href = '/book'} className="btn-primary px-8">
+                    Start Booking
+                </button>
+            </div>
+        );
+    }
 
     const handleConfirm = async () => {
         console.log('Confirming booking for room:', roomId);
@@ -92,7 +105,7 @@ export default function BookingConfirmation() {
                     <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
                         <div>
                             <p className="text-[10px] text-slate-500 uppercase">Check-In</p>
-                            <p className="text-sm text-white font-medium">{format(checkIn!, 'PPP')}</p>
+                            <p className="text-sm text-white font-medium">{isValid(checkIn) ? format(checkIn!, 'PPP') : 'Invalid Date'}</p>
                         </div>
                         <div>
                             <p className="text-[10px] text-slate-500 uppercase">Total</p>
@@ -126,9 +139,9 @@ export default function BookingConfirmation() {
                     <div className="space-y-4">
                         <h4 className="text-[#39ff14] font-bold uppercase tracking-widest text-xs">Stay Information</h4>
                         <div className="space-y-2">
-                            <p className="text-white"><span className="text-slate-500 mr-2">Check-In:</span> {format(checkIn!, 'PPPP')}</p>
-                            <p className="text-white"><span className="text-slate-500 mr-2">Check-Out:</span> {format(checkOut!, 'PPPP')}</p>
-                            <p className="text-white"><span className="text-slate-500 mr-2">Nights:</span> {format(checkIn!, 'd')} to {format(checkOut!, 'd')}</p>
+                            <p className="text-white"><span className="text-slate-500 mr-2">Check-In:</span> {isValid(checkIn) ? format(checkIn!, 'PPPP') : 'Invalid Date'}</p>
+                            <p className="text-white"><span className="text-slate-500 mr-2">Check-Out:</span> {isValid(checkOut) ? format(checkOut!, 'PPPP') : 'Invalid Date'}</p>
+                            <p className="text-white"><span className="text-slate-500 mr-2">Nights:</span> {isValid(checkIn) ? format(checkIn!, 'd') : '?'} to {isValid(checkOut) ? format(checkOut!, 'd') : '?'}</p>
                         </div>
                     </div>
 
