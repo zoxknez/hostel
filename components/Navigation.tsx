@@ -55,6 +55,7 @@ export default function Navigation() {
         { id: 'features', label: 'Features' },
         { id: 'rooms', label: 'Rooms' },
         { id: 'gallery', label: 'Gallery' },
+        { id: 'about', label: 'About Us' },
         { id: 'location', label: 'Location' },
     ];
 

@@ -50,20 +50,20 @@ export default function Location() {
                     </p>
                 </motion.div>
 
-                <div className="grid lg:grid-cols-2 gap-8 items-start">
+                <div className="grid lg:grid-cols-2 gap-8 items-stretch">
                     {/* Map */}
                     <motion.div
                         initial={{ opacity: 0, x: -40 }}
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="glass-card p-2 overflow-hidden"
+                        className="glass-card p-2 overflow-hidden h-full min-h-[400px]"
                     >
-                        <div className="relative rounded-xl overflow-hidden" style={{ height: '400px' }}>
+                        <div className="relative rounded-xl overflow-hidden h-full w-full">
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2830.9068088983785!2d20.446844776654476!3d44.815728977168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x475a7ab5e8a8d363%3A0xd1c2c9e9c6e6f0e0!2sHostel%20Downtown%20Inn%20Belgrade!5e0!3m2!1sen!2srs!4v1700000000000!5m2!1sen!2srs"
+                                src="https://maps.google.com/maps?q=Karađorđeva%2069,%20Belgrade&t=&z=17&ie=UTF8&iwloc=&output=embed"
                                 width="100%"
                                 height="100%"
-                                style={{ border: 0, filter: 'saturate(0.8) contrast(1.1)' }}
+                                style={{ border: 0, minHeight: '100%' }}
                                 allowFullScreen
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
@@ -76,7 +76,7 @@ export default function Location() {
                         initial={{ opacity: 0, x: 40 }}
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 0.8, delay: 0.4 }}
-                        className="space-y-6"
+                        className="space-y-6 h-full flex flex-col"
                     >
                         {/* Address Card */}
                         <div className="glass-card">
@@ -93,7 +93,7 @@ export default function Location() {
                         </div>
 
                         {/* Nearby Places */}
-                        <div className="glass-card">
+                        <div className="glass-card flex-grow">
                             <h3 className="font-heading text-xl font-bold mb-6 flex items-center gap-3">
                                 <span className="text-2xl">🗺️</span>
                                 <span className="text-gradient">Nearby Attractions</span>
@@ -108,7 +108,7 @@ export default function Location() {
                                             <span className="text-xl">{place.icon}</span>
                                             <span className="text-white font-medium">{place.name}</span>
                                         </div>
-                                        <span className="text-cyan-400 text-sm font-semibold">{place.distance}</span>
+                                        <span className="text-[#39ff14] text-sm font-semibold">{place.distance}</span>
                                     </div>
                                 ))}
                             </div>
@@ -123,19 +123,20 @@ export default function Location() {
                             <div className="space-y-4">
                                 <a
                                     href="tel:+381652288200"
-                                    className="flex items-center gap-4 p-3 rounded-xl bg-white/5 hover:bg-cyan-400/10 transition-colors group"
+                                    className="flex items-center gap-4 p-3 rounded-xl bg-white/5 hover:bg-[#39ff14]/10 transition-colors group"
+                                    target="_blank" rel="noopener noreferrer"
                                 >
                                     <span className="text-xl">📱</span>
-                                    <span className="text-slate-300 group-hover:text-cyan-400 transition-colors">
+                                    <span className="text-slate-300 group-hover:text-[#39ff14] transition-colors">
                                         +381 65 228 8200
                                     </span>
                                 </a>
                                 <a
                                     href="mailto:hostelinndowntown@gmail.com"
-                                    className="flex items-center gap-4 p-3 rounded-xl bg-white/5 hover:bg-cyan-400/10 transition-colors group"
+                                    className="flex items-center gap-4 p-3 rounded-xl bg-white/5 hover:bg-[#39ff14]/10 transition-colors group"
                                 >
                                     <span className="text-xl">✉️</span>
-                                    <span className="text-slate-300 group-hover:text-cyan-400 transition-colors">
+                                    <span className="text-slate-300 group-hover:text-[#39ff14] transition-colors">
                                         hostelinndowntown@gmail.com
                                     </span>
                                 </a>
