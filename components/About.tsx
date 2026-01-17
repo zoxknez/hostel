@@ -52,16 +52,9 @@ export default function About() {
                     >
                         <div>
                             <h2 className="text-4xl md:text-5xl font-bold mb-6 font-heading">
-                                Welcome to <span className="text-gradient">Downtown Inn</span>
-                            </h2>
-                            <p className="text-xl text-slate-200 leading-relaxed mb-8 drop-shadow-md">
-                                "Perfectly centrally located, with stunning views from our panoramic roof terrace."
-                            </p>
-
-                            <h3 className="text-2xl font-bold text-white mb-4">
                                 Perfectly <span className="text-gradient">Centrally Located</span>
-                            </h3>
-                            <p className="text-slate-300 leading-relaxed mb-6">
+                            </h2>
+                            <p className="text-slate-300 text-lg leading-relaxed mb-8">
                                 We are located in the center of the city, next to the <span className="text-[#39ff14]">Kalemegdan Fortress</span>, River Sava, Branko’s bridge, and many more attractions!
                             </p>
 
