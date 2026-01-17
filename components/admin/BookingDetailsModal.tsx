@@ -2,7 +2,8 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 interface BookingDetailsModalProps {
     booking: any;
@@ -14,6 +15,12 @@ export default function BookingDetailsModal({ booking, onClose, onUpdate }: Book
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState(booking.status);
     const [notes, setNotes] = useState(booking.internalNotes || '');
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+        return () => setMounted(false);
+    }, []);
 
     const handleUpdate = async () => {
         try {
@@ -33,25 +40,25 @@ export default function BookingDetailsModal({ booking, onClose, onUpdate }: Book
         }
     };
 
-    return (
+    const modalContent = (
         <AnimatePresence>
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={onClose}
-                className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl"
+                className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl"
             >
                 <motion.div
                     initial={{ opacity: 0, scale: 0.9, y: 40 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.9, y: 40 }}
                     onClick={(e) => e.stopPropagation()}
-                    className="glass-card w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+                    className="glass-card w-full max-w-2xl max-h-[90vh] overflow-y-auto border-2 border-[#39ff14]/20 shadow-[0_0_50px_rgba(57,255,20,0.2)]"
                 >
                     <div className="flex items-center justify-between mb-8 border-b border-white/10 pb-6">
                         <div>
-                            <p className="text-cyan-400 font-mono text-xs mb-1 uppercase tracking-widest">{booking.bookingNumber}</p>
+                            <p className="text-[#39ff14] font-mono text-xs mb-1 uppercase tracking-widest">{booking.bookingNumber}</p>
                             <h2 className="text-3xl font-bold text-white">Booking Details</h2>
                         </div>
                         <button onClick={onClose} className="text-slate-500 hover:text-white transition-colors text-2xl">✕</button>
@@ -62,7 +69,7 @@ export default function BookingDetailsModal({ booking, onClose, onUpdate }: Book
                         <div className="space-y-6">
                             <div>
                                 <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-                                    <span className="text-cyan-400 text-lg">👤</span> Guest Information
+                                    <span className="text-[#39ff14] text-lg">👤</span> Guest Information
                                 </h3>
                                 <div className="space-y-3 p-4 rounded-xl bg-white/5 border border-white/5">
                                     <p className="text-white"><span className="text-slate-500 text-xs uppercase mr-2">Name:</span> {booking.guestName}</p>
@@ -74,14 +81,14 @@ export default function BookingDetailsModal({ booking, onClose, onUpdate }: Book
 
                             <div>
                                 <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-                                    <span className="text-cyan-400 text-lg">🏨</span> Stay & Room
+                                    <span className="text-[#39ff14] text-lg">🏨</span> Stay & Room
                                 </h3>
                                 <div className="space-y-3 p-4 rounded-xl bg-white/5 border border-white/5">
                                     <p className="text-white"><span className="text-slate-500 text-xs uppercase mr-2">Room:</span> {booking.room.name}</p>
                                     <p className="text-white"><span className="text-slate-500 text-xs uppercase mr-2">Guests:</span> {booking.numberOfGuests}</p>
                                     <p className="text-white"><span className="text-slate-500 text-xs uppercase mr-2">Check-In:</span> {format(new Date(booking.checkIn), 'PPP')}</p>
                                     <p className="text-white"><span className="text-slate-500 text-xs uppercase mr-2">Check-Out:</span> {format(new Date(booking.checkOut), 'PPP')}</p>
-                                    <p className="text-white font-bold text-cyan-400 pt-2 border-t border-white/5">
+                                    <p className="text-white font-bold text-[#39ff14] pt-2 border-t border-white/5">
                                         <span className="text-slate-500 text-xs uppercase mr-2">Total Paid/Due:</span> €{booking.totalPrice.toFixed(2)}
                                     </p>
                                 </div>
@@ -95,7 +102,7 @@ export default function BookingDetailsModal({ booking, onClose, onUpdate }: Book
                                 <select
                                     value={status}
                                     onChange={(e) => setStatus(e.target.value)}
-                                    className="w-full bg-primary/50 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-cyan-400 transition-all"
+                                    className="w-full bg-primary/50 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-[#39ff14] transition-all"
                                 >
                                     <option value="PENDING">Pending</option>
                                     <option value="CONFIRMED">Confirmed</option>
@@ -110,7 +117,7 @@ export default function BookingDetailsModal({ booking, onClose, onUpdate }: Book
                                     value={notes}
                                     onChange={(e) => setNotes(e.target.value)}
                                     rows={5}
-                                    className="w-full bg-primary/50 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-cyan-400 transition-all text-sm"
+                                    className="w-full bg-primary/50 border border-white/10 rounded-xl px-4 py-3 text-white outline-none focus:border-[#39ff14] transition-all text-sm"
                                     placeholder="Add notes about this booking..."
                                 />
                             </div>
@@ -125,7 +132,7 @@ export default function BookingDetailsModal({ booking, onClose, onUpdate }: Book
                             <button
                                 disabled={loading}
                                 onClick={handleUpdate}
-                                className="btn-primary w-full py-4 shadow-[0_0_20px_rgba(0,245,255,0.3)]"
+                                className="btn-primary w-full py-4 shadow-[0_0_20px_rgba(57,255,20,0.3)]"
                             >
                                 {loading ? 'Saving Changes...' : 'Save Update'}
                             </button>
@@ -135,4 +142,8 @@ export default function BookingDetailsModal({ booking, onClose, onUpdate }: Book
             </motion.div>
         </AnimatePresence>
     );
+
+    if (!mounted) return null;
+
+    return createPortal(modalContent, document.body);
 }
