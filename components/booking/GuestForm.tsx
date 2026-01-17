@@ -89,8 +89,6 @@ export default function GuestForm() {
                 <textarea
                     {...register('specialRequests')}
                     rows={4}
-                    {...register('specialRequests')}
-                    rows={4}
                     className="w-full bg-primary/50 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-[#39ff14] outline-none transition-all relative z-20"
                     placeholder="Early check-in, dietary requirements, etc."
                 />
