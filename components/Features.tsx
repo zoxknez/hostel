@@ -15,7 +15,7 @@ export default function Features() {
             <div
                 className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-px"
                 style={{
-                    background: 'linear-gradient(90deg, transparent 0%, rgba(0, 245, 255, 0.3) 50%, transparent 100%)'
+                    background: 'linear-gradient(90deg, transparent 0%, rgba(57, 255, 20, 0.3) 50%, transparent 100%)'
                 }}
             />
 
@@ -28,8 +28,8 @@ export default function Features() {
                     className="text-center mb-20"
                 >
                     {/* Section Badge */}
-                    <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full border border-purple-500/30 bg-purple-500/10">
-                        <span className="text-purple-400 text-sm font-semibold tracking-wide uppercase">
+                    <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full border border-[#ffff00]/30 bg-[#ffff00]/10">
+                        <span className="text-[#ffff00] text-sm font-semibold tracking-wide uppercase">
                             Why Choose Us
                         </span>
                     </div>
@@ -67,7 +67,7 @@ export default function Features() {
                             <div
                                 className="absolute bottom-0 left-0 right-0 h-px opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                                 style={{
-                                    background: 'linear-gradient(90deg, transparent 0%, #00f5ff 50%, transparent 100%)'
+                                    background: 'linear-gradient(90deg, transparent 0%, #39ff14 50%, transparent 100%)'
                                 }}
                             />
                         </motion.div>

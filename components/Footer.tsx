@@ -29,7 +29,7 @@ export default function Footer() {
             <div
                 className="absolute top-0 left-0 right-0 h-px"
                 style={{
-                    background: 'linear-gradient(90deg, transparent 0%, rgba(0, 245, 255, 0.3) 50%, transparent 100%)'
+                    background: 'linear-gradient(90deg, transparent 0%, rgba(57, 255, 20, 0.3) 50%, transparent 100%)'
                 }}
             />
 
@@ -37,7 +37,7 @@ export default function Footer() {
             <div
                 className="absolute bottom-0 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full opacity-10 pointer-events-none"
                 style={{
-                    background: 'radial-gradient(circle, #915eff 0%, transparent 70%)',
+                    background: 'radial-gradient(circle, #ffff00 0%, transparent 70%)',
                     filter: 'blur(100px)'
                 }}
             />
@@ -50,8 +50,8 @@ export default function Footer() {
                             <div
                                 className="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-bold"
                                 style={{
-                                    background: 'linear-gradient(135deg, #00f5ff 0%, #915eff 100%)',
-                                    boxShadow: '0 0 30px rgba(0, 245, 255, 0.3)'
+                                    background: 'linear-gradient(135deg, #39ff14 0%, #ffff00 100%)',
+                                    boxShadow: '0 0 30px rgba(57, 255, 20, 0.3)'
                                 }}
                             >
                                 DI
@@ -95,9 +95,9 @@ export default function Footer() {
                                 <li key={index}>
                                     <a
                                         href={link.href}
-                                        className="text-slate-400 hover:text-cyan-400 transition-colors flex items-center gap-2 group"
+                                        className="text-slate-400 hover:text-[#39ff14] transition-colors flex items-center gap-2 group"
                                     >
-                                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400/50 group-hover:bg-cyan-400 transition-colors" />
+                                        <span className="w-1.5 h-1.5 rounded-full bg-[#39ff14]/50 group-hover:bg-[#39ff14] transition-colors" />
                                         {link.label}
                                     </a>
                                 </li>
@@ -118,7 +118,7 @@ export default function Footer() {
                             <li>
                                 <a
                                     href="tel:+381652288200"
-                                    className="flex items-center gap-3 hover:text-cyan-400 transition-colors"
+                                    className="flex items-center gap-3 hover:text-[#39ff14] transition-colors"
                                 >
                                     <span className="text-lg">📞</span>
                                     +381 65 228 8200
@@ -127,7 +127,7 @@ export default function Footer() {
                             <li>
                                 <a
                                     href="mailto:hostelinndowntown@gmail.com"
-                                    className="flex items-center gap-3 hover:text-cyan-400 transition-colors"
+                                    className="flex items-center gap-3 hover:text-[#39ff14] transition-colors"
                                 >
                                     <span className="text-lg">✉️</span>
                                     Email Us
@@ -144,8 +144,8 @@ export default function Footer() {
                 >
                     <p>© {currentYear} Hostel Downtown Inn Belgrade. All rights reserved.</p>
                     <div className="flex gap-6">
-                        <a href="#" className="hover:text-cyan-400 transition-colors">Privacy Policy</a>
-                        <a href="#" className="hover:text-cyan-400 transition-colors">Terms of Service</a>
+                        <a href="#" className="hover:text-[#39ff14] transition-colors">Privacy Policy</a>
+                        <a href="#" className="hover:text-[#39ff14] transition-colors">Terms of Service</a>
                     </div>
                 </div>
             </div>

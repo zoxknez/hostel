@@ -11,10 +11,17 @@
   --color-primary-lighter: #131d3a;
   --color-surface: #1a2744;
 
-  /* Vibrant Accent Colors */
+  /* Vibrant Accent Colors - Updated to Brand Green/Yellow */
   --color-accent-cyan: #00f5ff;
-  --color-accent-magenta: #ff00ea;
-  --color-accent-purple: #915eff;
+  /* Keeping Cyan as secondary/tertiary if needed, or replacing with Green primary */
+  --color-accent-green: #39ff14;
+  /* Neon Green */
+  --color-accent-yellow: #ffff00;
+  /* Neon Yellow */
+  --color-accent-purple: #39ff14;
+  /* Mapped to Green for backward compatibility if used elsewhere */
+  --color-accent-magenta: #ffff00;
+  /* Mapped to Yellow for backward compatibility */
   --color-accent-gold: #ffd700;
   --color-accent-orange: #ff6b35;
 
@@ -89,11 +96,11 @@
 
   0%,
   100% {
-    border-color: rgba(0, 245, 255, 0.3);
+    border-color: rgba(57, 255, 20, 0.3);
   }
 
   50% {
-    border-color: rgba(255, 0, 234, 0.3);
+    border-color: rgba(255, 255, 0, 0.3);
   }
 }
 
@@ -136,9 +143,9 @@ body::before {
   width: 200%;
   height: 200%;
   background:
-    radial-gradient(circle at 20% 20%, rgba(145, 94, 255, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 80% 80%, rgba(0, 245, 255, 0.06) 0%, transparent 40%),
-    radial-gradient(circle at 50% 50%, rgba(255, 0, 234, 0.04) 0%, transparent 50%);
+    radial-gradient(circle at 20% 20%, rgba(57, 255, 20, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(255, 255, 0, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(57, 255, 20, 0.04) 0%, transparent 50%);
   pointer-events: none;
   z-index: -1;
   animation: gradientShift 15s ease infinite;
@@ -171,9 +178,9 @@ body::before {
   border-radius: inherit;
   padding: 1px;
   background: linear-gradient(135deg,
-      rgba(0, 245, 255, 0.4) 0%,
-      rgba(145, 94, 255, 0.2) 50%,
-      rgba(255, 0, 234, 0.4) 100%);
+      rgba(57, 255, 20, 0.4) 0%,
+      rgba(255, 255, 0, 0.2) 50%,
+      rgba(57, 255, 20, 0.4) 100%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -197,11 +204,11 @@ body::before {
 
 .glass-card:hover {
   transform: translateY(-12px) scale(1.02);
-  border-color: rgba(0, 245, 255, 0.2);
+  border-color: rgba(57, 255, 20, 0.2);
   box-shadow:
     0 30px 60px -15px rgba(0, 0, 0, 0.5),
-    0 0 80px rgba(0, 245, 255, 0.15),
-    0 0 120px rgba(145, 94, 255, 0.1);
+    0 0 80px rgba(57, 255, 20, 0.15),
+    0 0 120px rgba(255, 255, 0, 0.1);
 }
 
 .glass-card:hover::before {
@@ -227,14 +234,14 @@ body::before {
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  background: linear-gradient(135deg, #00f5ff 0%, #00c8ff 50%, #915eff 100%);
+  background: linear-gradient(135deg, #00754a 0%, #39ff14 50%, #ffff00 100%);
   background-size: 200% 200%;
   color: #050816;
   border: none;
   text-decoration: none;
   box-shadow:
-    0 0 20px rgba(0, 245, 255, 0.4),
-    0 0 40px rgba(0, 245, 255, 0.2),
+    0 0 20px rgba(57, 255, 20, 0.4),
+    0 0 40px rgba(57, 255, 20, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   animation: gradientShift 5s ease infinite;
@@ -257,9 +264,9 @@ body::before {
 .btn-primary:hover {
   transform: translateY(-4px) scale(1.05);
   box-shadow:
-    0 10px 30px rgba(0, 245, 255, 0.5),
-    0 0 60px rgba(0, 245, 255, 0.3),
-    0 0 100px rgba(145, 94, 255, 0.2);
+    0 10px 30px rgba(57, 255, 20, 0.5),
+    0 0 60px rgba(57, 255, 20, 0.3),
+    0 0 100px rgba(255, 255, 0, 0.2);
 }
 
 .btn-primary:hover::before {
@@ -288,22 +295,22 @@ body::before {
   background: transparent;
   border: 2px solid transparent;
   background-image: linear-gradient(#050816, #050816),
-    linear-gradient(135deg, #00f5ff 0%, #ff00ea 100%);
+    linear-gradient(135deg, #39ff14 0%, #ffff00 100%);
   background-origin: border-box;
   background-clip: padding-box, border-box;
-  color: #00f5ff;
+  color: #39ff14;
   text-decoration: none;
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .btn-outline:hover {
-  background-image: linear-gradient(135deg, #00f5ff 0%, #915eff 100%),
-    linear-gradient(135deg, #00f5ff 0%, #ff00ea 100%);
+  background-image: linear-gradient(135deg, #39ff14 0%, #ffff00 100%),
+    linear-gradient(135deg, #39ff14 0%, #ffff00 100%);
   color: #050816;
   transform: translateY(-4px);
   box-shadow:
-    0 10px 30px rgba(0, 245, 255, 0.3),
-    0 0 40px rgba(255, 0, 234, 0.2);
+    0 10px 30px rgba(57, 255, 20, 0.3),
+    0 0 40px rgba(255, 255, 0, 0.2);
 }
 
 /* Secondary Gold Button */
@@ -341,7 +348,7 @@ body::before {
    ============================================ */
 
 .text-gradient {
-  background: linear-gradient(135deg, #00f5ff 0%, #915eff 50%, #ff00ea 100%);
+  background: linear-gradient(135deg, #39ff14 0%, #ffff00 50%, #39ff14 100%);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -363,7 +370,7 @@ body::before {
   background: linear-gradient(90deg,
       #94a3b8 0%,
       #ffffff 25%,
-      #00f5ff 50%,
+      #39ff14 50%,
       #ffffff 75%,
       #94a3b8 100%);
   background-size: 200% auto;
@@ -385,8 +392,8 @@ body::before {
   width: 5rem;
   height: 5rem;
   border-radius: 1.25rem;
-  background: linear-gradient(135deg, rgba(0, 245, 255, 0.1) 0%, rgba(145, 94, 255, 0.1) 100%);
-  border: 1px solid rgba(0, 245, 255, 0.2);
+  background: linear-gradient(135deg, rgba(57, 255, 20, 0.1) 0%, rgba(255, 255, 0, 0.1) 100%);
+  border: 1px solid rgba(57, 255, 20, 0.2);
   font-size: 2.5rem;
   transition: all 0.4s ease;
 }
@@ -396,7 +403,7 @@ body::before {
   position: absolute;
   inset: -5px;
   border-radius: 1.5rem;
-  background: linear-gradient(135deg, #00f5ff 0%, #915eff 100%);
+  background: linear-gradient(135deg, #39ff14 0%, #ffff00 100%);
   opacity: 0;
   z-index: -1;
   filter: blur(20px);
@@ -438,15 +445,15 @@ body::before {
 }
 
 .orb-cyan {
-  background: #00f5ff;
+  background: #39ff14;
 }
 
 .orb-purple {
-  background: #915eff;
+  background: #ffff00;
 }
 
 .orb-magenta {
-  background: #ff00ea;
+  background: #ffff00;
 }
 
 /* ============================================
@@ -463,12 +470,12 @@ body::before {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #00f5ff 0%, #915eff 100%);
+  background: linear-gradient(180deg, #39ff14 0%, #ffff00 100%);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, #00f5ff 0%, #ff00ea 100%);
+  background: linear-gradient(180deg, #39ff14 0%, #ffff00 100%);
 }
 
 /* ============================================
@@ -616,4 +623,45 @@ body::before {
 .blur-backdrop {
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
+}/* ============================================
+   REACT DAY PICKER OVERRIDES
+   ============================================ */
+
+.rdp {
+  --rdp-cell-size: 40px;
+  --rdp-accent-color: #39ff14;
+  --rdp-background-color: rgba(57, 255, 20, 0.1);
+  margin: 0;
+}
+
+.rdp-day_selected,
+.rdp-day_selected:focus-visible,
+.rdp-day_selected:hover {
+  background-color: var(--rdp-accent-color) !important;
+  color: #050816 !important;
+  font-weight: bold;
+}
+
+.rdp-day_range_middle {
+  background-color: rgba(57, 255, 20, 0.1) !important;
+  color: white !important;
+}
+
+.rdp-button:hover:not([disabled]):not(.rdp-day_selected) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.rdp-nav_button {
+  color: white;
+}
+
+.rdp-head_cell {
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .rdp {
+    --rdp-cell-size: 35px;
+  }
 }

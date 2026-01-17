@@ -26,7 +26,7 @@ export default function Rooms() {
                 <div
                     className="absolute top-1/2 left-0 w-96 h-96 rounded-full opacity-20 pointer-events-none"
                     style={{
-                        background: 'radial-gradient(circle, #915eff 0%, transparent 70%)',
+                        background: 'radial-gradient(circle, #ffff00 0%, transparent 70%)',
                         filter: 'blur(100px)',
                         transform: 'translateX(-50%)'
                     }}
@@ -41,8 +41,8 @@ export default function Rooms() {
                         className="text-center mb-20"
                     >
                         {/* Section Badge */}
-                        <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full border border-cyan-400/30 bg-cyan-400/10">
-                            <span className="text-cyan-400 text-sm font-semibold tracking-wide uppercase">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full border border-[#39ff14]/30 bg-[#39ff14]/10">
+                            <span className="text-[#39ff14] text-sm font-semibold tracking-wide uppercase">
                                 Accommodations
                             </span>
                         </div>
@@ -142,7 +142,7 @@ export default function Rooms() {
                         <div
                             className="absolute top-0 right-0 w-32 h-32 opacity-20 pointer-events-none"
                             style={{
-                                background: 'radial-gradient(circle at 100% 0%, #00f5ff 0%, transparent 70%)'
+                                background: 'radial-gradient(circle at 100% 0%, #39ff14 0%, transparent 70%)'
                             }}
                         />
 

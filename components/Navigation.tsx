@@ -75,10 +75,10 @@ export default function Navigation() {
                     backdropFilter: 'blur(20px) saturate(180%)',
                     WebkitBackdropFilter: 'blur(20px) saturate(180%)',
                     borderBottom: isScrolled
-                        ? '1px solid rgba(0, 245, 255, 0.1)'
+                        ? '1px solid rgba(57, 255, 20, 0.1)'
                         : '1px solid transparent',
                     boxShadow: isScrolled
-                        ? '0 10px 40px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 245, 255, 0.05)'
+                        ? '0 10px 40px rgba(0, 0, 0, 0.3), 0 0 60px rgba(57, 255, 20, 0.05)'
                         : 'none'
                 }}
             >
@@ -92,8 +92,8 @@ export default function Navigation() {
                             <div
                                 className="w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold transition-all duration-300 group-hover:scale-110"
                                 style={{
-                                    background: 'linear-gradient(135deg, #00f5ff 0%, #915eff 100%)',
-                                    boxShadow: '0 0 20px rgba(0, 245, 255, 0.3)'
+                                    background: 'linear-gradient(135deg, #39ff14 0%, #ffff00 100%)',
+                                    boxShadow: '0 0 20px rgba(57, 255, 20, 0.3)'
                                 }}
                             >
                                 DI
@@ -120,8 +120,8 @@ export default function Navigation() {
                                                 layoutId="activeNav"
                                                 className="absolute inset-0 rounded-full"
                                                 style={{
-                                                    background: 'rgba(0, 245, 255, 0.1)',
-                                                    border: '1px solid rgba(0, 245, 255, 0.3)'
+                                                    background: 'rgba(57, 255, 20, 0.1)',
+                                                    border: '1px solid rgba(57, 255, 20, 0.3)'
                                                 }}
                                                 transition={{ type: "spring", stiffness: 400, damping: 30 }}
                                             />
@@ -136,7 +136,7 @@ export default function Navigation() {
                         <div className="hidden lg:flex items-center gap-4">
                             <a
                                 href="tel:+381652288200"
-                                className="flex items-center gap-2 text-slate-400 text-sm hover:text-cyan-400 transition-colors"
+                                className="flex items-center gap-2 text-slate-400 text-sm hover:text-[#39ff14] transition-colors"
                             >
                                 <span className="text-lg">📞</span>
                                 <span>+381 65 228 8200</span>
@@ -154,7 +154,7 @@ export default function Navigation() {
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             className="md:hidden w-10 h-10 flex flex-col justify-center items-center gap-1.5 rounded-xl transition-colors"
                             style={{
-                                background: isMobileMenuOpen ? 'rgba(0, 245, 255, 0.1)' : 'transparent'
+                                background: isMobileMenuOpen ? 'rgba(57, 255, 20, 0.1)' : 'transparent'
                             }}
                         >
                             <motion.span
@@ -203,7 +203,7 @@ export default function Navigation() {
                             style={{
                                 background: 'linear-gradient(180deg, rgba(5, 8, 22, 0.98) 0%, rgba(12, 20, 40, 0.98) 100%)',
                                 backdropFilter: 'blur(40px)',
-                                borderLeft: '1px solid rgba(0, 245, 255, 0.1)'
+                                borderLeft: '1px solid rgba(57, 255, 20, 0.1)'
                             }}
                         >
                             <div className="flex flex-col h-full p-8 pt-24">
@@ -216,7 +216,7 @@ export default function Navigation() {
                                             transition={{ delay: index * 0.1 }}
                                             onClick={() => scrollToSection(link.id)}
                                             className={`text-left px-4 py-3 rounded-xl text-lg font-medium transition-all ${activeSection === link.id
-                                                ? 'text-white bg-cyan-400/10'
+                                                ? 'text-white bg-[#39ff14]/10'
                                                 : 'text-slate-400 hover:text-white hover:bg-white/5'
                                                 }`}
                                         >
@@ -228,7 +228,7 @@ export default function Navigation() {
                                 <div className="mt-auto pt-8 border-t border-white/10">
                                     <a
                                         href="tel:+381652288200"
-                                        className="flex items-center gap-3 text-slate-400 mb-4 hover:text-cyan-400 transition-colors"
+                                        className="flex items-center gap-3 text-slate-400 mb-4 hover:text-[#39ff14] transition-colors"
                                     >
                                         <span className="text-xl">📞</span>
                                         <span>+381 65 228 8200</span>

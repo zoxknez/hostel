@@ -33,23 +33,7 @@ export default function Hero() {
                 }}
             />
 
-            {/* Decorative Orbs */}
-            <div
-                className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-30 pointer-events-none"
-                style={{
-                    background: 'radial-gradient(circle, #00f5ff 0%, transparent 70%)',
-                    filter: 'blur(80px)',
-                    animation: 'pulseGlow 4s ease-in-out infinite'
-                }}
-            />
-            <div
-                className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-20 pointer-events-none"
-                style={{
-                    background: 'radial-gradient(circle, #915eff 0%, transparent 70%)',
-                    filter: 'blur(80px)',
-                    animation: 'pulseGlow 4s ease-in-out infinite 1s'
-                }}
-            />
+
 
             {/* Content */}
             <motion.div
@@ -63,10 +47,10 @@ export default function Hero() {
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="inline-flex items-center gap-2 px-5 py-2.5 mb-8 rounded-full border border-cyan-400/30 bg-cyan-400/10 backdrop-blur-sm"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 mb-8 rounded-full border border-[#39ff14]/30 bg-[#39ff14]/10 backdrop-blur-sm"
                 >
-                    <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-                    <span className="text-cyan-400 text-sm font-semibold tracking-wide uppercase">
+                    <span className="w-2 h-2 rounded-full bg-[#39ff14] animate-pulse" />
+                    <span className="text-[#39ff14] text-sm font-semibold tracking-wide uppercase">
                         ⭐ Top Rated in Belgrade
                     </span>
                 </motion.div>
@@ -149,7 +133,7 @@ export default function Hero() {
                         transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
                         className="w-6 h-10 rounded-full border-2 border-slate-600 flex items-start justify-center p-1"
                     >
-                        <div className="w-1.5 h-3 rounded-full bg-cyan-400" />
+                        <div className="w-1.5 h-3 rounded-full bg-[#39ff14]" />
                     </motion.div>
                 </div>
             </motion.div>

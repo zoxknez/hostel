@@ -32,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="sr" className={`${outfit.variable} ${inter.variable}`}>
+    <html lang="sr" className={`${outfit.variable} ${inter.variable}`} suppressHydrationWarning>
       <body className="antialiased bg-primary text-white font-body">
         {children}
       </body>

@@ -17,7 +17,7 @@ export default function Testimonials() {
             <div
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-10 pointer-events-none"
                 style={{
-                    background: 'radial-gradient(circle, #00f5ff 0%, transparent 70%)',
+                    background: 'radial-gradient(circle, #39ff14 0%, transparent 70%)',
                     filter: 'blur(120px)',
                 }}
             />
@@ -33,7 +33,7 @@ export default function Testimonials() {
                     {/* Premium Light Container for Visibility */}
                     <div className="relative group">
                         {/* Soft Light Glow around the white card */}
-                        <div className="absolute -inset-1 bg-gradient-to-r from-white/20 via-cyan-400/10 to-white/20 rounded-[2.5rem] blur-2xl opacity-40 group-hover:opacity-70 transition duration-1000"></div>
+                        <div className="absolute -inset-1 bg-gradient-to-r from-white/20 via-[#39ff14]/10 to-white/20 rounded-[2.5rem] blur-2xl opacity-40 group-hover:opacity-70 transition duration-1000"></div>
 
                         <div className="relative rounded-[2.5rem] p-1 md:p-1 bg-white overflow-hidden shadow-[0_0_60px_rgba(255,255,255,0.15)] border border-white/20">
                             {/* Inner Container with white background to make dark widget text pop */}
@@ -56,9 +56,9 @@ export default function Testimonials() {
                     className="text-center mt-12"
                 >
                     <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-md shadow-xl">
-                        <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        <span className="w-2 h-2 rounded-full bg-[#39ff14] animate-pulse"></span>
                         <p className="text-[10px] uppercase tracking-[0.4em] text-white font-black">
-                            Live Feed Synchronized with <span className="text-cyan-400">TripAdvisor</span>
+                            Live Feed Synchronized with <span className="text-[#39ff14]">TripAdvisor</span>
                         </p>
                     </div>
                 </motion.div>
