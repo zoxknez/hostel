@@ -9,11 +9,11 @@ export default function About() {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     return (
-        <section id="about" className="relative py-20 bg-[#050816] overflow-hidden">
-            <div ref={ref} className="max-w-7xl mx-auto px-6 md:px-8 space-y-24 relative z-10">
+        <section id="about" className="relative py-12 md:py-20 bg-[#050816] overflow-hidden">
+            <div ref={ref} className="max-w-7xl mx-auto px-4 md:px-8 space-y-12 md:space-y-24 relative z-10">
 
                 {/* Intro & Location Split */}
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
                     {/* Left Column: Video Container */}
                     <motion.div
                         initial={{ opacity: 0, x: -40 }}
@@ -51,10 +51,10 @@ export default function About() {
                         className="space-y-8"
                     >
                         <div>
-                            <h2 className="text-4xl md:text-5xl font-bold mb-6 font-heading">
+                            <h2 className="text-3xl md:text-5xl font-bold mb-6 font-heading">
                                 Perfectly <span className="text-gradient">Centrally Located</span>
                             </h2>
-                            <p className="text-slate-300 text-lg leading-relaxed mb-8">
+                            <p className="text-slate-300 text-lg leading-relaxed mb-6 md:mb-8">
                                 We are located in the center of the city, next to the <span className="text-[#39ff14]">Kalemegdan Fortress</span>, River Sava, Branko’s bridge, and many more attractions!
                             </p>
 
@@ -91,12 +91,12 @@ export default function About() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    className="glass-card p-8 md:p-12 relative overflow-hidden"
+                    className="glass-card p-6 md:p-12 relative overflow-hidden"
                 >
                     <div className="absolute top-0 right-0 w-96 h-96 bg-[#39ff14]/5 rounded-full blur-[100px] pointer-events-none" />
 
                     <div className="relative z-10">
-                        <h2 className="section-title text-3xl md:text-5xl text-center mb-12">
+                        <h2 className="section-title text-3xl md:text-5xl text-center mb-8 md:mb-12">
                             World-Class <span className="text-gradient">Facilities</span>
                         </h2>
 
@@ -145,7 +145,7 @@ export default function About() {
                 </motion.div>
 
                 {/* Services & Tours */}
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
                     <motion.div
                         initial={{ opacity: 0, x: -40 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -183,7 +183,7 @@ export default function About() {
                         transition={{ duration: 0.8 }}
                         className="order-1 lg:order-2 space-y-6"
                     >
-                        <h2 className="section-title text-3xl md:text-4xl mb-6">
+                        <h2 className="section-title text-3xl md:text-4xl mb-6 leading-tight">
                             We Are Here <span className="text-gradient">24/7</span>
                         </h2>
                         <p className="text-slate-300 text-lg leading-relaxed">
