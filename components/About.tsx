@@ -29,7 +29,7 @@ export default function About() {
                                 Live from downtown
                             </p>
                         </div>
-                        <div className="relative aspect-square md:aspect-video rounded-2xl overflow-hidden glass-card p-2 group">
+                        <div className="relative aspect-square md:aspect-video rounded-2xl overflow-hidden glass-card backdrop-blur-sm md:backdrop-blur-md p-2 group">
                             <div className="absolute inset-0 bg-[#39ff14]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20" />
                             <video
                                 autoPlay
@@ -91,9 +91,9 @@ export default function About() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.8 }}
-                    className="glass-card p-6 md:p-12 relative overflow-hidden"
+                    className="glass-card backdrop-blur-sm md:backdrop-blur-md p-6 md:p-12 relative overflow-hidden"
                 >
-                    <div className="absolute top-0 right-0 w-96 h-96 bg-[#39ff14]/5 rounded-full blur-[100px] pointer-events-none" />
+                    <div className="hidden md:block absolute top-0 right-0 w-96 h-96 bg-[#39ff14]/5 rounded-full blur-[100px] pointer-events-none" />
 
                     <div className="relative z-10">
                         <h2 className="section-title text-3xl md:text-5xl text-center mb-8 md:mb-12">
@@ -162,7 +162,7 @@ export default function About() {
                                 Experience the Vibe
                             </p>
                         </div>
-                        <div className="aspect-video rounded-2xl overflow-hidden glass-card p-2 relative group">
+                        <div className="aspect-video rounded-2xl overflow-hidden glass-card backdrop-blur-sm md:backdrop-blur-md p-2 relative group">
                             <div className="absolute inset-0 bg-[#39ff14]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-20" />
                             <video
                                 autoPlay
