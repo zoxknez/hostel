@@ -1,0 +1,90 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Room {
+  id            String    @id @default(cuid())
+  name          String
+  slug          String    @unique
+  type          String    // PRIVATE or DORM
+  capacity      Int
+  beds          Int
+  pricePerNight Float
+  description   String?
+  images        String    // JSON array stored as string
+  amenities     String    // JSON array stored as string
+  isActive      Boolean   @default(true)
+  sortOrder     Int       @default(0)
+  bookings      Booking[]
+  blockedDates  BlockedDate[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Booking {
+  id            String   @id @default(cuid())
+  bookingNumber String   @unique
+  room          Room     @relation(fields: [roomId], references: [id])
+  roomId        String
+  
+  // Guest info
+  guestName     String
+  guestEmail    String
+  guestPhone    String
+  guestCountry  String?
+  numberOfGuests Int
+  
+  // Dates
+  checkIn       DateTime
+  checkOut      DateTime
+  nights        Int
+  
+  // Pricing
+  pricePerNight Float
+  totalPrice    Float
+  
+  // Status
+  status        String   @default("PENDING") // PENDING, CONFIRMED, CANCELLED, COMPLETED, NO_SHOW
+  
+  // Additional
+  specialRequests String?
+  internalNotes   String?
+  
+  // Timestamps
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  confirmedAt   DateTime?
+  cancelledAt   DateTime?
+}
+
+model BlockedDate {
+  id      String   @id @default(cuid())
+  room    Room     @relation(fields: [roomId], references: [id])
+  roomId  String
+  date    DateTime
+  reason  String?
+  
+  @@unique([roomId, date])
+}
+
+model Settings {
+  id                  String  @id @default("main")
+  hostelName          String  @default("Hostel Downtown Inn")
+  hostelEmail         String  @default("hostelinndowntown@gmail.com")
+  hostelPhone         String  @default("+381652288200")
+  checkInTime         String  @default("14:00")
+  checkOutTime        String  @default("10:00")
+  cityTax             Float   @default(1.35)
+  currency            String  @default("EUR")
+  minAdvanceBooking   Int     @default(0)  // days
+  maxAdvanceBooking   Int     @default(365) // days
+  cancellationPolicy  String?
+}
