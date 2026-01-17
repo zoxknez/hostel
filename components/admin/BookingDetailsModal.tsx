@@ -40,6 +40,27 @@ export default function BookingDetailsModal({ booking, onClose, onUpdate }: Book
         }
     };
 
+    const handleDelete = async () => {
+        if (!confirm('Are you sure you want to permanently delete this booking? This action cannot be undone.')) return;
+
+        try {
+            setLoading(true);
+            const res = await fetch(`/api/bookings/${booking.id}`, {
+                method: 'DELETE',
+            });
+
+            if (res.ok) {
+                // Signal to parent to refresh
+                onUpdate(booking);
+                onClose();
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const modalContent = (
         <AnimatePresence>
             <motion.div
@@ -129,13 +150,22 @@ export default function BookingDetailsModal({ booking, onClose, onUpdate }: Book
                                 </div>
                             )}
 
-                            <button
-                                disabled={loading}
-                                onClick={handleUpdate}
-                                className="btn-primary w-full py-4 shadow-[0_0_20px_rgba(57,255,20,0.3)]"
-                            >
-                                {loading ? 'Saving Changes...' : 'Save Update'}
-                            </button>
+                            <div className="flex gap-4">
+                                <button
+                                    disabled={loading}
+                                    onClick={handleDelete}
+                                    className="px-6 py-4 rounded-full border border-red-500/30 text-red-400 font-bold uppercase tracking-widest text-sm hover:bg-red-500/10 transition-colors"
+                                >
+                                    Delete
+                                </button>
+                                <button
+                                    disabled={loading}
+                                    onClick={handleUpdate}
+                                    className="btn-primary flex-1 py-4 shadow-[0_0_20px_rgba(57,255,20,0.3)]"
+                                >
+                                    {loading ? 'Saving...' : 'Save Update'}
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </motion.div>

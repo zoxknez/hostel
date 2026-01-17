@@ -39,16 +39,12 @@ export async function DELETE(
     try {
         const { id } = await params;
 
-        // We don't usually delete bookings, just set status to CANCELLED
-        const booking = await prisma.booking.update({
+        // Hard delete as requested
+        await prisma.booking.delete({
             where: { id },
-            data: {
-                status: 'CANCELLED',
-                cancelledAt: new Date(),
-            }
         });
 
-        return NextResponse.json({ message: 'Booking cancelled', id });
+        return NextResponse.json({ message: 'Booking deleted', id });
     } catch (error) {
         console.error('Error cancelling booking:', error);
         return NextResponse.json({ error: 'Failed to cancel booking' }, { status: 500 });
