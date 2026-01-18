@@ -36,14 +36,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
     const SidebarContent = () => (
         <div className="flex flex-col h-full p-6">
-            <div className="flex items-center gap-3 mb-12">
+            <Link href="/" className="flex items-center gap-3 mb-12 hover:opacity-80 transition-opacity">
                 <img
                     src="/logo.png"
                     alt="Downtown Inn"
                     className="w-10 h-10 rounded-xl shadow-[0_0_15px_rgba(57,255,20,0.3)] object-cover"
                 />
                 <span className="font-heading font-bold text-white text-lg tracking-wide">Admin Panel</span>
-            </div>
+            </Link>
 
             <nav className="space-y-2 flex-1">
                 {sidebarItems.map((item) => {

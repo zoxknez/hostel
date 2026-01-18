@@ -1,9 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navigation() {
+    const pathname = usePathname();
+    const router = useRouter();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isHidden, setIsHidden] = useState(false);
     const [lastScrollY, setLastScrollY] = useState(0);
@@ -42,12 +46,26 @@ export default function Navigation() {
     }, [lastScrollY]);
 
     const scrollToSection = (sectionId: string) => {
+        if (pathname !== '/') {
+            router.push(`/#${sectionId}`);
+            setIsMobileMenuOpen(false);
+            return;
+        }
+
         const element = document.getElementById(sectionId);
         if (element) {
             const offsetTop = element.offsetTop - 80;
             window.scrollTo({ top: offsetTop, behavior: 'smooth' });
         }
         setIsMobileMenuOpen(false);
+    };
+
+    const handleLogoClick = () => {
+        if (pathname === '/') {
+            scrollToSection('home');
+        } else {
+            router.push('/');
+        }
     };
 
     const navLinks = [
@@ -87,7 +105,7 @@ export default function Navigation() {
                     <div className="flex justify-between items-center">
                         {/* Logo */}
                         <button
-                            onClick={() => scrollToSection('home')}
+                            onClick={handleLogoClick}
                             className="flex items-center gap-2 group"
                         >
                             <img
