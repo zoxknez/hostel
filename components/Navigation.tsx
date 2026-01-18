@@ -90,15 +90,11 @@ export default function Navigation() {
                             onClick={() => scrollToSection('home')}
                             className="flex items-center gap-2 group"
                         >
-                            <div
-                                className="w-10 h-10 rounded-xl flex items-center justify-center text-lg font-bold transition-all duration-300 group-hover:scale-110"
-                                style={{
-                                    background: 'linear-gradient(135deg, #39ff14 0%, #ffff00 100%)',
-                                    boxShadow: '0 0 20px rgba(57, 255, 20, 0.3)'
-                                }}
-                            >
-                                DI
-                            </div>
+                            <img
+                                src="/logo.png"
+                                alt="Downtown Inn"
+                                className="w-10 h-10 rounded-xl shadow-[0_0_20px_rgba(57,255,20,0.3)] object-cover transition-all duration-300 group-hover:scale-110"
+                            />
                             <span className="font-heading text-xl font-bold hidden sm:block">
                                 <span className="text-white">Downtown</span>
                                 <span className="text-gradient"> Inn</span>

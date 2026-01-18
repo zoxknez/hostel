@@ -37,9 +37,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const SidebarContent = () => (
         <div className="flex flex-col h-full p-6">
             <div className="flex items-center gap-3 mb-12">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#39ff14] to-[#ffff00] flex items-center justify-center font-bold text-primary shadow-[0_0_15px_rgba(57,255,20,0.3)]">
-                    DI
-                </div>
+                <img
+                    src="/logo.png"
+                    alt="Downtown Inn"
+                    className="w-10 h-10 rounded-xl shadow-[0_0_15px_rgba(57,255,20,0.3)] object-cover"
+                />
                 <span className="font-heading font-bold text-white text-lg tracking-wide">Admin Panel</span>
             </div>
 
@@ -87,9 +89,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {/* Mobile Header */}
             <div className="md:hidden flex items-center justify-between p-4 border-b border-white/5 bg-[#050816]/80 backdrop-blur-xl sticky top-0 z-50">
                 <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#39ff14] to-[#ffff00] flex items-center justify-center font-bold text-primary text-xs">
-                        DI
-                    </div>
+                    <img
+                        src="/logo.png"
+                        alt="Downtown Inn"
+                        className="w-8 h-8 rounded-lg shadow-[0_0_10px_rgba(57,255,20,0.3)] object-cover"
+                    />
                     <span className="font-bold text-white">Admin</span>
                 </div>
                 <button
