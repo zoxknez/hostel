@@ -56,12 +56,12 @@ export default function Location() {
                     </p>
                 </motion.div>
 
-                <div className="mt-10 grid gap-6 xl:grid-cols-[minmax(0,1.06fr)_minmax(330px,0.94fr)]">
+                <div className="mt-10 grid items-stretch gap-6 xl:grid-cols-[minmax(0,1.06fr)_minmax(330px,0.94fr)]">
                     <motion.div
                         initial={{ opacity: 0, x: -36 }}
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 0.8, delay: 0.12 }}
-                        className="overflow-hidden rounded-[2rem] border border-white/8 bg-[linear-gradient(135deg,rgba(16,24,51,0.96)_0%,rgba(9,15,34,0.94)_100%)] p-4 shadow-[0_28px_90px_rgba(0,0,0,0.28)] md:p-5"
+                        className="flex h-full flex-col overflow-hidden rounded-[2rem] border border-white/8 bg-[linear-gradient(135deg,rgba(16,24,51,0.96)_0%,rgba(9,15,34,0.94)_100%)] p-4 shadow-[0_28px_90px_rgba(0,0,0,0.28)] md:p-5"
                     >
                         <div className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-[1.35rem] border border-white/8 bg-white/[0.03] px-4 py-3.5">
                             <div>
@@ -75,8 +75,8 @@ export default function Location() {
                             </span>
                         </div>
 
-                        <div className="overflow-hidden rounded-[1.6rem] border border-white/8 bg-[#08101f]">
-                            <div className="relative h-[300px] sm:h-[360px] md:h-[520px]">
+                        <div className="flex flex-1 overflow-hidden rounded-[1.6rem] border border-white/8 bg-[#08101f]">
+                            <div className="relative h-full min-h-[300px] w-full sm:min-h-[360px] md:min-h-[520px]">
                                 <iframe
                                     src={mapSrc}
                                     width="100%"
