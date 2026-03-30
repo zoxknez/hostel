@@ -1,25 +1,34 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import RoomModal from '@/components/admin/RoomModal';
+import type { AdminRoomFormData, ApiRoom } from '@/lib/types';
 
 export default function RoomsAdminPage() {
-    const [rooms, setRooms] = useState<any[]>([]);
+    const [rooms, setRooms] = useState<ApiRoom[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedRoom, setSelectedRoom] = useState<any>(null);
+    const [selectedRoom, setSelectedRoom] = useState<AdminRoomFormData | null>(null);
 
-    const fetchRooms = () => {
-        fetch('/api/rooms')
-            .then(res => res.json())
-            .then(setRooms)
-            .catch(console.error);
+    const fetchRooms = async () => {
+        try {
+            const res = await fetch('/api/rooms');
+            if (!res.ok) {
+                throw new Error('Failed to fetch rooms');
+            }
+
+            const data = (await res.json()) as ApiRoom[];
+            setRooms(data);
+        } catch (err) {
+            console.error('Failed to fetch rooms:', err);
+        }
     };
 
     useEffect(() => {
-        fetchRooms();
+        void fetchRooms();
     }, []);
 
-    const handleSaveRoom = async (roomData: any) => {
+    const handleSaveRoom = async (roomData: AdminRoomFormData) => {
         const method = roomData.id ? 'PATCH' : 'POST';
         const url = roomData.id ? `/api/rooms/${roomData.id}` : '/api/rooms';
 
@@ -29,17 +38,27 @@ export default function RoomsAdminPage() {
             body: JSON.stringify(roomData)
         });
 
-        if (res.ok) {
-            fetchRooms();
-            setIsModalOpen(false);
-            setSelectedRoom(null);
-        } else {
-            throw new Error('Failed to save');
+        if (!res.ok) {
+            throw new Error('Failed to save room');
         }
+
+        await fetchRooms();
+        setIsModalOpen(false);
+        setSelectedRoom(null);
     };
 
-    const handleEdit = (room: any) => {
-        setSelectedRoom(room);
+    const handleEdit = (room: ApiRoom) => {
+        setSelectedRoom({
+            id: room.id,
+            name: room.name,
+            type: room.type,
+            pricePerNight: room.pricePerNight,
+            capacity: room.capacity,
+            description: room.description ?? '',
+            amenities: room.amenities,
+            images: room.images,
+            isActive: room.isActive,
+        });
         setIsModalOpen(true);
     };
 
@@ -53,7 +72,7 @@ export default function RoomsAdminPage() {
 
         const res = await fetch(`/api/rooms/${id}`, { method: 'DELETE' });
         if (res.ok) {
-            fetchRooms();
+            await fetchRooms();
         } else {
             alert('Cannot delete room with active bookings.');
         }
@@ -63,9 +82,9 @@ export default function RoomsAdminPage() {
         <div className="space-y-8">
             <header className="flex items-center justify-between">
                 <div>
-                    <a href="/admin" className="text-slate-400 hover:text-white transition-colors text-sm mb-2 block">
+                    <Link href="/admin" className="text-slate-400 hover:text-white transition-colors text-sm mb-2 block">
                         ← Back to Dashboard
-                    </a>
+                    </Link>
                     <h1 className="text-4xl font-bold text-white mb-2">Room Management</h1>
                     <p className="text-slate-500">Update pricing, amenities, and room status.</p>
                 </div>
@@ -81,7 +100,7 @@ export default function RoomsAdminPage() {
                 {rooms.map((room) => (
                     <div key={room.id} className="glass-card p-6 flex flex-col items-center text-center group hover:border-[#39ff14]/30 transition-all relative">
                         <button
-                            onClick={(e) => { e.stopPropagation(); handleDelete(room.id); }}
+                            onClick={(e) => { e.stopPropagation(); void handleDelete(room.id); }}
                             className="absolute top-4 right-4 text-slate-500 hover:text-red-500 transition-colors"
                             title="Delete Room"
                         >
@@ -100,7 +119,7 @@ export default function RoomsAdminPage() {
                             </div>
                             <div>
                                 <p className="text-[10px] text-slate-500 uppercase tracking-widest mb-1">Status</p>
-                                <p className="text-[#39ff14] font-bold">Active</p>
+                                <p className="text-[#39ff14] font-bold">{room.isActive ? 'Active' : 'Inactive'}</p>
                             </div>
                         </div>
 

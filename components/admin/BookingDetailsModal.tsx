@@ -4,23 +4,29 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import type { BookingListItem } from '@/lib/types';
 
 interface BookingDetailsModalProps {
-    booking: any;
+    booking: BookingListItem;
     onClose: () => void;
-    onUpdate: (updatedBooking: any) => void;
+    onRefresh: () => Promise<void>;
 }
 
-export default function BookingDetailsModal({ booking, onClose, onUpdate }: BookingDetailsModalProps) {
+export default function BookingDetailsModal({ booking, onClose, onRefresh }: BookingDetailsModalProps) {
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState(booking.status);
-    const [notes, setNotes] = useState(booking.internalNotes || '');
+    const [notes, setNotes] = useState(booking.internalNotes ?? '');
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
         setMounted(true);
         return () => setMounted(false);
     }, []);
+
+    useEffect(() => {
+        setStatus(booking.status);
+        setNotes(booking.internalNotes ?? '');
+    }, [booking]);
 
     const handleUpdate = async () => {
         try {
@@ -30,8 +36,12 @@ export default function BookingDetailsModal({ booking, onClose, onUpdate }: Book
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status, internalNotes: notes })
             });
-            const data = await res.json();
-            onUpdate(data);
+
+            if (!res.ok) {
+                throw new Error('Failed to update booking');
+            }
+
+            await onRefresh();
             onClose();
         } catch (err) {
             console.error(err);
@@ -49,11 +59,12 @@ export default function BookingDetailsModal({ booking, onClose, onUpdate }: Book
                 method: 'DELETE',
             });
 
-            if (res.ok) {
-                // Signal to parent to refresh
-                onUpdate(booking);
-                onClose();
+            if (!res.ok) {
+                throw new Error('Failed to delete booking');
             }
+
+            await onRefresh();
+            onClose();
         } catch (err) {
             console.error(err);
         } finally {
@@ -82,11 +93,10 @@ export default function BookingDetailsModal({ booking, onClose, onUpdate }: Book
                             <p className="text-[#39ff14] font-mono text-xs mb-1 uppercase tracking-widest">{booking.bookingNumber}</p>
                             <h2 className="text-3xl font-bold text-white">Booking Details</h2>
                         </div>
-                        <button onClick={onClose} className="text-slate-500 hover:text-white transition-colors text-2xl">✕</button>
+                        <button onClick={onClose} className="text-slate-500 hover:text-white transition-colors text-2xl">×</button>
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-12">
-                        {/* Guest Info */}
                         <div className="space-y-6">
                             <div>
                                 <h3 className="text-white font-bold mb-4 flex items-center gap-2">
@@ -116,7 +126,6 @@ export default function BookingDetailsModal({ booking, onClose, onUpdate }: Book
                             </div>
                         </div>
 
-                        {/* Management */}
                         <div className="space-y-8">
                             <div>
                                 <h3 className="text-white font-bold mb-4">Update Status</h3>
@@ -146,7 +155,7 @@ export default function BookingDetailsModal({ booking, onClose, onUpdate }: Book
                             {booking.specialRequests && (
                                 <div className="p-4 rounded-xl bg-amber-400/5 border border-amber-400/10">
                                     <p className="text-[10px] text-amber-400 font-black uppercase tracking-widest mb-2">Guest Special Requests</p>
-                                    <p className="text-slate-300 text-sm italic">"{booking.specialRequests}"</p>
+                                    <p className="text-slate-300 text-sm italic">&quot;{booking.specialRequests}&quot;</p>
                                 </div>
                             )}
 

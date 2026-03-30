@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useBooking } from '@/lib/context/BookingContext';
-import { useState } from 'react';
 
 const formSchema = z.object({
     guestName: z.string().min(2, 'Name is required'),
@@ -18,7 +17,6 @@ type FormData = z.infer<typeof formSchema>;
 
 export default function GuestForm() {
     const { setGuestDetails, setStep, ...state } = useBooking();
-    const [loading, setLoading] = useState(false);
 
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: zodResolver(formSchema),

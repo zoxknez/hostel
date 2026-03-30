@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -25,7 +26,7 @@ export default function AdminLoginPage() {
                 const data = await res.json();
                 setError(data.error || 'Invalid admin password');
             }
-        } catch (err) {
+        } catch {
             setError('Something went wrong. Please try again.');
         }
     };
@@ -34,9 +35,11 @@ export default function AdminLoginPage() {
         <div className="min-h-screen bg-primary flex items-center justify-center p-6">
             <div className="glass-card w-full max-w-md p-10">
                 <div className="text-center mb-10">
-                    <img
+                    <Image
                         src="/logo.png"
                         alt="Downtown Inn"
+                        width={96}
+                        height={96}
                         className="w-24 h-24 rounded-2xl mx-auto mb-6 shadow-[0_0_30px_rgba(57,255,20,0.3)] object-cover"
                     />
                     <h1 className="text-3xl font-bold text-white mb-2">Admin Access</h1>

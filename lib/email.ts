@@ -1,8 +1,9 @@
 import { Resend } from 'resend';
+import type { BookingEmailPayload } from './types';
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
-export async function sendBookingConfirmationEmail(booking: any) {
+export async function sendBookingConfirmationEmail(booking: BookingEmailPayload) {
   if (!resend) {
     console.log('Skipping booking confirmation email: RESEND_API_KEY is not configured.');
     console.log('Booking details (Simulation):', booking.bookingNumber, booking.guestEmail);
@@ -12,7 +13,7 @@ export async function sendBookingConfirmationEmail(booking: any) {
   const isStaff = booking.isStaffNotification;
 
   try {
-    const { data, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: 'Downtown Inn <bookings@hosteldowntowninn.com>', // Replace with verified domain
       to: [booking.guestEmail],
       subject: isStaff

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import type { Room } from '@/lib/data';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface RoomModalProps {
     room: Room;
@@ -180,12 +181,12 @@ export default function RoomModal({ room, onClose }: RoomModalProps) {
 
                             {/* CTA */}
                             <div className="flex flex-col sm:flex-row gap-4">
-                                <a
+                                <Link
                                     href={`/book?room=${room.id}`}
                                     className="btn-primary flex-1 justify-center py-4 text-center shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all hover:shadow-[0_0_40px_rgba(0,245,255,0.5)]"
                                 >
                                     Book This Stay
-                                </a>
+                                </Link>
                                 <a
                                     href="tel:+381652288200"
                                     className="btn-outline flex-1 justify-center py-4 text-center"

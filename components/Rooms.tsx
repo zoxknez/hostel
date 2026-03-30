@@ -3,6 +3,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { roomsData } from '@/lib/data';
 import type { Room } from '@/lib/data';
 import RoomModal from './RoomModal';
@@ -109,13 +110,13 @@ export default function Rooms() {
                                         >
                                             View Details
                                         </button>
-                                        <a
+                                        <Link
                                             href={`/book?room=${room.id}`}
                                             className="btn-outline flex-1 py-3 text-xs text-center"
                                             onClick={(e) => e.stopPropagation()}
                                         >
                                             Book Now
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </motion.div>

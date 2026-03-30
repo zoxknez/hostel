@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 interface ImageGalleryProps {
@@ -14,23 +14,33 @@ interface ImageGalleryProps {
 export default function ImageGallery({ images, initialIndex = 0, onClose, roomTitle }: ImageGalleryProps) {
     const [currentIndex, setCurrentIndex] = useState(initialIndex);
 
+    const showNext = () => {
+        setCurrentIndex((current) => (current + 1) % images.length);
+    };
+
+    const showPrevious = () => {
+        setCurrentIndex((current) => (current - 1 + images.length) % images.length);
+    };
+
     useEffect(() => {
         const handleKeyPress = (e: KeyboardEvent) => {
-            if (e.key === 'ArrowRight') next();
-            if (e.key === 'ArrowLeft') prev();
+            if (e.key === 'ArrowRight') {
+                setCurrentIndex((current) => (current + 1) % images.length);
+            }
+            if (e.key === 'ArrowLeft') {
+                setCurrentIndex((current) => (current - 1 + images.length) % images.length);
+            }
             if (e.key === 'Escape' && onClose) onClose();
         };
 
         window.addEventListener('keydown', handleKeyPress);
         document.body.style.overflow = 'hidden';
+
         return () => {
             window.removeEventListener('keydown', handleKeyPress);
             document.body.style.overflow = '';
         };
-    }, [currentIndex, onClose]);
-
-    const next = () => setCurrentIndex((prev) => (prev + 1) % images.length);
-    const prev = () => setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    }, [images.length, onClose]);
 
     return (
         <motion.div
@@ -44,10 +54,9 @@ export default function ImageGallery({ images, initialIndex = 0, onClose, roomTi
                 onClick={onClose}
                 className="absolute top-8 right-8 z-50 text-white/50 hover:text-white transition-colors text-3xl"
             >
-                ✕
+                ×
             </button>
 
-            {/* Main Image */}
             <div className="relative w-full h-full flex items-center justify-center p-4 md:p-12 lg:p-24" onClick={(e) => e.stopPropagation()}>
                 <motion.div
                     key={currentIndex}
@@ -64,21 +73,19 @@ export default function ImageGallery({ images, initialIndex = 0, onClose, roomTi
                     />
                 </motion.div>
 
-                {/* Navigation */}
                 <button
-                    onClick={prev}
+                    onClick={showPrevious}
                     className="absolute left-8 top-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white text-3xl hover:bg-white/10 transition-all hover:scale-110"
                 >
                     ←
                 </button>
                 <button
-                    onClick={next}
+                    onClick={showNext}
                     className="absolute right-8 top-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white text-3xl hover:bg-white/10 transition-all hover:scale-110"
                 >
                     →
                 </button>
 
-                {/* Info Overlay */}
                 <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center">
                     {roomTitle && <p className="text-cyan-400 font-bold mb-2">{roomTitle}</p>}
                     <p className="text-white/30 text-sm font-mono tracking-widest uppercase">
@@ -86,7 +93,6 @@ export default function ImageGallery({ images, initialIndex = 0, onClose, roomTi
                     </p>
                 </div>
 
-                {/* Thumbnails */}
                 <div className="absolute bottom-24 left-1/2 -translate-x-1/2 flex gap-3 overflow-x-auto max-w-[80vw] pb-4 no-scrollbar">
                     {images.map((img, idx) => (
                         <button

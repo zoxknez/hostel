@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
+import { parseRoomRecord, serializeRoomPayload } from '@/lib/rooms';
+import type { AdminRoomFormData } from '@/lib/types';
 
 // GET: Single room details
 export async function GET(
-    request: NextRequest,
+    _request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
@@ -16,8 +18,8 @@ export async function GET(
             return NextResponse.json({ error: 'Room not found' }, { status: 404 });
         }
 
-        return NextResponse.json(room);
-    } catch (error) {
+        return NextResponse.json(parseRoomRecord(room));
+    } catch {
         return NextResponse.json({ error: 'Failed to fetch room' }, { status: 500 });
     }
 }
@@ -29,19 +31,15 @@ export async function PATCH(
 ) {
     try {
         const { id } = await params;
-        const body = await request.json();
-
-        // Ensure images and amenities are strings if they come as objects
-        const data = { ...body };
-        if (data.images && typeof data.images !== 'string') data.images = JSON.stringify(data.images);
-        if (data.amenities && typeof data.amenities !== 'string') data.amenities = JSON.stringify(data.amenities);
+        const body = (await request.json()) as Partial<AdminRoomFormData>;
+        const data = serializeRoomPayload(body);
 
         const room = await prisma.room.update({
             where: { id },
             data
         });
 
-        return NextResponse.json(room);
+        return NextResponse.json(parseRoomRecord(room));
     } catch (error) {
         console.error('Update room error:', error);
         return NextResponse.json({ error: 'Failed to update room' }, { status: 500 });
@@ -50,7 +48,7 @@ export async function PATCH(
 
 // DELETE: Remove room (or deactivate)
 export async function DELETE(
-    request: NextRequest,
+    _request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
@@ -76,7 +74,7 @@ export async function DELETE(
         });
 
         return NextResponse.json({ message: 'Room deleted successfully' });
-    } catch (error) {
+    } catch {
         return NextResponse.json({ error: 'Failed to delete room' }, { status: 500 });
     }
 }

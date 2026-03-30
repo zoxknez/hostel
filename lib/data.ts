@@ -1,7 +1,6 @@
 export interface RoomFeature {
     icon: string;
     title: string;
-    desc: string;
 }
 
 export interface Room {
@@ -26,12 +25,12 @@ export const roomsData: Room[] = [
             'Terrace lounge with city views'
         ],
         features: [
-            { icon: '🛏️', title: 'Double Bed', desc: 'Comfortable mattress' },
-            { icon: '🚿', title: 'Shared Bathroom', desc: 'Clean facilities' },
-            { icon: '🍳', title: 'Kitchen Access', desc: 'Fully equipped' },
-            { icon: '🌆', title: 'Terrace', desc: 'Panoramic views' },
-            { icon: '📶', title: 'Free WiFi', desc: 'High-speed internet' },
-            { icon: '🗺️', title: 'Free Maps', desc: 'City tour included' }
+            { icon: '🛏️', title: 'Double Bed' },
+            { icon: '🚿', title: 'Shared Bathroom' },
+            { icon: '🍳', title: 'Kitchen Access' },
+            { icon: '🌆', title: 'Terrace' },
+            { icon: '📶', title: 'Free WiFi' },
+            { icon: '🗺️', title: 'Free Maps' }
         ],
         images: [
             '/assets/images/double-room.jpg',
@@ -50,12 +49,12 @@ export const roomsData: Room[] = [
             'Terrace lounge with city views'
         ],
         features: [
-            { icon: '👥', title: '4 Beds', desc: '2 bunk beds' },
-            { icon: '🔒', title: 'Personal Lockers', desc: 'Secure storage' },
-            { icon: '💡', title: 'Reading Lights', desc: 'Individual lights' },
-            { icon: '🚿', title: 'Shared Bathroom', desc: 'Clean facilities' },
-            { icon: '📶', title: 'Free WiFi', desc: 'High-speed internet' },
-            { icon: '🗺️', title: 'Free Maps', desc: 'City tour included' }
+            { icon: '👥', title: '4 Beds' },
+            { icon: '🔒', title: 'Personal Lockers' },
+            { icon: '💡', title: 'Reading Lights' },
+            { icon: '🚿', title: 'Shared Bathroom' },
+            { icon: '📶', title: 'Free WiFi' },
+            { icon: '🗺️', title: 'Free Maps' }
         ],
         images: [
             '/assets/images/four-bed-dorm.jpg',
@@ -79,12 +78,12 @@ export const roomsData: Room[] = [
             'Terrace lounge with city views'
         ],
         features: [
-            { icon: '👥', title: '6 Beds', desc: '3 bunk beds' },
-            { icon: '🔒', title: 'Personal Lockers', desc: 'Secure storage' },
-            { icon: '🪟', title: 'Great Views', desc: 'City panorama' },
-            { icon: '🚿', title: 'Shared Bathroom', desc: 'Clean facilities' },
-            { icon: '📶', title: 'Free WiFi', desc: 'High-speed internet' },
-            { icon: '🗺️', title: 'Free Maps', desc: 'City tour included' }
+            { icon: '👥', title: '6 Beds' },
+            { icon: '🔒', title: 'Personal Lockers' },
+            { icon: '🪟', title: 'Great Views' },
+            { icon: '🚿', title: 'Shared Bathroom' },
+            { icon: '📶', title: 'Free WiFi' },
+            { icon: '🗺️', title: 'Free Maps' }
         ],
         images: [
             '/assets/images/six-bed-room.jpg',
@@ -140,13 +139,4 @@ export const featuresData: Feature[] = [
         title: 'Comfort First',
         description: 'Bright, spacious, spotless rooms with comfortable mattresses'
     }
-];
-
-export const galleryImages = [
-    '/assets/images/double-room.jpg',
-    '/assets/images/lounge-area.jpg',
-    '/assets/images/common-room.jpg',
-    '/assets/images/kitchen.jpg',
-    '/assets/images/terrace-view.jpg',
-    '/assets/images/bathroom.jpg'
 ];

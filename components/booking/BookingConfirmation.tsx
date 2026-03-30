@@ -1,11 +1,14 @@
 'use client';
 
-import { useBooking } from '@/lib/context/BookingContext';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { format, isValid } from 'date-fns';
+import { useRouter } from 'next/navigation';
+import { differenceInDays, format, isValid } from 'date-fns';
+import { useBooking } from '@/lib/context/BookingContext';
+import type { BookingConfirmationResponse } from '@/lib/types';
 
 export default function BookingConfirmation() {
+    const router = useRouter();
     const {
         checkIn,
         checkOut,
@@ -21,25 +24,24 @@ export default function BookingConfirmation() {
     const [loading, setLoading] = useState(false);
     const [complete, setComplete] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [bookingData, setBookingData] = useState<any>(null);
+    const [bookingData, setBookingData] = useState<BookingConfirmationResponse | null>(null);
 
-    // Safety guard: If accessed without valid dates (e.g. refresh), redirect or show empty
     if (!checkIn || !checkOut) {
-        // You might want to trigger a redirect here via useEffect, but for render safety:
         return (
             <div className="glass-card p-8 text-center">
                 <p className="text-slate-400 mb-4">No booking details found. Please start over.</p>
-                <button onClick={() => window.location.href = '/book'} className="btn-primary px-8">
+                <button onClick={() => router.replace('/book')} className="btn-primary px-8">
                     Start Booking
                 </button>
             </div>
         );
     }
 
+    const stayDuration = differenceInDays(checkOut, checkIn);
+
     const handleConfirm = async () => {
-        console.log('Confirming booking for room:', roomId);
         if (!roomId || !checkIn || !checkOut) {
-            setError('Missing required booking information. Please go back and select dates/room.');
+            setError('Missing required booking information. Please go back and select dates and room.');
             return;
         }
 
@@ -58,26 +60,23 @@ export default function BookingConfirmation() {
                 specialRequests
             };
 
-            console.log('Sending payload:', payload);
-
             const res = await fetch('/api/bookings', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
             });
 
-            const data = await res.json();
-            console.log('API Response:', data);
+            const data = (await res.json()) as BookingConfirmationResponse | { error?: string };
 
             if (!res.ok) {
-                throw new Error(data.error || 'Failed to create booking');
+                throw new Error('error' in data ? data.error || 'Failed to create booking' : 'Failed to create booking');
             }
 
-            setBookingData(data);
+            setBookingData(data as BookingConfirmationResponse);
             setComplete(true);
-        } catch (err: any) {
+        } catch (err) {
             console.error('Booking Error:', err);
-            setError(err.message || 'An unexpected error occurred. Please try again.');
+            setError(err instanceof Error ? err.message : 'An unexpected error occurred. Please try again.');
         } finally {
             setLoading(false);
         }
@@ -95,7 +94,7 @@ export default function BookingConfirmation() {
                 </div>
                 <h2 className="text-4xl font-bold mb-4 text-white">Booking Confirmed!</h2>
                 <p className="text-slate-400 mb-8 max-w-md mx-auto">
-                    Your reservation is successfully placed. We've sent a confirmation email to
+                    Your reservation is successfully placed. We&apos;ve sent a confirmation email to
                     <span className="text-white font-bold"> {guestEmail}</span>.
                 </p>
 
@@ -105,17 +104,20 @@ export default function BookingConfirmation() {
                     <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/10">
                         <div>
                             <p className="text-[10px] text-slate-500 uppercase">Check-In</p>
-                            <p className="text-sm text-white font-medium">{isValid(checkIn) ? format(checkIn!, 'PPP') : 'Invalid Date'}</p>
+                            <p className="text-sm text-white font-medium">{isValid(checkIn) ? format(checkIn, 'PPP') : 'Invalid Date'}</p>
                         </div>
                         <div>
                             <p className="text-[10px] text-slate-500 uppercase">Total</p>
-                            <p className="text-sm text-white font-bold">€{bookingData?.totalPrice.toFixed(2)}</p>
+                            <p className="text-sm text-white font-bold">{bookingData ? `€${bookingData.totalPrice.toFixed(2)}` : 'Pending'}</p>
                         </div>
                     </div>
                 </div>
 
                 <button
-                    onClick={() => { reset(); window.location.href = '/'; }}
+                    onClick={() => {
+                        reset();
+                        router.push('/');
+                    }}
                     className="btn-outline px-12"
                 >
                     Return Home
@@ -139,9 +141,10 @@ export default function BookingConfirmation() {
                     <div className="space-y-4">
                         <h4 className="text-[#39ff14] font-bold uppercase tracking-widest text-xs">Stay Information</h4>
                         <div className="space-y-2">
-                            <p className="text-white"><span className="text-slate-500 mr-2">Check-In:</span> {isValid(checkIn) ? format(checkIn!, 'PPPP') : 'Invalid Date'}</p>
-                            <p className="text-white"><span className="text-slate-500 mr-2">Check-Out:</span> {isValid(checkOut) ? format(checkOut!, 'PPPP') : 'Invalid Date'}</p>
-                            <p className="text-white"><span className="text-slate-500 mr-2">Nights:</span> {isValid(checkIn) ? format(checkIn!, 'd') : '?'} to {isValid(checkOut) ? format(checkOut!, 'd') : '?'}</p>
+                            <p className="text-white"><span className="text-slate-500 mr-2">Check-In:</span> {isValid(checkIn) ? format(checkIn, 'PPPP') : 'Invalid Date'}</p>
+                            <p className="text-white"><span className="text-slate-500 mr-2">Check-Out:</span> {isValid(checkOut) ? format(checkOut, 'PPPP') : 'Invalid Date'}</p>
+                            <p className="text-white"><span className="text-slate-500 mr-2">Stay:</span> {stayDuration} {stayDuration === 1 ? 'night' : 'nights'}</p>
+                            <p className="text-white"><span className="text-slate-500 mr-2">Guests:</span> {numberOfGuests}</p>
                         </div>
                     </div>
 
@@ -158,7 +161,7 @@ export default function BookingConfirmation() {
                 {specialRequests && (
                     <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                         <p className="text-[10px] text-slate-500 uppercase mb-2">Special Requests</p>
-                        <p className="text-sm text-slate-300 italic">"{specialRequests}"</p>
+                        <p className="text-sm text-slate-300 italic">&quot;{specialRequests}&quot;</p>
                     </div>
                 )}
 

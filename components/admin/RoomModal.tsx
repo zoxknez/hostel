@@ -1,28 +1,18 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
-interface Room {
-    id?: string;
-    name: string;
-    type: string;
-    pricePerNight: number;
-    capacity: number;
-    description: string;
-    amenities: string[];
-    images: string[];
-    isActive: boolean;
-}
+import Image from 'next/image';
+import type { AdminRoomFormData } from '@/lib/types';
 
 interface RoomModalProps {
     isOpen: boolean;
     onClose: () => void;
-    onSave: (room: Room) => Promise<void>;
-    room?: Room | null;
+    onSave: (room: AdminRoomFormData) => Promise<void>;
+    room?: AdminRoomFormData | null;
 }
 
 export default function RoomModal({ isOpen, onClose, onSave, room }: RoomModalProps) {
-    const [formData, setFormData] = useState<Room>({
+    const [formData, setFormData] = useState<AdminRoomFormData>({
         name: '',
         type: 'Standard',
         pricePerNight: 0,
@@ -160,7 +150,13 @@ export default function RoomModal({ isOpen, onClose, onSave, room }: RoomModalPr
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             {formData.images.map((url, index) => (
                                 <div key={index} className="relative group aspect-square rounded-lg overflow-hidden border border-white/10">
-                                    <img src={url} alt={`Room ${index}`} className="w-full h-full object-cover" />
+                                    <Image
+                                        src={url}
+                                        alt={`Room ${index + 1}`}
+                                        fill
+                                        unoptimized
+                                        className="object-cover"
+                                    />
                                     <button
                                         type="button"
                                         onClick={() => {

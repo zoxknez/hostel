@@ -15,13 +15,9 @@ function BookingSteps() {
 
     return (
         <div className="grid lg:grid-cols-3 gap-12">
-            <div className="lg:col-span-2">
-                <div className="flex justify-between mb-12 relative">
-                    {/* Progress Line */}
-                    <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white/10 -translate-y-1/2 -z-10" />
-
-                    {/* Progress Line */}
-                    <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white/10 -translate-y-1/2 -z-10" />
+                <div className="lg:col-span-2">
+                    <div className="flex justify-between mb-12 relative">
+                        <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white/10 -translate-y-1/2 -z-10" />
 
                     {[1, 2, 3, 4].map((s) => (
                         <div

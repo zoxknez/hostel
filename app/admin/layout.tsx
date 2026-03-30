@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
@@ -37,9 +38,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const SidebarContent = () => (
         <div className="flex flex-col h-full p-6">
             <Link href="/" className="flex items-center gap-3 mb-12 hover:opacity-80 transition-opacity">
-                <img
+                <Image
                     src="/logo.png"
                     alt="Downtown Inn"
+                    width={40}
+                    height={40}
                     className="w-10 h-10 rounded-xl shadow-[0_0_15px_rgba(57,255,20,0.3)] object-cover"
                 />
                 <span className="font-heading font-bold text-white text-lg tracking-wide">Admin Panel</span>
@@ -89,9 +92,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             {/* Mobile Header */}
             <div className="md:hidden flex items-center justify-between p-4 border-b border-white/5 bg-[#050816]/80 backdrop-blur-xl sticky top-0 z-50">
                 <div className="flex items-center gap-2">
-                    <img
+                    <Image
                         src="/logo.png"
                         alt="Downtown Inn"
+                        width={32}
+                        height={32}
                         className="w-8 h-8 rounded-lg shadow-[0_0_10px_rgba(57,255,20,0.3)] object-cover"
                     />
                     <span className="font-bold text-white">Admin</span>

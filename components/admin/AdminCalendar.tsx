@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, addMonths, subMonths, isToday } from 'date-fns';
-import { motion, AnimatePresence } from 'framer-motion';
 
 interface Booking {
     id: string;
@@ -19,12 +18,33 @@ export default function AdminCalendar() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('/api/bookings')
-            .then(res => res.json())
-            .then(data => {
-                setBookings(data);
-                setLoading(false);
-            });
+        let active = true;
+
+        async function loadBookings() {
+            try {
+                const res = await fetch('/api/bookings');
+                if (!res.ok) {
+                    throw new Error('Failed to load calendar bookings');
+                }
+
+                const data = (await res.json()) as Booking[];
+                if (active) {
+                    setBookings(data);
+                }
+            } catch (err) {
+                console.error('Failed to load calendar:', err);
+            } finally {
+                if (active) {
+                    setLoading(false);
+                }
+            }
+        }
+
+        void loadBookings();
+
+        return () => {
+            active = false;
+        };
     }, []);
 
     const days = eachDayOfInterval({
@@ -36,12 +56,20 @@ export default function AdminCalendar() {
     const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
 
     const getBookingsForDay = (day: Date) => {
-        return bookings.filter(b => {
-            const start = new Date(b.checkIn);
-            const end = new Date(b.checkOut);
-            return (isSameDay(day, start) || isSameDay(day, end) || (day > start && day < end)) && b.status !== 'CANCELLED';
+        return bookings.filter((booking) => {
+            const start = new Date(booking.checkIn);
+            const end = new Date(booking.checkOut);
+            return (isSameDay(day, start) || isSameDay(day, end) || (day > start && day < end)) && booking.status !== 'CANCELLED';
         });
     };
+
+    if (loading) {
+        return (
+            <div className="glass-card p-8 text-center text-slate-500">
+                Loading calendar...
+            </div>
+        );
+    }
 
     return (
         <div className="glass-card p-8">
@@ -56,7 +84,7 @@ export default function AdminCalendar() {
             </div>
 
             <div className="grid grid-cols-7 gap-px bg-white/5 border border-white/5 rounded-xl overflow-hidden">
-                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
                     <div key={day} className="bg-primary/40 p-4 text-center text-xs font-black uppercase tracking-widest text-slate-500 border-b border-white/5">
                         {day}
                     </div>
@@ -77,16 +105,16 @@ export default function AdminCalendar() {
                             </span>
 
                             <div className="mt-2 space-y-1">
-                                {dayBookings.map(b => (
+                                {dayBookings.map((booking) => (
                                     <div
-                                        key={b.id}
-                                        className={`text-[10px] p-1 rounded border leading-tight truncate ${b.status === 'CONFIRMED'
+                                        key={booking.id}
+                                        className={`text-[10px] p-1 rounded border leading-tight truncate ${booking.status === 'CONFIRMED'
                                             ? 'bg-[#39ff14]/10 border-[#39ff14]/20 text-[#39ff14]'
                                             : 'bg-[#ffff00]/10 border-[#ffff00]/20 text-[#ffff00]'
                                             }`}
-                                        title={`${b.guestName} - ${b.room.name}`}
+                                        title={`${booking.guestName} - ${booking.room.name}`}
                                     >
-                                        {b.guestName.split(' ')[0]}
+                                        {booking.guestName.split(' ')[0]}
                                     </div>
                                 ))}
                             </div>

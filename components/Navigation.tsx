@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -28,7 +29,7 @@ export default function Navigation() {
 
             setLastScrollY(currentScrollY);
 
-            const sections = ['home', 'features', 'rooms', 'gallery', 'location'];
+            const sections = ['home', 'features', 'rooms', 'gallery', 'about', 'location'];
             for (const section of sections) {
                 const element = document.getElementById(section);
                 if (element) {
@@ -108,9 +109,11 @@ export default function Navigation() {
                             onClick={handleLogoClick}
                             className="flex items-center gap-2 group"
                         >
-                            <img
+                            <Image
                                 src="/logo.png"
                                 alt="Downtown Inn"
+                                width={40}
+                                height={40}
                                 className="w-10 h-10 rounded-xl shadow-[0_0_20px_rgba(57,255,20,0.3)] object-cover transition-all duration-300 group-hover:scale-110"
                             />
                             <span className="font-heading text-xl font-bold hidden sm:block">
@@ -156,12 +159,9 @@ export default function Navigation() {
                                 <span className="text-lg">📞</span>
                                 <span>+381 65 228 8200</span>
                             </a>
-                            <a
-                                href="/book"
-                                className="btn-primary px-6 py-2.5 text-sm"
-                            >
+                            <Link href="/book" className="btn-primary px-6 py-2.5 text-sm">
                                 Book Now
-                            </a>
+                            </Link>
                         </div>
 
                         {/* Mobile Menu Toggle */}
@@ -248,12 +248,9 @@ export default function Navigation() {
                                         <span className="text-xl">📞</span>
                                         <span>+381 65 228 8200</span>
                                     </a>
-                                    <a
-                                        href="/book"
-                                        className="btn-primary w-full justify-center py-3"
-                                    >
+                                    <Link href="/book" className="btn-primary w-full justify-center py-3">
                                         Book Now
-                                    </a>
+                                    </Link>
                                 </div>
                             </div>
                         </motion.div>

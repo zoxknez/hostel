@@ -1,8 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import type { Booking } from '@prisma/client';
 import BookingList from '@/components/admin/BookingList';
 import StatsCard from '@/components/admin/StatsCard';
+
+type BookingStatsRecord = Pick<Booking, 'status' | 'totalPrice' | 'checkIn' | 'checkOut'>;
 
 export default function AdminDashboard() {
     const [stats, setStats] = useState({
@@ -11,46 +15,58 @@ export default function AdminDashboard() {
         activeCheckins: 0,
         revenue: 0
     });
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetchStats() {
             try {
                 const res = await fetch('/api/bookings');
-                const bookings = await res.json();
+                if (!res.ok) {
+                    throw new Error('Failed to fetch bookings');
+                }
 
-                const pending = bookings.filter((b: any) => b.status === 'PENDING').length;
-                const total = bookings.length;
-                const revenue = bookings.reduce((acc: number, b: any) => acc + (b.status !== 'CANCELLED' ? b.totalPrice : 0), 0);
+                const bookings = (await res.json()) as BookingStatsRecord[];
+                const today = new Date();
+
+                const pendingBookings = bookings.filter((booking) => booking.status === 'PENDING').length;
+                const activeCheckins = bookings.filter((booking) => {
+                    if (booking.status !== 'CONFIRMED') {
+                        return false;
+                    }
+
+                    const checkIn = new Date(booking.checkIn);
+                    const checkOut = new Date(booking.checkOut);
+                    return checkIn <= today && checkOut > today;
+                }).length;
+                const revenue = bookings.reduce((total, booking) => {
+                    return booking.status !== 'CANCELLED' ? total + booking.totalPrice : total;
+                }, 0);
 
                 setStats({
-                    totalBookings: total,
-                    pendingBookings: pending,
-                    activeCheckins: 0, // Logic for check-ins today
+                    totalBookings: bookings.length,
+                    pendingBookings,
+                    activeCheckins,
                     revenue
                 });
             } catch (err) {
                 console.error('Error fetching stats:', err);
-            } finally {
-                setLoading(false);
             }
         }
-        fetchStats();
+
+        void fetchStats();
     }, []);
 
     return (
         <div className="space-y-12">
             <header>
                 <h1 className="text-4xl font-bold text-white mb-2">Dashboard Overview</h1>
-                <p className="text-slate-500 text-lg">Welcome back. Here's what's happening today.</p>
+                <p className="text-slate-500 text-lg">Welcome back. Here&apos;s what&apos;s happening today.</p>
             </header>
 
-            {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatsCard
                     label="Total Bookings"
                     value={stats.totalBookings}
-                    icon="📅"
+                    icon="📖"
                     trend="+12%"
                     color="cyan"
                 />
@@ -78,43 +94,41 @@ export default function AdminDashboard() {
                 />
             </div>
 
-            {/* Recent Bookings */}
             <div className="space-y-6">
                 <div className="flex items-center justify-between">
                     <h2 className="text-2xl font-bold text-white">Recent Activities</h2>
-                    <a href="/admin/bookings" className="text-[#39ff14] hover:text-[#39ff14]/80 text-sm font-bold uppercase tracking-wider">
+                    <Link href="/admin/bookings" className="text-[#39ff14] hover:text-[#39ff14]/80 text-sm font-bold uppercase tracking-wider">
                         View All Bookings →
-                    </a>
+                    </Link>
                 </div>
                 <div className="glass-card p-0 overflow-hidden">
                     <BookingList limit={5} />
                 </div>
             </div>
 
-            {/* Administration & Tools */}
             <div className="space-y-6">
                 <h2 className="text-2xl font-bold text-white">Administration</h2>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <a href="/admin/rooms" className="glass-card p-6 flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                    <Link href="/admin/rooms" className="glass-card p-6 flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
                         <span className="text-3xl mb-3 group-hover:scale-110 transition-transform">🏨</span>
                         <span className="text-white font-bold">Rooms</span>
                         <span className="text-xs text-slate-500 mt-1">Manage inventory</span>
-                    </a>
-                    <a href="/admin/calendar" className="glass-card p-6 flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                    </Link>
+                    <Link href="/admin/calendar" className="glass-card p-6 flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
                         <span className="text-3xl mb-3 group-hover:scale-110 transition-transform">📅</span>
                         <span className="text-white font-bold">Calendar</span>
                         <span className="text-xs text-slate-500 mt-1">Occupancy view</span>
-                    </a>
-                    <a href="/admin/reviews" className="glass-card p-6 flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
-                        <span className="text-3xl mb-3 group-hover:scale-110 transition-transform">⭐</span>
-                        <span className="text-white font-bold">Reviews</span>
-                        <span className="text-xs text-slate-500 mt-1">Guest feedback</span>
-                    </a>
-                    <a href="/admin/settings" className="glass-card p-6 flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                    </Link>
+                    <Link href="/admin/bookings" className="glass-card p-6 flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
+                        <span className="text-3xl mb-3 group-hover:scale-110 transition-transform">🧾</span>
+                        <span className="text-white font-bold">Bookings</span>
+                        <span className="text-xs text-slate-500 mt-1">Reservation queue</span>
+                    </Link>
+                    <Link href="/admin/settings" className="glass-card p-6 flex flex-col items-center justify-center text-center hover:bg-white/5 transition-colors group">
                         <span className="text-3xl mb-3 group-hover:scale-110 transition-transform">⚙️</span>
                         <span className="text-white font-bold">Settings</span>
                         <span className="text-xs text-slate-500 mt-1">Global config</span>
-                    </a>
+                    </Link>
                 </div>
             </div>
         </div>

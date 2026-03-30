@@ -8,7 +8,7 @@ export async function POST(request: Request): Promise<NextResponse> {
         const jsonResponse = await handleUpload({
             body,
             request,
-            onBeforeGenerateToken: async (pathname, clientPayload) => {
+            onBeforeGenerateToken: async () => {
                 // Authenticate authorized users here if needed in the future
                 return {
                     allowedContentTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
@@ -17,9 +17,8 @@ export async function POST(request: Request): Promise<NextResponse> {
                     }),
                 };
             },
-            onUploadCompleted: async ({ blob, tokenPayload }) => {
-                // This is called when the upload is confirmed to be successful
-                console.log('blob uploaded', blob.url);
+            onUploadCompleted: async () => {
+                // This callback remains available for future post-upload actions.
             },
         });
 

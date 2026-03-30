@@ -6,7 +6,7 @@ async function main() {
     console.log('--- Seeding Database ---');
 
     // 1. Create default settings
-    const settings = await prisma.settings.upsert({
+    await prisma.settings.upsert({
         where: { id: 'main' },
         update: {},
         create: {

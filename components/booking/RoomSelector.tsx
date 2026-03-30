@@ -2,25 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { useBooking } from '@/lib/context/BookingContext';
-import { format } from 'date-fns';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-
-interface Room {
-    id: string;
-    name: string;
-    type: string;
-    pricePerNight: number;
-    capacity: number;
-    beds: number;
-    description: string;
-    images: string[];
-    amenities: string[];
-}
+import type { ApiRoom } from '@/lib/types';
 
 export default function RoomSelector() {
     const { checkIn, checkOut, roomId, setRoomId, setStep } = useBooking();
-    const [rooms, setRooms] = useState<Room[]>([]);
+    const [rooms, setRooms] = useState<ApiRoom[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -30,7 +18,7 @@ export default function RoomSelector() {
             try {
                 setLoading(true);
                 const res = await fetch('/api/rooms');
-                const data = await res.json();
+                const data = (await res.json()) as ApiRoom[];
                 setRooms(data);
             } catch (err) {
                 console.error('Error loading rooms:', err);
@@ -77,7 +65,7 @@ export default function RoomSelector() {
                         <div className="p-6">
                             <h3 className="text-xl font-bold mb-2 text-white">{room.name}</h3>
                             <p className="text-slate-400 text-sm mb-4 line-clamp-2">
-                                {room.description}
+                                {room.description ?? 'Comfortable stay in the heart of Belgrade.'}
                             </p>
 
                             <div className="flex flex-wrap gap-2 mb-6">

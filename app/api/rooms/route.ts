@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db';
+import { parseRoomRecord, serializeRoomPayload } from '@/lib/rooms';
+import type { AdminRoomFormData } from '@/lib/types';
 
 export async function GET() {
     try {
@@ -8,12 +10,7 @@ export async function GET() {
             orderBy: { sortOrder: 'asc' },
         });
 
-        // Parse JSON strings back to arrays
-        const parsedRooms = rooms.map((room) => ({
-            ...room,
-            images: typeof room.images === 'string' ? JSON.parse(room.images) : room.images,
-            amenities: typeof room.amenities === 'string' ? JSON.parse(room.amenities) : room.amenities,
-        }));
+        const parsedRooms = rooms.map(parseRoomRecord);
 
         return NextResponse.json(parsedRooms);
     } catch (error) {
@@ -24,7 +21,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
     try {
-        const body = await request.json();
+        const body = (await request.json()) as Partial<AdminRoomFormData>;
 
         // Basic validation
         if (!body.name || !body.pricePerNight) {
@@ -39,24 +36,25 @@ export async function POST(request: Request) {
         };
 
         const slug = generateSlug(body.name) + '-' + Math.random().toString(36).substring(2, 7);
+        const roomData = serializeRoomPayload(body);
 
         const room = await prisma.room.create({
             data: {
-                name: body.name,
+                name: body.name.trim(),
                 slug: slug,
-                type: body.type || 'Standard',
-                pricePerNight: parseFloat(body.pricePerNight),
-                capacity: parseInt(body.capacity) || 2,
-                beds: parseInt(body.capacity) || 2, // Defaulting beds to capacity
-                description: body.description || '',
-                amenities: JSON.stringify(body.amenities || []),
-                images: JSON.stringify(body.images || []),
-                isActive: true,
+                type: roomData.type ?? 'Standard',
+                pricePerNight: roomData.pricePerNight ?? 0,
+                capacity: roomData.capacity ?? 2,
+                beds: roomData.beds ?? roomData.capacity ?? 2,
+                description: roomData.description ?? '',
+                amenities: roomData.amenities ?? '[]',
+                images: roomData.images ?? '[]',
+                isActive: roomData.isActive ?? true,
                 sortOrder: 0
             }
         });
 
-        return NextResponse.json(room);
+        return NextResponse.json(parseRoomRecord(room));
     } catch (error) {
         console.error('Error creating room:', error);
         return NextResponse.json({ error: 'Failed to create room' }, { status: 500 });

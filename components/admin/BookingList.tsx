@@ -3,49 +3,63 @@
 import { useState, useEffect } from 'react';
 import { format } from 'date-fns';
 import BookingDetailsModal from './BookingDetailsModal';
+import type { BookingListItem } from '@/lib/types';
 
-interface Booking {
-    id: string;
-    bookingNumber: string;
-    guestName: string;
-    guestEmail: string;
-    guestPhone: string;
-    guestCountry: string | null;
-    checkIn: string;
-    checkOut: string;
-    status: string;
-    totalPrice: number;
-    numberOfGuests: number;
-    specialRequests: string | null;
-    internalNotes: string | null;
-    room: {
-        name: string;
-    };
+export type BookingStatusFilter = 'ALL' | 'PENDING' | 'CONFIRMED' | 'CANCELLED' | 'COMPLETED';
+
+function filterBookings(bookings: BookingListItem[], limit?: number, statusFilter: BookingStatusFilter = 'ALL') {
+    const filtered = statusFilter === 'ALL'
+        ? bookings
+        : bookings.filter((booking) => booking.status === statusFilter);
+
+    return limit ? filtered.slice(0, limit) : filtered;
 }
 
-export default function BookingList({ limit }: { limit?: number }) {
-    const [bookings, setBookings] = useState<Booking[]>([]);
+export default function BookingList({ limit, statusFilter = 'ALL' }: { limit?: number; statusFilter?: BookingStatusFilter }) {
+    const [bookings, setBookings] = useState<BookingListItem[]>([]);
     const [loading, setLoading] = useState(true);
-    const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
-
-    const fetchBookings = async () => {
-        try {
-            setLoading(true);
-            const res = await fetch('/api/bookings');
-            const data = await res.json();
-            if (Array.isArray(data)) {
-                setBookings(limit ? data.slice(0, limit) : data);
-            }
-        } catch (err) {
-            console.error('Failed to fetch bookings:', err);
-        } finally {
-            setLoading(false);
-        }
-    };
+    const [selectedBooking, setSelectedBooking] = useState<BookingListItem | null>(null);
 
     useEffect(() => {
-        fetchBookings();
-    }, [limit]);
+        let active = true;
+
+        async function loadBookings() {
+            try {
+                setLoading(true);
+                const res = await fetch('/api/bookings');
+                if (!res.ok) {
+                    throw new Error('Failed to fetch bookings');
+                }
+
+                const data = (await res.json()) as BookingListItem[];
+                if (active) {
+                    setBookings(filterBookings(data, limit, statusFilter));
+                }
+            } catch (err) {
+                console.error('Failed to fetch bookings:', err);
+            } finally {
+                if (active) {
+                    setLoading(false);
+                }
+            }
+        }
+
+        void loadBookings();
+
+        return () => {
+            active = false;
+        };
+    }, [limit, statusFilter]);
+
+    const refreshBookings = async () => {
+        const res = await fetch('/api/bookings');
+        if (!res.ok) {
+            throw new Error('Failed to refresh bookings');
+        }
+
+        const data = (await res.json()) as BookingListItem[];
+        setBookings(filterBookings(data, limit, statusFilter));
+    };
 
     const getStatusStyle = (status: string) => {
         switch (status) {
@@ -55,11 +69,6 @@ export default function BookingList({ limit }: { limit?: number }) {
             case 'COMPLETED': return 'bg-cyan-400/10 text-cyan-400 border-cyan-400/20';
             default: return 'bg-slate-400/10 text-slate-400 border-slate-400/20';
         }
-    };
-
-    const handleUpdate = (updated: any) => {
-        setBookings(prev => prev.map(b => b.id === updated.id ? updated : b));
-        fetchBookings(); // Refresh to be sure
     };
 
     if (loading && bookings.length === 0) {
@@ -93,7 +102,7 @@ export default function BookingList({ limit }: { limit?: number }) {
                                 <p className="text-slate-300">
                                     {format(new Date(booking.checkIn), 'MMM d')} - {format(new Date(booking.checkOut), 'MMM d')}
                                 </p>
-                                <p className="text-slate-500 text-[10px]">2026</p>
+                                <p className="text-slate-500 text-[10px]">{format(new Date(booking.checkIn), 'yyyy')}</p>
                             </td>
                             <td className="px-6 py-4">
                                 <span className={`text-[10px] font-black tracking-widest px-2 py-1 rounded inline-block border ${getStatusStyle(booking.status)}`}>
@@ -127,7 +136,7 @@ export default function BookingList({ limit }: { limit?: number }) {
                 <BookingDetailsModal
                     booking={selectedBooking}
                     onClose={() => setSelectedBooking(null)}
-                    onUpdate={handleUpdate}
+                    onRefresh={refreshBookings}
                 />
             )}
         </div>
