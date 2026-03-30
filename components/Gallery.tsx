@@ -1,122 +1,169 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
+import { AnimatePresence, motion, useInView } from 'framer-motion';
+import { Camera, Expand, Sparkles } from 'lucide-react';
 import { useRef, useState } from 'react';
 import Image from 'next/image';
 import ImageGallery from './ImageGallery';
 
 const galleryImages = [
-    { src: '/assets/images/terrace-view.jpg', alt: 'Rooftop Terrace View' },
-    { src: '/assets/images/common-room.jpg', alt: 'Common Lounge Area' },
-    { src: '/assets/images/kitchen.jpg', alt: 'Modern Guest Kitchen' },
-    { src: '/assets/images/bathroom.jpg', alt: 'Clean Facilities' },
-    { src: '/assets/images/about-2.jpg', alt: 'Hostel Atmosphere' },
-    { src: '/assets/images/lounge-area.jpg', alt: 'Relaxation Zone' },
-];
+    {
+        src: '/assets/images/terrace-view.jpg',
+        alt: 'Rooftop terrace view over Belgrade',
+        title: 'Terrace View',
+        label: 'City Outlook',
+        accent: 'from-[#39ff14]/18 via-[#39ff14]/8 to-transparent',
+    },
+    {
+        src: '/assets/images/common-room.jpg',
+        alt: 'Shared lounge area inside the hostel',
+        title: 'Shared Lounge',
+        label: 'Common Space',
+        accent: 'from-[#ffff00]/18 via-[#ffff00]/8 to-transparent',
+    },
+    {
+        src: '/assets/images/kitchen.jpg',
+        alt: 'Guest kitchen available during the stay',
+        title: 'Guest Kitchen',
+        label: 'Everyday Essential',
+        accent: 'from-cyan-400/16 via-cyan-400/8 to-transparent',
+    },
+    {
+        src: '/assets/images/bathroom.jpg',
+        alt: 'Clean bathroom facilities',
+        title: 'Bathroom',
+        label: 'Clean Facilities',
+        accent: 'from-emerald-400/16 via-emerald-400/8 to-transparent',
+    },
+    {
+        src: '/assets/images/about-2.jpg',
+        alt: 'Atmosphere and shared details inside the hostel',
+        title: 'Hostel Atmosphere',
+        label: 'Shared Feel',
+        accent: 'from-slate-200/10 via-slate-200/4 to-transparent',
+    },
+    {
+        src: '/assets/images/lounge-area.jpg',
+        alt: 'Additional lounge seating area',
+        title: 'Lounge Area',
+        label: 'Relaxed Corner',
+        accent: 'from-[#39ff14]/14 via-[#ffff00]/6 to-transparent',
+    },
+] as const;
 
 export default function Gallery() {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
+    const isInView = useInView(ref, { once: true, margin: '-100px' });
     const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
     return (
         <>
             <section
                 id="gallery"
-                className="relative py-32 px-6 md:px-8 overflow-hidden"
+                className="relative overflow-hidden px-6 py-16 md:px-8 md:py-24 lg:py-28"
                 style={{
-                    background: 'linear-gradient(180deg, #050816 0%, #0c1428 50%, #050816 100%)'
+                    background: 'linear-gradient(180deg, #050816 0%, #0c1428 52%, #050816 100%)',
                 }}
             >
-                {/* Background Glow */}
-                <div
-                    className="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 rounded-full opacity-20 pointer-events-none"
-                    style={{
-                        background: 'radial-gradient(circle, #00f5ff 0%, transparent 70%)',
-                        filter: 'blur(100px)'
-                    }}
-                />
+                <div className="absolute top-24 left-0 h-72 w-72 rounded-full bg-[#39ff14]/6 blur-[120px] pointer-events-none" />
+                <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-[#ffff00]/5 blur-[140px] pointer-events-none" />
 
-                <div className="max-w-7xl mx-auto relative z-10">
+                <div className="relative z-10 mx-auto max-w-7xl">
                     <motion.div
                         ref={ref}
                         initial={{ opacity: 0, y: 40 }}
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.8 }}
-                        className="text-center mb-20"
+                        className="mx-auto max-w-5xl text-center"
                     >
-                        {/* Section Badge */}
-                        <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full border border-cyan-400/30 bg-cyan-400/10">
-                            <span className="text-cyan-400 text-sm font-semibold tracking-wide uppercase">
-                                📸 Photo Gallery
+                        <div className="inline-flex items-center gap-2 rounded-full border border-[#39ff14]/20 bg-[#39ff14]/10 px-4 py-2">
+                            <Camera size={14} className="text-[#39ff14]" />
+                            <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#39ff14]">
+                                Photo Gallery
                             </span>
                         </div>
 
-                        <h2 className="section-title text-4xl md:text-5xl lg:text-6xl mb-6">
-                            Stunning <span className="text-gradient">Views</span>
+                        <h2 className="section-title mt-6 text-4xl leading-[0.95] md:text-5xl lg:text-6xl">
+                            Inside The <span className="text-gradient">Hostel</span>
                         </h2>
-                        <p className="section-subtitle">
-                            Experience breathtaking panoramas of Belgrade from our famous rooftop terrace
+                        <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-slate-300 md:text-lg">
+                            A cleaner look at the terrace, lounge, kitchen, and practical shared spaces guests actually use.
                         </p>
+
+                        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+                            {['Terrace scenes', 'Shared spaces', 'Everyday essentials'].map((item) => (
+                                <span
+                                    key={item}
+                                    className="inline-flex rounded-full border border-white/10 bg-white/[0.035] px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400"
+                                >
+                                    {item}
+                                </span>
+                            ))}
+                        </div>
                     </motion.div>
 
-                    {/* Gallery Grid */}
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+                    <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                         {galleryImages.map((image, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                                transition={{ duration: 0.6, delay: index * 0.1 }}
+                            <motion.button
+                                key={image.src}
+                                type="button"
+                                initial={{ opacity: 0, y: 28 }}
+                                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                                transition={{ duration: 0.55, delay: index * 0.07 }}
                                 onClick={() => setSelectedImage(index)}
-                                className={`relative overflow-hidden rounded-2xl cursor-pointer group ${index === 0 ? 'md:col-span-2 md:row-span-2' : ''
-                                    }`}
-                                style={{
-                                    aspectRatio: index === 0 ? '4/3' : '1/1'
-                                }}
+                                className="group relative overflow-hidden rounded-[1.75rem] border border-white/8 bg-[#101833]/90 text-left"
                             >
-                                <Image
-                                    src={image.src}
-                                    alt={image.alt}
-                                    fill
-                                    className="object-cover transition-all duration-700 group-hover:scale-110"
-                                />
+                                <div className="relative aspect-[4/3]">
+                                    <Image
+                                        src={image.src}
+                                        alt={image.alt}
+                                        fill
+                                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                    />
+                                    <div className={`absolute inset-0 bg-gradient-to-br ${image.accent} opacity-70 pointer-events-none`} />
+                                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,22,0.04)_0%,rgba(5,8,22,0.18)_48%,rgba(5,8,22,0.82)_100%)]" />
+                                    <div className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_45%)]" />
 
-                                {/* Overlay */}
-                                <div
-                                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center"
-                                    style={{
-                                        background: 'linear-gradient(180deg, transparent 0%, rgba(5, 8, 22, 0.9) 100%)'
-                                    }}
-                                >
-                                    <div className="text-center transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                        <span className="text-3xl mb-2 block">🔍</span>
-                                        <span className="text-white font-medium text-sm">{image.alt}</span>
+                                    <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-[#08101f]/80 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-100">
+                                        <Sparkles size={12} className="text-[#39ff14]" />
+                                        {image.label}
+                                    </div>
+
+                                    <div className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-[#08101f]/78 text-slate-100 transition-all duration-300 group-hover:border-[#39ff14]/30 group-hover:text-[#39ff14]">
+                                        <Expand size={17} />
+                                    </div>
+
+                                    <div className="absolute inset-x-0 bottom-0 p-5">
+                                        <div className="rounded-[1.35rem] border border-white/10 bg-[#08101f]/68 px-4 py-3.5 backdrop-blur-md">
+                                            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                                                Click To Expand
+                                            </p>
+                                            <h3 className="mt-2 font-heading text-2xl font-bold text-white">
+                                                {image.title}
+                                            </h3>
+                                        </div>
                                     </div>
                                 </div>
-
-                                {/* Border Glow */}
-                                <div
-                                    className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                                    style={{
-                                        boxShadow: 'inset 0 0 0 2px rgba(0, 245, 255, 0.3), 0 0 40px rgba(0, 245, 255, 0.2)'
-                                    }}
-                                />
-                            </motion.div>
+                            </motion.button>
                         ))}
                     </div>
                 </div>
             </section>
 
-            {/* Fullscreen Gallery */}
-            {selectedImage !== null && (
-                <ImageGallery
-                    images={galleryImages.map(img => img.src)}
-                    initialIndex={selectedImage}
-                    onClose={() => setSelectedImage(null)}
-                />
-            )}
+            <AnimatePresence>
+                {selectedImage !== null && (
+                    <ImageGallery
+                        images={galleryImages.map((image) => ({
+                            src: image.src,
+                            alt: image.alt,
+                            title: image.title,
+                            label: image.label,
+                        }))}
+                        initialIndex={selectedImage}
+                        onClose={() => setSelectedImage(null)}
+                    />
+                )}
+            </AnimatePresence>
         </>
     );
 }

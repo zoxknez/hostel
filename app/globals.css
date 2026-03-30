@@ -236,6 +236,17 @@ body {
   animation: borderGlow 2s ease-in-out infinite;
 }
 
+.glass-card-static:hover {
+  transform: none;
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: none;
+}
+
+.glass-card-static:hover::before {
+  opacity: 0;
+  animation: none;
+}
+
 /* ============================================
    PREMIUM BUTTONS
    ============================================ */

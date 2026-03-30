@@ -1,7 +1,26 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import {
+    ArrowLeft,
+    ArrowRight,
+    Bath,
+    BedDouble,
+    CookingPot,
+    Eye,
+    Info,
+    Lightbulb,
+    LockKeyhole,
+    MapPinned,
+    Phone,
+    Sparkles,
+    SunMedium,
+    Tv2,
+    Wifi,
+    X,
+    type LucideIcon,
+} from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Room } from '@/lib/data';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -11,20 +30,91 @@ interface RoomModalProps {
     onClose: () => void;
 }
 
+const roomModalMeta: Record<string, {
+    eyebrow: string;
+    summary: string;
+    badge: string;
+    accent: string;
+    amenities: string[];
+}> = {
+    double: {
+        eyebrow: 'Private Stay',
+        summary: 'A calmer private room with a double bed, shared facilities, and full access to the terrace, kitchen, and lounge areas.',
+        badge: 'Best for two guests',
+        accent: 'from-[#39ff14]/18 via-[#39ff14]/8 to-transparent',
+        amenities: ['WiFi', 'Towels', 'Linens', 'Heating', 'Kitchen access', 'Terrace lounge'],
+    },
+    'four-bed': {
+        eyebrow: 'Social Dorm',
+        summary: 'A balanced shared room with two bunk beds, personal lockers, and a more intimate hostel atmosphere.',
+        badge: 'Shared comfort',
+        accent: 'from-[#ffff00]/16 via-[#ffff00]/7 to-transparent',
+        amenities: ['WiFi', 'Linens', 'Heating', 'Personal lockers', 'Reading lights', 'Shared bathroom'],
+    },
+    'six-bed': {
+        eyebrow: 'Shared Energy',
+        summary: 'A brighter, more social dorm with three bunk beds, personal storage, and a lively hostel feel.',
+        badge: 'Most social option',
+        accent: 'from-cyan-400/16 via-cyan-400/7 to-transparent',
+        amenities: ['WiFi', 'Linens', 'Heating', 'Personal lockers', 'Shared bathroom', 'Bright city-facing room'],
+    },
+};
+
+const featureIconMap: Record<string, LucideIcon> = {
+    'Double Bed': BedDouble,
+    '4 Beds': BedDouble,
+    '6 Beds': BedDouble,
+    'Shared Bathroom': Bath,
+    'Kitchen Access': CookingPot,
+    Terrace: SunMedium,
+    Entertainment: Tv2,
+    WiFi: Wifi,
+    'Free WiFi': Wifi,
+    'City Maps': MapPinned,
+    'Free Maps': MapPinned,
+    'Personal Lockers': LockKeyhole,
+    'Reading Lights': Lightbulb,
+    'Great Views': Eye,
+};
+
 export default function RoomModal({ room, onClose }: RoomModalProps) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+    const meta = roomModalMeta[room.id] ?? {
+        eyebrow: 'Room Details',
+        summary: room.description,
+        badge: 'Hostel Downtown Inn',
+        accent: 'from-[#39ff14]/16 via-[#39ff14]/8 to-transparent',
+        amenities: ['WiFi', 'Linens', 'Heating'],
+    };
+
+    const stayNotes = useMemo(() => room.details.slice(0, 3), [room.details]);
+
     useEffect(() => {
-        const handleEscape = (e: KeyboardEvent) => {
-            if (e.key === 'Escape') onClose();
+        const previousOverflow = document.body.style.overflow;
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                onClose();
+            }
+
+            if (room.images.length > 1 && event.key === 'ArrowRight') {
+                setCurrentImageIndex((prev) => (prev + 1) % room.images.length);
+            }
+
+            if (room.images.length > 1 && event.key === 'ArrowLeft') {
+                setCurrentImageIndex((prev) => (prev - 1 + room.images.length) % room.images.length);
+            }
         };
-        document.addEventListener('keydown', handleEscape);
+
         document.body.style.overflow = 'hidden';
+        document.addEventListener('keydown', handleKeyDown);
+
         return () => {
-            document.removeEventListener('keydown', handleEscape);
-            document.body.style.overflow = '';
+            document.body.style.overflow = previousOverflow;
+            document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [onClose]);
+    }, [onClose, room.images.length]);
 
     const nextImage = () => {
         setCurrentImageIndex((prev) => (prev + 1) % room.images.length);
@@ -35,169 +125,214 @@ export default function RoomModal({ room, onClose }: RoomModalProps) {
     };
 
     return (
-        <AnimatePresence>
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-[rgba(5,8,22,0.88)] px-4 py-5 backdrop-blur-xl md:items-center md:px-8"
+        >
             <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={onClose}
-                className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
-                style={{
-                    background: 'rgba(5, 8, 22, 0.9)',
-                    backdropFilter: 'blur(20px)'
-                }}
+                initial={{ opacity: 0, y: 28, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 18, scale: 0.98 }}
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+                onClick={(event) => event.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby={`room-modal-title-${room.id}`}
+                className="relative w-full max-w-6xl overflow-hidden rounded-[2rem] border border-white/8 bg-[linear-gradient(135deg,rgba(16,24,51,0.97)_0%,rgba(9,14,34,0.95)_100%)] shadow-[0_40px_120px_rgba(0,0,0,0.45)] md:max-h-[calc(100vh-2.5rem)] lg:h-[82vh] lg:max-h-[820px]"
             >
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9, y: 40 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.9, y: 40 }}
-                    transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                    onClick={(e) => e.stopPropagation()}
-                    className="glass-card w-full max-w-5xl max-h-[90vh] overflow-y-auto p-0"
+                <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#39ff14]/35 to-transparent pointer-events-none" />
+                <div className="absolute right-0 top-0 h-64 w-64 rounded-full bg-[#39ff14]/6 blur-[130px] pointer-events-none" />
+                <div className="absolute bottom-0 left-0 h-56 w-56 rounded-full bg-[#ffff00]/5 blur-[120px] pointer-events-none" />
+
+                <button
+                    type="button"
+                    onClick={onClose}
+                    aria-label="Close room details"
+                    className="absolute right-4 top-4 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-[#07101f]/85 text-slate-200 transition-all hover:scale-105 hover:border-[#39ff14]/30 hover:text-white"
                 >
-                    {/* Close Button */}
-                    <button
-                        onClick={onClose}
-                        className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full flex items-center justify-center text-white transition-all hover:scale-110"
-                        style={{
-                            background: 'rgba(0, 0, 0, 0.5)',
-                            border: '1px solid rgba(255, 255, 255, 0.1)'
-                        }}
-                    >
-                        ✕
-                    </button>
+                    <X size={18} />
+                </button>
 
-                    <div className="grid md:grid-cols-2 gap-0">
-                        {/* Image Carousel */}
-                        <div className="relative h-80 md:h-full min-h-[400px]">
-                            <Image
-                                src={room.images[currentImageIndex]}
-                                alt={room.title}
-                                fill
-                                className="object-cover transition-opacity duration-500"
-                            />
+                <div className="grid lg:h-full lg:grid-cols-[minmax(0,0.94fr)_minmax(360px,0.9fr)]">
+                    <div className="relative h-[320px] overflow-hidden bg-[#08101f] sm:h-[380px] md:h-[430px] lg:h-full">
+                        <Image
+                            src={room.images[currentImageIndex]}
+                            alt={room.title}
+                            fill
+                            priority
+                            className="object-cover"
+                        />
 
-                            {/* Image Navigation */}
-                            {room.images.length > 1 && (
-                                <>
-                                    <button
-                                        onClick={prevImage}
-                                        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white transition-all hover:scale-110"
-                                        style={{
-                                            background: 'rgba(0, 0, 0, 0.5)',
-                                            border: '1px solid rgba(255, 255, 255, 0.1)'
-                                        }}
-                                    >
-                                        ←
-                                    </button>
-                                    <button
-                                        onClick={nextImage}
-                                        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white transition-all hover:scale-110"
-                                        style={{
-                                            background: 'rgba(0, 0, 0, 0.5)',
-                                            border: '1px solid rgba(255, 255, 255, 0.1)'
-                                        }}
-                                    >
-                                        →
-                                    </button>
-                                </>
-                            )}
+                        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,8,22,0.08)_0%,rgba(5,8,22,0.2)_48%,rgba(5,8,22,0.78)_100%)]" />
+                        <div className={`absolute inset-0 bg-gradient-to-br ${meta.accent} opacity-55`} />
 
-                            {/* Image Counter */}
-                            <div
-                                className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full text-sm text-white font-medium"
-                                style={{
-                                    background: 'rgba(0, 0, 0, 0.5)',
-                                    border: '1px solid rgba(255, 255, 255, 0.1)'
-                                }}
-                            >
-                                {currentImageIndex + 1} / {room.images.length}
-                            </div>
-
-                            {/* Thumbnail Strip */}
-                            <div className="absolute bottom-16 left-4 right-4 flex gap-2 justify-center">
-                                {room.images.map((img, idx) => (
-                                    <button
-                                        key={idx}
-                                        onClick={() => setCurrentImageIndex(idx)}
-                                        className={`w-12 h-12 rounded-lg overflow-hidden transition-all ${idx === currentImageIndex
-                                            ? 'ring-2 ring-cyan-400 scale-110'
-                                            : 'opacity-60 hover:opacity-100'
-                                            }`}
-                                    >
-                                        <Image
-                                            src={img}
-                                            alt=""
-                                            width={48}
-                                            height={48}
-                                            className="w-full h-full object-cover"
-                                        />
-                                    </button>
-                                ))}
-                            </div>
+                        <div className="absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-[#08101f]/80 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-100 md:left-5 md:top-5">
+                            <Sparkles size={12} className="text-[#39ff14]" />
+                            {meta.eyebrow}
                         </div>
 
-                        {/* Content */}
-                        <div className="p-8">
-                            <h2 className="font-heading text-3xl font-bold mb-2 text-gradient">
-                                {room.title}
-                            </h2>
-                            <p className="text-slate-400 mb-6">{room.subtitle}</p>
+                        <div className="absolute bottom-4 left-4 right-4 md:bottom-5 md:left-5 md:right-5">
+                            <div className="rounded-[1.35rem] border border-white/10 bg-[#08101f]/68 p-3.5 backdrop-blur-md md:rounded-[1.5rem] md:p-4">
+                                <div className="flex flex-wrap items-center justify-between gap-3">
+                                    <div className="inline-flex rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-200">
+                                        {meta.badge}
+                                    </div>
+                                    <div className="inline-flex rounded-full border border-white/10 bg-black/20 px-3 py-1 text-[11px] font-semibold text-white">
+                                        {String(currentImageIndex + 1).padStart(2, '0')} / {String(room.images.length).padStart(2, '0')}
+                                    </div>
+                                </div>
 
-                            {/* Features */}
-                            <div className="mb-8">
-                                <h4 className="font-heading text-lg font-semibold mb-4 text-white">
-                                    Room Features
-                                </h4>
-                                <div className="grid grid-cols-2 gap-3">
-                                    {room.features.map((feature, idx) => (
+                                {room.images.length > 1 && (
+                                    <div className="mt-3 flex items-center gap-2.5 md:mt-4 md:gap-3">
+                                        <div className="flex gap-2">
+                                            <button
+                                                type="button"
+                                                onClick={prevImage}
+                                                aria-label="Previous room image"
+                                                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/25 text-white transition-all hover:border-[#39ff14]/30 hover:text-[#39ff14] md:h-10 md:w-10"
+                                            >
+                                                <ArrowLeft size={17} />
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={nextImage}
+                                                aria-label="Next room image"
+                                                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-black/25 text-white transition-all hover:border-[#39ff14]/30 hover:text-[#39ff14] md:h-10 md:w-10"
+                                            >
+                                                <ArrowRight size={17} />
+                                            </button>
+                                        </div>
+
+                                        <div className="flex min-w-0 flex-1 gap-2 overflow-x-auto pb-1">
+                                            {room.images.map((image, index) => (
+                                                <button
+                                                    key={image}
+                                                    type="button"
+                                                    onClick={() => setCurrentImageIndex(index)}
+                                                    aria-label={`Show room image ${index + 1}`}
+                                                    className={`relative h-12 w-12 shrink-0 overflow-hidden rounded-xl border transition-all md:h-14 md:w-14 ${
+                                                        index === currentImageIndex
+                                                            ? 'border-[#39ff14] shadow-[0_0_0_1px_rgba(57,255,20,0.4)]'
+                                                            : 'border-white/10 opacity-70 hover:opacity-100'
+                                                    }`}
+                                                >
+                                                    <Image
+                                                        src={image}
+                                                        alt=""
+                                                        fill
+                                                        className="object-cover"
+                                                    />
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="border-t border-white/8 lg:border-l lg:border-t-0 lg:min-h-0 lg:overflow-y-auto">
+                        <div className="flex h-full flex-col p-5 md:p-7 lg:p-8">
+                            <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#39ff14]/15 bg-[#39ff14]/8 px-3.5 py-2">
+                                <Info size={14} className="text-[#39ff14]" />
+                                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#39ff14]">
+                                    Room Details
+                                </span>
+                            </div>
+
+                            <h2
+                                id={`room-modal-title-${room.id}`}
+                                className="mt-4 font-heading text-3xl font-bold leading-tight text-white md:text-4xl"
+                            >
+                                <span className="text-gradient">{room.title}</span>
+                            </h2>
+                            <p className="mt-2 text-base text-slate-400">{room.subtitle}</p>
+                            <p className="mt-4 text-sm leading-7 text-slate-300 md:text-[15px]">
+                                {meta.summary}
+                            </p>
+
+                            <div className="mt-6">
+                                <div className="flex items-center gap-2">
+                                    <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
+                                        Room Features
+                                    </span>
+                                </div>
+                                <div className="mt-3 grid gap-3 sm:grid-cols-2">
+                                    {room.features.map((feature) => {
+                                        const Icon = featureIconMap[feature.title] ?? Sparkles;
+
+                                        return (
+                                            <div
+                                                key={feature.title}
+                                                className="flex items-center gap-3 rounded-[1.15rem] border border-white/6 bg-white/[0.035] px-4 py-3"
+                                            >
+                                                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-[#08101f]/80 text-[#39ff14]">
+                                                    <Icon size={18} strokeWidth={2.1} />
+                                                </div>
+                                                <span className="text-sm font-medium text-slate-200">
+                                                    {feature.title}
+                                                </span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            <div className="mt-6">
+                                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
+                                    Stay Notes
+                                </p>
+                                <div className="mt-3 space-y-3">
+                                    {stayNotes.map((detail) => (
                                         <div
-                                            key={idx}
-                                            className="flex items-center gap-3 p-3 rounded-xl bg-white/5"
+                                            key={detail}
+                                            className="flex items-start gap-3 rounded-[1.15rem] border border-white/6 bg-white/[0.03] px-4 py-3"
                                         >
-                                            <span className="text-xl">{feature.icon}</span>
-                                            <span className="text-slate-300 text-sm">{feature.title}</span>
+                                            <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#39ff14] shadow-[0_0_12px_rgba(57,255,20,0.65)]" />
+                                            <p className="text-sm leading-6 text-slate-300">{detail}</p>
                                         </div>
                                     ))}
                                 </div>
                             </div>
 
-                            {/* Amenities */}
-                            <div className="mb-8">
-                                <h4 className="font-heading text-lg font-semibold mb-4 text-white">
-                                    Included Amenities
-                                </h4>
-                                <div className="flex flex-wrap gap-2">
-                                    {['Free WiFi', 'Towels', 'Linens', 'Heating', 'Lockers', 'City Views'].map((amenity, idx) => (
+                            <div className="mt-6">
+                                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
+                                    Included Essentials
+                                </p>
+                                <div className="mt-3 flex flex-wrap gap-2.5">
+                                    {meta.amenities.map((amenity) => (
                                         <span
-                                            key={idx}
-                                            className="feature-badge"
+                                            key={amenity}
+                                            className="inline-flex items-center rounded-full border border-[#39ff14]/20 bg-[#39ff14]/8 px-3.5 py-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#39ff14]"
                                         >
-                                            ✓ {amenity}
+                                            {amenity}
                                         </span>
                                     ))}
                                 </div>
                             </div>
 
-                            {/* CTA */}
-                            <div className="flex flex-col sm:flex-row gap-4">
+                            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                                 <Link
                                     href={`/book?room=${room.id}`}
-                                    className="btn-primary flex-1 justify-center py-4 text-center shadow-[0_0_20px_rgba(0,245,255,0.3)] transition-all hover:shadow-[0_0_40px_rgba(0,245,255,0.5)]"
+                                    className="btn-primary flex-1 py-3.5 text-center text-sm"
                                 >
                                     Book This Stay
                                 </Link>
                                 <a
                                     href="tel:+381652288200"
-                                    className="btn-outline flex-1 justify-center py-4 text-center"
+                                    className="btn-outline flex flex-1 items-center justify-center gap-2 py-3.5 text-center text-sm"
                                 >
+                                    <Phone size={16} />
                                     Quick Call
                                 </a>
                             </div>
                         </div>
                     </div>
-                </motion.div>
+                </div>
             </motion.div>
-        </AnimatePresence>
+        </motion.div>
     );
 }
