@@ -2,6 +2,7 @@
 
 import { motion, useInView } from 'framer-motion';
 import {
+    Check,
     CircleHelp,
     MapPinned,
     ShieldCheck,
@@ -9,6 +10,7 @@ import {
     SunMedium,
     Ticket,
     TrainFront,
+    TriangleAlert,
     Tv2,
     type LucideIcon,
 } from 'lucide-react';
@@ -137,30 +139,31 @@ export default function About() {
                             <h2 className="text-3xl md:text-5xl font-bold mb-6 font-heading">
                                 Perfectly <span className="text-gradient">Centrally Located</span>
                             </h2>
-                            <p className="text-slate-300 text-lg leading-relaxed mb-6 md:mb-8">
+                            <p className="mb-6 text-base leading-relaxed text-slate-300 md:mb-8 md:text-lg">
                                 We are located in the center of the city, around a <span className="text-[#39ff14]">10-minute walk from Kalemegdan</span>, close to the River Sava, Branko&apos;s Bridge, and many more attractions.
                             </p>
 
-                            <ul className="space-y-3 mb-8">
+                            <ul className="mb-8 space-y-3">
                                 {[
                                     'Tourist attractions, markets, and clubs just around the corner',
                                     'About a 10-minute walk to Kalemegdan Fortress',
                                     'Hidden from street noise despite central location'
                                 ].map((item, i) => (
                                     <li key={i} className="flex items-start gap-3">
-                                        <div className="mt-1 min-w-[20px] h-[20px] rounded-full bg-[#39ff14]/20 flex items-center justify-center">
-                                            <span className="text-[#39ff14] text-xs">✓</span>
+                                        <div className="mt-1 flex h-[20px] min-w-[20px] items-center justify-center rounded-full bg-[#39ff14]/20">
+                                            <Check size={12} className="text-[#39ff14]" />
                                         </div>
                                         <span className="text-slate-300 text-sm">{item}</span>
                                     </li>
                                 ))}
                             </ul>
 
-                            <div className="glass-card p-5 border-l-4 border-[#ffff00] bg-[#ffff00]/5">
-                                <h3 className="text-lg font-bold text-white mb-2 flex items-center gap-2">
-                                    <span className="text-xl">⚠️</span> Important Note
+                            <div className="glass-card border-l-4 border-[#ffff00] bg-[#ffff00]/5 p-5">
+                                <h3 className="mb-2 flex items-center gap-2 text-lg font-bold text-white">
+                                    <TriangleAlert size={18} className="text-[#ffff00]" />
+                                    <span>Important Note</span>
                                 </h3>
-                                <p className="text-slate-300 text-sm leading-relaxed">
+                                <p className="text-sm leading-relaxed text-slate-300">
                                     We are located on the <strong>5th floor</strong> of a building with no elevator. However, we offer a huge beautiful terrace lounge where you can relax, enjoy coffee/tea, and take in the city view away from the noise.
                                 </p>
                             </div>
@@ -294,7 +297,7 @@ export default function About() {
                                 </div>
 
                                 <div className="mt-5 flex flex-1 flex-col">
-                                    <div className="group relative min-h-[280px] flex-1 overflow-hidden rounded-[1.45rem] border border-white/8 bg-[#08101f] p-2">
+                                    <div className="group relative min-h-[240px] flex-1 overflow-hidden rounded-[1.45rem] border border-white/8 bg-[#08101f] p-2 sm:min-h-[280px]">
                                         <div className="absolute inset-0 bg-[#39ff14]/10 opacity-0 transition-opacity duration-500 pointer-events-none z-20 group-hover:opacity-100" />
                                         <video
                                             autoPlay
@@ -308,16 +311,16 @@ export default function About() {
 
                                         <div className="absolute inset-0 rounded-[1.15rem] bg-[linear-gradient(180deg,rgba(5,8,22,0.06)_0%,rgba(5,8,22,0.22)_50%,rgba(5,8,22,0.84)_100%)]" />
 
-                                        <div className="absolute inset-x-5 bottom-5">
-                                            <div className="rounded-[1.35rem] border border-white/10 bg-[#08101f]/68 p-4 backdrop-blur-md">
+                                        <div className="absolute inset-x-3 bottom-3 sm:inset-x-5 sm:bottom-5">
+                                            <div className="rounded-[1.2rem] border border-white/10 bg-[#08101f]/68 p-3 backdrop-blur-md sm:rounded-[1.35rem] sm:p-4">
                                                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
                                                     Inside The Stay
                                                 </p>
-                                                <div className="mt-3 flex flex-wrap gap-2.5">
+                                                <div className="mt-3 flex flex-wrap gap-2">
                                                     {['Terrace scenes', 'Shared lounge', 'Real hostel atmosphere'].map((item) => (
                                                         <span
                                                             key={item}
-                                                            className="inline-flex rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-200"
+                                                            className="inline-flex rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-200 sm:px-3 sm:tracking-[0.16em]"
                                                         >
                                                             {item}
                                                         </span>

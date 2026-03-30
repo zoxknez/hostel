@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { differenceInDays, format } from 'date-fns';
-import { useBooking } from '@/lib/context/BookingContext';
 import type { ApiRoom } from '@/lib/types';
+import { differenceInDays, format } from 'date-fns';
+import { BedDouble, CalendarRange, Receipt, UserRound } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useBooking } from '@/lib/context/BookingContext';
 
 export default function BookingSummary() {
     const { checkIn, checkOut, roomId, guestName, guestEmail, numberOfGuests, specialRequests } = useBooking();
@@ -39,68 +40,92 @@ export default function BookingSummary() {
     const cityTaxTotal = nights * 1.35;
 
     return (
-        <div className="glass-card sticky top-32">
-            <h3 className="text-xl font-bold mb-6 text-white border-b border-white/10 pb-4">
-                Booking Summary
-            </h3>
+        <div className="overflow-hidden rounded-[1.8rem] border border-white/8 bg-[linear-gradient(135deg,rgba(16,24,51,0.95)_0%,rgba(9,15,34,0.92)_100%)] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.24)] md:p-6">
+            <div className="flex items-center gap-2 rounded-full border border-[#39ff14]/15 bg-[#39ff14]/8 px-3.5 py-2 w-fit">
+                <Receipt size={14} className="text-[#39ff14]" />
+                <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#39ff14]">
+                    Booking Summary
+                </span>
+            </div>
 
-            <div className="space-y-6">
-                <div>
-                    <span className="text-xs text-slate-500 uppercase tracking-widest block mb-2">Duration</span>
+            <div className="mt-6 space-y-5">
+                <div className="rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-4">
+                    <div className="flex items-center gap-2">
+                        <CalendarRange size={16} className="text-[#39ff14]" />
+                        <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+                            Duration
+                        </span>
+                    </div>
                     {checkIn && checkOut ? (
-                        <div className="flex items-center justify-between text-sm text-white">
-                            <span>{format(checkIn, 'MMM d')} - {format(checkOut, 'MMM d')}</span>
-                            <span className="bg-[#39ff14]/10 text-[#39ff14] px-2 py-0.5 rounded border border-[#39ff14]/20">
+                        <div className="mt-3 flex items-center justify-between gap-4 text-sm">
+                            <span className="text-white">
+                                {format(checkIn, 'MMM d')} - {format(checkOut, 'MMM d')}
+                            </span>
+                            <span className="rounded-full border border-[#39ff14]/20 bg-[#39ff14]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.16em] text-[#39ff14]">
                                 {nights} {nights === 1 ? 'night' : 'nights'}
                             </span>
                         </div>
                     ) : (
-                        <p className="text-sm text-slate-500 italic">No dates selected</p>
+                        <p className="mt-3 text-sm italic text-slate-500">No dates selected</p>
                     )}
                 </div>
 
-                <div>
-                    <span className="text-xs text-slate-500 uppercase tracking-widest block mb-2">Room</span>
+                <div className="rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-4">
+                    <div className="flex items-center gap-2">
+                        <BedDouble size={16} className="text-[#39ff14]" />
+                        <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+                            Room
+                        </span>
+                    </div>
                     {selectedRoom ? (
-                        <div className="text-sm text-white">
-                            <p className="font-bold">{selectedRoom.name}</p>
-                            <p className="text-slate-400">EUR {selectedRoom.pricePerNight} per night</p>
+                        <div className="mt-3">
+                            <p className="font-semibold text-white">{selectedRoom.name}</p>
+                            <p className="mt-1 text-sm text-slate-400">EUR {selectedRoom.pricePerNight} per night</p>
                         </div>
                     ) : (
-                        <p className="text-sm text-slate-500 italic">No room selected</p>
+                        <p className="mt-3 text-sm italic text-slate-500">No room selected</p>
                     )}
                 </div>
 
                 {guestName && (
-                    <div>
-                        <span className="text-xs text-slate-500 uppercase tracking-widest block mb-2">Guest</span>
-                        <div className="text-sm text-white">
-                            <p className="font-bold">{guestName}</p>
-                            <p className="text-slate-400 text-[10px] break-all">{guestEmail}</p>
-                            <p className="text-slate-400 text-[10px]">{numberOfGuests} {numberOfGuests === 1 ? 'guest' : 'guests'}</p>
+                    <div className="rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-4">
+                        <div className="flex items-center gap-2">
+                            <UserRound size={16} className="text-[#39ff14]" />
+                            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+                                Guest
+                            </span>
+                        </div>
+                        <div className="mt-3 space-y-1 text-sm text-slate-300">
+                            <p className="font-semibold text-white">{guestName}</p>
+                            <p className="break-all">{guestEmail}</p>
+                            <p>{numberOfGuests} {numberOfGuests === 1 ? 'guest' : 'guests'}</p>
                         </div>
                     </div>
                 )}
 
                 {specialRequests && (
-                    <div>
-                        <span className="text-xs text-slate-500 uppercase tracking-widest block mb-2">Requests</span>
-                        <p className="text-sm text-slate-400 italic line-clamp-3">{specialRequests}</p>
+                    <div className="rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-4">
+                        <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+                            Requests
+                        </span>
+                        <p className="mt-3 text-sm italic leading-6 text-slate-300">{specialRequests}</p>
                     </div>
                 )}
 
-                <div className="pt-6 border-t border-white/10">
-                    <div className="flex justify-between items-center mb-1">
-                        <span className="text-slate-400 text-sm">Accommodation</span>
-                        <span className="text-white font-medium">EUR {total.toFixed(2)}</span>
+                <div className="rounded-[1.5rem] border border-[#39ff14]/18 bg-[#39ff14]/8 p-4">
+                    <div className="flex items-center justify-between text-sm text-slate-300">
+                        <span>Accommodation</span>
+                        <span className="font-medium text-white">EUR {total.toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between items-center mb-4">
-                        <span className="text-slate-400 text-sm">City Tax (estimated)</span>
-                        <span className="text-white font-medium">EUR {cityTaxTotal.toFixed(2)}</span>
+                    <div className="mt-2 flex items-center justify-between text-sm text-slate-300">
+                        <span>City Tax (estimated)</span>
+                        <span className="font-medium text-white">EUR {cityTaxTotal.toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between items-center bg-[#39ff14]/10 p-4 rounded-xl border border-[#39ff14]/20">
-                        <span className="text-white font-bold">Total</span>
-                        <span className="text-[#39ff14] text-2xl font-black">EUR {(total + cityTaxTotal).toFixed(2)}</span>
+                    <div className="mt-4 flex items-center justify-between border-t border-[#39ff14]/18 pt-4">
+                        <span className="font-semibold text-white">Total</span>
+                        <span className="text-2xl font-black text-[#39ff14]">
+                            EUR {(total + cityTaxTotal).toFixed(2)}
+                        </span>
                     </div>
                 </div>
             </div>

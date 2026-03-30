@@ -1,10 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Menu, Phone, Sparkles, X } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react';
+
+const navLinks = [
+    { id: 'home', label: 'Home' },
+    { id: 'features', label: 'Features' },
+    { id: 'rooms', label: 'Rooms' },
+    { id: 'gallery', label: 'Gallery' },
+    { id: 'about', label: 'About Us' },
+    { id: 'location', label: 'Location' },
+];
 
 export default function Navigation() {
     const pathname = usePathname();
@@ -19,25 +29,20 @@ export default function Navigation() {
         const handleScroll = () => {
             const currentScrollY = window.scrollY;
 
-            setIsScrolled(currentScrollY > 100);
-
-            if (currentScrollY > lastScrollY && currentScrollY > 200) {
-                setIsHidden(true);
-            } else {
-                setIsHidden(false);
-            }
-
+            setIsScrolled(currentScrollY > 72);
+            setIsHidden(currentScrollY > lastScrollY && currentScrollY > 220);
             setLastScrollY(currentScrollY);
 
-            const sections = ['home', 'features', 'rooms', 'gallery', 'about', 'location'];
-            for (const section of sections) {
+            for (const section of navLinks.map((link) => link.id)) {
                 const element = document.getElementById(section);
-                if (element) {
-                    const rect = element.getBoundingClientRect();
-                    if (rect.top <= 150 && rect.bottom >= 150) {
-                        setActiveSection(section);
-                        break;
-                    }
+                if (!element) {
+                    continue;
+                }
+
+                const rect = element.getBoundingClientRect();
+                if (rect.top <= 150 && rect.bottom >= 150) {
+                    setActiveSection(section);
+                    break;
                 }
             }
         };
@@ -46,19 +51,24 @@ export default function Navigation() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [lastScrollY]);
 
+    const closeMobileMenu = () => {
+        setIsMobileMenuOpen(false);
+    };
+
     const scrollToSection = (sectionId: string) => {
         if (pathname !== '/') {
             router.push(`/#${sectionId}`);
-            setIsMobileMenuOpen(false);
+            closeMobileMenu();
             return;
         }
 
         const element = document.getElementById(sectionId);
         if (element) {
-            const offsetTop = element.offsetTop - 80;
+            const offsetTop = element.offsetTop - 92;
             window.scrollTo({ top: offsetTop, behavior: 'smooth' });
         }
-        setIsMobileMenuOpen(false);
+
+        closeMobileMenu();
     };
 
     const handleLogoClick = () => {
@@ -66,97 +76,78 @@ export default function Navigation() {
             scrollToSection('home');
         } else {
             router.push('/');
+            closeMobileMenu();
         }
     };
-
-    const navLinks = [
-        { id: 'home', label: 'Home' },
-        { id: 'features', label: 'Features' },
-        { id: 'rooms', label: 'Rooms' },
-        { id: 'gallery', label: 'Gallery' },
-        { id: 'about', label: 'About Us' },
-        { id: 'location', label: 'Location' },
-    ];
 
     return (
         <>
             <motion.nav
                 initial={{ y: 0 }}
-                animate={{ y: isHidden ? -100 : 0 }}
-                transition={{ duration: 0.3 }}
-                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
-                    ? 'py-3'
-                    : 'py-5'
-                    }`}
-                style={{
-                    background: isScrolled
-                        ? 'rgba(5, 8, 22, 0.85)'
-                        : 'rgba(5, 8, 22, 0.3)',
-                    backdropFilter: 'blur(20px) saturate(180%)',
-                    WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-                    borderBottom: isScrolled
-                        ? '1px solid rgba(57, 255, 20, 0.1)'
-                        : '1px solid transparent',
-                    boxShadow: isScrolled
-                        ? '0 10px 40px rgba(0, 0, 0, 0.3), 0 0 60px rgba(57, 255, 20, 0.05)'
-                        : 'none'
-                }}
+                animate={{ y: isHidden ? -120 : 0 }}
+                transition={{ duration: 0.28, ease: 'easeOut' }}
+                className="fixed inset-x-0 top-0 z-50 px-4 pt-4 md:px-6 md:pt-5"
             >
-                <div className="max-w-7xl mx-auto px-6 md:px-8">
-                    <div className="flex justify-between items-center">
-                        {/* Logo */}
+                <div
+                    className={`mx-auto max-w-7xl rounded-[1.6rem] border px-4 py-3 transition-all duration-500 md:px-6 ${
+                        isScrolled
+                            ? 'border-white/10 bg-[rgba(5,8,22,0.84)] shadow-[0_18px_60px_rgba(0,0,0,0.28)] backdrop-blur-xl'
+                            : 'border-white/8 bg-[rgba(5,8,22,0.48)] backdrop-blur-lg'
+                    }`}
+                >
+                    <div className="flex items-center justify-between gap-4">
                         <button
+                            type="button"
                             onClick={handleLogoClick}
-                            className="flex items-center gap-2 group"
+                            className="flex items-center gap-3"
                         >
                             <Image
                                 src="/logo.png"
                                 alt="Downtown Inn"
-                                width={40}
-                                height={40}
-                                className="w-10 h-10 rounded-xl shadow-[0_0_20px_rgba(57,255,20,0.3)] object-cover transition-all duration-300 group-hover:scale-110"
+                                width={44}
+                                height={44}
+                                className="h-11 w-11 rounded-2xl border border-white/10 object-cover shadow-[0_0_24px_rgba(57,255,20,0.22)]"
                             />
-                            <span className="font-heading text-xl font-bold hidden sm:block">
-                                <span className="text-white">Downtown</span>
-                                <span className="text-gradient"> Inn</span>
-                            </span>
+                            <div className="hidden min-w-0 sm:block">
+                                <p className="font-heading text-lg font-bold leading-none text-white md:text-xl">
+                                    Downtown <span className="text-gradient">Inn</span>
+                                </p>
+                                <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
+                                    Belgrade Stay
+                                </p>
+                            </div>
                         </button>
 
-                        {/* Desktop Menu */}
-                        <ul className="hidden md:flex gap-1 items-center">
+                        <div className="hidden items-center gap-2 md:flex">
                             {navLinks.map((link) => (
-                                <li key={link.id}>
-                                    <button
-                                        onClick={() => scrollToSection(link.id)}
-                                        className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-full ${activeSection === link.id
+                                <button
+                                    key={link.id}
+                                    type="button"
+                                    onClick={() => scrollToSection(link.id)}
+                                    className={`relative rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                                        activeSection === link.id
                                             ? 'text-white'
                                             : 'text-slate-400 hover:text-white'
-                                            }`}
-                                    >
-                                        {activeSection === link.id && (
-                                            <motion.div
-                                                layoutId="activeNav"
-                                                className="absolute inset-0 rounded-full"
-                                                style={{
-                                                    background: 'rgba(57, 255, 20, 0.1)',
-                                                    border: '1px solid rgba(57, 255, 20, 0.3)'
-                                                }}
-                                                transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                                            />
-                                        )}
-                                        <span className="relative z-10">{link.label}</span>
-                                    </button>
-                                </li>
+                                    }`}
+                                >
+                                    {activeSection === link.id && (
+                                        <motion.div
+                                            layoutId="active-nav-link"
+                                            className="absolute inset-0 rounded-full border border-[#39ff14]/20 bg-[#39ff14]/10"
+                                            transition={{ type: 'spring', stiffness: 420, damping: 30 }}
+                                        />
+                                    )}
+                                    <span className="relative z-10">{link.label}</span>
+                                </button>
                             ))}
-                        </ul>
+                        </div>
 
-                        {/* Contact Info */}
-                        <div className="hidden lg:flex items-center gap-4">
+                        <div className="hidden items-center gap-3 lg:flex">
                             <a
                                 href="tel:+381652288200"
-                                className="flex items-center gap-2 text-slate-400 text-sm hover:text-[#39ff14] transition-colors"
+                                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-4 py-2 text-sm font-medium text-slate-300 transition-colors hover:text-white"
                             >
-                                <span className="text-lg">📞</span>
+                                <Phone size={15} className="text-[#39ff14]" />
                                 <span>+381 65 228 8200</span>
                             </a>
                             <Link href="/book" className="btn-primary px-6 py-2.5 text-sm">
@@ -164,94 +155,79 @@ export default function Navigation() {
                             </Link>
                         </div>
 
-                        {/* Mobile Menu Toggle */}
                         <button
-                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                            className="md:hidden w-10 h-10 flex flex-col justify-center items-center gap-1.5 rounded-xl transition-colors"
-                            style={{
-                                background: isMobileMenuOpen ? 'rgba(57, 255, 20, 0.1)' : 'transparent'
-                            }}
+                            type="button"
+                            onClick={() => setIsMobileMenuOpen((open) => !open)}
+                            className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.035] text-white transition-colors hover:border-[#39ff14]/30 md:hidden"
+                            aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
                         >
-                            <motion.span
-                                animate={{
-                                    rotate: isMobileMenuOpen ? 45 : 0,
-                                    y: isMobileMenuOpen ? 6 : 0
-                                }}
-                                className="w-5 h-0.5 bg-white rounded-full"
-                            />
-                            <motion.span
-                                animate={{ opacity: isMobileMenuOpen ? 0 : 1 }}
-                                className="w-5 h-0.5 bg-white rounded-full"
-                            />
-                            <motion.span
-                                animate={{
-                                    rotate: isMobileMenuOpen ? -45 : 0,
-                                    y: isMobileMenuOpen ? -6 : 0
-                                }}
-                                className="w-5 h-0.5 bg-white rounded-full"
-                            />
+                            {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
                         </button>
                     </div>
                 </div>
             </motion.nav>
 
-            {/* Mobile Menu */}
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <>
-                        {/* Backdrop */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            onClick={() => setIsMobileMenuOpen(false)}
-                            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+                            className="fixed inset-0 z-40 bg-[rgba(5,8,22,0.72)] backdrop-blur-md md:hidden"
+                            onClick={closeMobileMenu}
                         />
 
-                        {/* Menu Panel */}
                         <motion.div
-                            initial={{ x: '100%' }}
-                            animate={{ x: 0 }}
-                            exit={{ x: '100%' }}
-                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                            className="fixed top-0 right-0 w-80 h-full z-50 md:hidden"
-                            style={{
-                                background: 'linear-gradient(180deg, rgba(5, 8, 22, 0.98) 0%, rgba(12, 20, 40, 0.98) 100%)',
-                                backdropFilter: 'blur(40px)',
-                                borderLeft: '1px solid rgba(57, 255, 20, 0.1)'
-                            }}
+                            initial={{ opacity: 0, y: -16 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -16 }}
+                            transition={{ duration: 0.22, ease: 'easeOut' }}
+                            className="fixed inset-x-4 top-[5.5rem] z-50 rounded-[1.8rem] border border-white/10 bg-[linear-gradient(180deg,rgba(5,8,22,0.98)_0%,rgba(12,20,40,0.98)_100%)] p-5 shadow-[0_30px_80px_rgba(0,0,0,0.35)] md:hidden"
                         >
-                            <div className="flex flex-col h-full p-8 pt-24">
-                                <nav className="flex flex-col gap-2">
-                                    {navLinks.map((link, index) => (
-                                        <motion.button
-                                            key={link.id}
-                                            initial={{ opacity: 0, x: 20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: index * 0.1 }}
-                                            onClick={() => scrollToSection(link.id)}
-                                            className={`text-left px-4 py-3 rounded-xl text-lg font-medium transition-all ${activeSection === link.id
-                                                ? 'text-white bg-[#39ff14]/10'
-                                                : 'text-slate-400 hover:text-white hover:bg-white/5'
-                                                }`}
-                                        >
-                                            {link.label}
-                                        </motion.button>
-                                    ))}
-                                </nav>
-
-                                <div className="mt-auto pt-8 border-t border-white/10">
-                                    <a
-                                        href="tel:+381652288200"
-                                        className="flex items-center gap-3 text-slate-400 mb-4 hover:text-[#39ff14] transition-colors"
-                                    >
-                                        <span className="text-xl">📞</span>
-                                        <span>+381 65 228 8200</span>
-                                    </a>
-                                    <Link href="/book" className="btn-primary w-full justify-center py-3">
-                                        Book Now
-                                    </Link>
+                            <div className="rounded-[1.3rem] border border-white/8 bg-white/[0.03] p-4">
+                                <div className="flex items-center gap-2">
+                                    <Sparkles size={14} className="text-[#39ff14]" />
+                                    <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#39ff14]">
+                                        Explore Hostel Downtown Inn
+                                    </span>
                                 </div>
+                                <div className="mt-4 flex flex-col gap-2">
+                                    {navLinks.map((link) => (
+                                        <button
+                                            key={link.id}
+                                            type="button"
+                                            onClick={() => scrollToSection(link.id)}
+                                            className={`flex items-center justify-between rounded-2xl px-4 py-3 text-left text-sm font-medium transition-colors ${
+                                                activeSection === link.id
+                                                    ? 'bg-[#39ff14]/10 text-white'
+                                                    : 'bg-white/[0.02] text-slate-300 hover:bg-white/[0.05] hover:text-white'
+                                            }`}
+                                        >
+                                            <span>{link.label}</span>
+                                            <span className="text-[10px] uppercase tracking-[0.18em] text-slate-500">
+                                                Open
+                                            </span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                                <a
+                                    href="tel:+381652288200"
+                                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-4 py-3 text-sm font-medium text-slate-300"
+                                >
+                                    <Phone size={15} className="text-[#39ff14]" />
+                                    <span>Call Hostel</span>
+                                </a>
+                                <Link
+                                    href="/book"
+                                    onClick={closeMobileMenu}
+                                    className="btn-primary justify-center py-3 text-sm"
+                                >
+                                    Book Now
+                                </Link>
                             </div>
                         </motion.div>
                     </>

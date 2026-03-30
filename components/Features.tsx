@@ -136,7 +136,7 @@ export default function Features() {
                         presented in a cleaner and more balanced way for the web layout.
                     </p>
 
-                    <div className="mt-8 grid gap-3 md:grid-cols-3">
+                    <div className="mt-8 grid gap-3 sm:grid-cols-2 md:grid-cols-3">
                         {sectionHighlights.map((item) => (
                             <div
                                 key={item.label}
@@ -179,7 +179,7 @@ export default function Features() {
                                         </div>
                                     </div>
 
-                                    <h3 className="mt-8 font-heading text-2xl font-bold text-white group-hover:text-gradient transition-all duration-300">
+                                    <h3 className="mt-7 font-heading text-xl font-bold text-white group-hover:text-gradient transition-all duration-300 md:mt-8 md:text-2xl">
                                         {feature.title}
                                     </h3>
                                     <p className="mt-3 text-sm md:text-[15px] leading-7 text-slate-400">

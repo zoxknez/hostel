@@ -73,7 +73,7 @@ const infoCards: Array<{
         label: 'Walkability',
     },
     {
-        title: 'City Tax: €1.35/night',
+        title: 'City Tax: EUR 1.35/night',
         description: 'Paid in cash on arrival',
         icon: WalletCards,
         accent: 'text-emerald-300',
@@ -181,7 +181,7 @@ export default function Rooms() {
                                                 </div>
                                             </div>
 
-                                            <p className="mt-4 text-sm leading-7 text-slate-300 min-h-[3.5rem]">
+                                            <p className="mt-4 text-sm leading-7 text-slate-300 sm:min-h-[3.5rem]">
                                                 {meta.note}
                                             </p>
 
@@ -196,7 +196,7 @@ export default function Rooms() {
                                                 ))}
                                             </div>
 
-                                            <div className="mt-7 flex gap-3">
+                                            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
                                                 <button
                                                     onClick={(e) => {
                                                         e.stopPropagation();
@@ -269,7 +269,7 @@ export default function Rooms() {
                                             <div className={`absolute inset-0 bg-gradient-to-br ${item.glow} pointer-events-none`} />
 
                                             <div className="relative z-10">
-                                                <div className="flex items-start justify-between gap-4">
+                                                <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-start sm:justify-between">
                                                     <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-[#08101f]/85 ${item.accent}`}>
                                                         <Icon size={20} strokeWidth={2.2} />
                                                     </div>

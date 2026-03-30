@@ -62,7 +62,7 @@ export default function ImageGallery({ images, initialIndex = 0, onClose }: Imag
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[1000] flex items-center justify-center bg-[rgba(5,8,22,0.9)] px-4 py-5 backdrop-blur-xl md:px-8"
+            className="fixed inset-0 z-[1000] flex items-start justify-center overflow-y-auto bg-[rgba(5,8,22,0.9)] px-3 py-3 backdrop-blur-xl md:px-8 md:py-5 md:items-center"
             onClick={onClose}
         >
             <motion.div
@@ -74,7 +74,7 @@ export default function ImageGallery({ images, initialIndex = 0, onClose }: Imag
                 role="dialog"
                 aria-modal="true"
                 aria-label="Photo gallery"
-                className="relative w-full max-w-6xl overflow-hidden rounded-[2rem] border border-white/8 bg-[linear-gradient(135deg,rgba(16,24,51,0.97)_0%,rgba(9,14,34,0.95)_100%)] shadow-[0_40px_120px_rgba(0,0,0,0.45)] md:max-h-[calc(100vh-2.5rem)]"
+                className="relative w-full max-w-6xl overflow-hidden rounded-[1.5rem] border border-white/8 bg-[linear-gradient(135deg,rgba(16,24,51,0.97)_0%,rgba(9,14,34,0.95)_100%)] shadow-[0_40px_120px_rgba(0,0,0,0.45)] md:max-h-[calc(100vh-2.5rem)] md:rounded-[2rem]"
             >
                 <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#39ff14]/35 to-transparent pointer-events-none" />
                 <div className="absolute right-0 top-0 h-64 w-64 rounded-full bg-[#39ff14]/6 blur-[120px] pointer-events-none" />
@@ -83,12 +83,12 @@ export default function ImageGallery({ images, initialIndex = 0, onClose }: Imag
                     type="button"
                     onClick={onClose}
                     aria-label="Close gallery"
-                    className="absolute right-4 top-4 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-white/10 bg-[#07101f]/85 text-slate-200 transition-all hover:scale-105 hover:border-[#39ff14]/30 hover:text-white"
+                    className="absolute right-3 top-3 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#07101f]/85 text-slate-200 transition-all hover:scale-105 hover:border-[#39ff14]/30 hover:text-white md:right-4 md:top-4 md:h-11 md:w-11"
                 >
                     <X size={18} />
                 </button>
 
-                <div className="flex flex-col p-4 md:p-6 lg:p-7">
+                <div className="flex flex-col p-3.5 sm:p-4 md:p-6 lg:p-7">
                     <div className="flex flex-col gap-4 border-b border-white/8 pb-5 md:flex-row md:items-end md:justify-between">
                         <div>
                             <div className="inline-flex items-center gap-2 rounded-full border border-[#39ff14]/15 bg-[#39ff14]/8 px-3.5 py-2">
@@ -98,7 +98,7 @@ export default function ImageGallery({ images, initialIndex = 0, onClose }: Imag
                                 </span>
                             </div>
 
-                            <h3 className="mt-4 font-heading text-3xl font-bold text-white md:text-4xl">
+                            <h3 className="mt-4 font-heading text-2xl font-bold text-white sm:text-3xl md:text-4xl">
                                 <span className="text-gradient">{currentImage.title}</span>
                             </h3>
                             <p className="mt-2 max-w-2xl text-sm leading-relaxed text-slate-300 md:text-[15px]">
@@ -129,8 +129,8 @@ export default function ImageGallery({ images, initialIndex = 0, onClose }: Imag
                             <ArrowLeft size={18} />
                         </button>
 
-                        <div className="relative overflow-hidden rounded-[1.6rem] border border-white/8 bg-[#08101f]">
-                            <div className="relative aspect-[16/10] max-h-[68vh] min-h-[260px]">
+                        <div className="relative overflow-hidden rounded-[1.35rem] border border-white/8 bg-[#08101f] sm:rounded-[1.6rem]">
+                            <div className="relative aspect-[4/3] min-h-[220px] max-h-[52vh] sm:aspect-[16/10] sm:min-h-[260px] sm:max-h-[60vh] md:max-h-[68vh]">
                                 <Image
                                     key={currentImage.src}
                                     src={currentImage.src}
@@ -171,14 +171,14 @@ export default function ImageGallery({ images, initialIndex = 0, onClose }: Imag
                         </button>
                     </div>
 
-                    <div className="mt-5 flex gap-3 overflow-x-auto pb-1">
+                    <div className="mt-5 flex gap-2 overflow-x-auto pb-1 sm:gap-3">
                         {images.map((image, index) => (
                             <button
                                 key={image.src}
                                 type="button"
                                 onClick={() => setCurrentIndex(index)}
                                 aria-label={`Show image ${index + 1}`}
-                                className={`group relative h-16 w-20 shrink-0 overflow-hidden rounded-xl border transition-all md:h-20 md:w-28 ${
+                                className={`group relative h-14 w-[4.5rem] shrink-0 overflow-hidden rounded-xl border transition-all sm:h-16 sm:w-20 md:h-20 md:w-28 ${
                                     index === currentIndex
                                         ? 'border-[#39ff14] shadow-[0_0_0_1px_rgba(57,255,20,0.4)]'
                                         : 'border-white/10 opacity-70 hover:opacity-100'
