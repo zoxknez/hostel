@@ -1,16 +1,15 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { roomsData } from '@/lib/data';
-import RoomModal from './RoomModal';
-import type { Room } from '@/lib/data';
 import Image from 'next/image';
+import { roomsData } from '@/lib/data';
+import type { Room } from '@/lib/data';
+import RoomModal from './RoomModal';
 
 export default function Rooms() {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
+    const isInView = useInView(ref, { once: true, margin: '-100px' });
     const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
 
     return (
@@ -22,7 +21,6 @@ export default function Rooms() {
                     background: 'linear-gradient(180deg, #050816 0%, #0c1428 50%, #050816 100%)'
                 }}
             >
-                {/* Decorative Orb */}
                 <div
                     className="absolute top-1/2 left-0 w-96 h-96 rounded-full opacity-20 pointer-events-none"
                     style={{
@@ -40,7 +38,6 @@ export default function Rooms() {
                         transition={{ duration: 0.8 }}
                         className="text-center mb-20"
                     >
-                        {/* Section Badge */}
                         <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full border border-[#39ff14]/30 bg-[#39ff14]/10">
                             <span className="text-[#39ff14] text-sm font-semibold tracking-wide uppercase">
                                 Accommodations
@@ -65,7 +62,6 @@ export default function Rooms() {
                                 className="glass-card overflow-hidden p-0 cursor-pointer group"
                                 onClick={() => setSelectedRoom(room)}
                             >
-                                {/* Image Container */}
                                 <div className="relative h-64 w-full overflow-hidden">
                                     <Image
                                         src={room.images[0]}
@@ -73,20 +69,17 @@ export default function Rooms() {
                                         fill
                                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                                     />
-                                    {/* Gradient Overlay */}
                                     <div
                                         className="absolute inset-0"
                                         style={{
                                             background: 'linear-gradient(180deg, transparent 0%, transparent 40%, rgba(5, 8, 22, 0.95) 100%)'
                                         }}
                                     />
-                                    {/* View Badge */}
                                     <div className="absolute top-4 right-4 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-xs text-white font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                         View Details →
                                     </div>
                                 </div>
 
-                                {/* Content */}
                                 <div className="p-6">
                                     <h3 className="font-heading text-xl font-bold mb-2 group-hover:text-gradient transition-all duration-300">
                                         {room.title}
@@ -95,7 +88,6 @@ export default function Rooms() {
                                         {room.subtitle}
                                     </p>
 
-                                    {/* Features */}
                                     <div className="flex flex-wrap gap-2 mb-6">
                                         {room.features.slice(0, 3).map((feature, idx) => (
                                             <span
@@ -107,7 +99,6 @@ export default function Rooms() {
                                         ))}
                                     </div>
 
-                                    {/* Buttons */}
                                     <div className="flex gap-3">
                                         <button
                                             onClick={(e) => {
@@ -131,14 +122,12 @@ export default function Rooms() {
                         ))}
                     </div>
 
-                    {/* Important Information */}
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.8, delay: 0.4 }}
                         className="glass-card max-w-4xl mx-auto relative overflow-hidden"
                     >
-                        {/* Decorative corner */}
                         <div
                             className="absolute top-0 right-0 w-32 h-32 opacity-20 pointer-events-none"
                             style={{
@@ -165,7 +154,7 @@ export default function Rooms() {
                                 <span className="text-xl">🏙️</span>
                                 <div>
                                     <p className="font-medium text-white">Savamala District</p>
-                                    <p className="text-sm text-slate-400">Belgrade's bohemian quarter</p>
+                                    <p className="text-sm text-slate-400">Belgrade&apos;s bohemian quarter</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-3 p-4 rounded-xl bg-white/5">
@@ -183,16 +172,10 @@ export default function Rooms() {
                                 </div>
                             </div>
                         </div>
-
-                        <div className="mt-6 pt-6 border-t border-white/10 flex items-center justify-center gap-3">
-                            <span className="text-2xl">🕐</span>
-                            <span className="text-lg font-bold text-white">24/7 Reception</span>
-                        </div>
                     </motion.div>
                 </div>
             </section>
 
-            {/* Room Modal */}
             {selectedRoom && (
                 <RoomModal room={selectedRoom} onClose={() => setSelectedRoom(null)} />
             )}

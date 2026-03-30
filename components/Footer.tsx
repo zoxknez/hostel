@@ -25,7 +25,6 @@ export default function Footer() {
                 background: 'linear-gradient(180deg, #050816 0%, #030510 100%)'
             }}
         >
-            {/* Top Border Gradient */}
             <div
                 className="absolute top-0 left-0 right-0 h-px"
                 style={{
@@ -33,7 +32,6 @@ export default function Footer() {
                 }}
             />
 
-            {/* Background Glow */}
             <div
                 className="absolute bottom-0 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full opacity-10 pointer-events-none"
                 style={{
@@ -44,7 +42,6 @@ export default function Footer() {
 
             <div className="max-w-7xl mx-auto relative z-10">
                 <div className="grid md:grid-cols-4 gap-12 mb-16">
-                    {/* Brand */}
                     <div className="md:col-span-2">
                         <div className="flex items-center gap-3 mb-6">
                             <div
@@ -63,7 +60,7 @@ export default function Footer() {
                         </div>
                         <p className="text-slate-400 leading-relaxed max-w-md mb-6">
                             Experience Belgrade like never before. Premium comfort meets unbeatable location
-                            with stunning panoramic views of Kalemegdan Fortress and the confluence of Sava and Danube rivers.
+                            with stunning panoramic views of the city and the confluence of the Sava and Danube rivers.
                         </p>
                         <div className="flex gap-3">
                             {socialLinks.map((social, index) => (
@@ -85,7 +82,6 @@ export default function Footer() {
                         </div>
                     </div>
 
-                    {/* Quick Links */}
                     <div>
                         <h4 className="font-heading text-lg font-bold mb-6 text-white">
                             Quick Links
@@ -105,7 +101,6 @@ export default function Footer() {
                         </ul>
                     </div>
 
-                    {/* Contact */}
                     <div>
                         <h4 className="font-heading text-lg font-bold mb-6 text-white">
                             Contact
@@ -113,7 +108,7 @@ export default function Footer() {
                         <ul className="space-y-4 text-slate-400">
                             <li className="flex items-start gap-3">
                                 <span className="text-lg">📍</span>
-                                <span>Karađorđeva 69<br />11000 Belgrade, Serbia</span>
+                                <span>Koče Popovića 6<br />11000 Belgrade, Serbia</span>
                             </li>
                             <li>
                                 <a
@@ -137,7 +132,6 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Bottom Bar */}
                 <div
                     className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 text-sm"
                     style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}

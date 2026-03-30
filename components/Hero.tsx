@@ -33,16 +33,12 @@ export default function Hero() {
                 }}
             />
 
-
-
-            {/* Content */}
             <motion.div
                 initial={{ opacity: 0, y: 60 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className="text-center z-10 max-w-5xl px-6 md:px-12"
             >
-                {/* Badge */}
                 <motion.div
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -55,14 +51,12 @@ export default function Hero() {
                     </span>
                 </motion.div>
 
-                {/* Main Heading */}
                 <h1 className="section-title text-4xl sm:text-6xl md:text-7xl lg:text-8xl mb-8">
                     <span className="text-white">Welcome to</span>
                     <br />
                     <span className="text-gradient">Downtown Inn</span>
                 </h1>
 
-                {/* Subtitle */}
                 <motion.p
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -72,10 +66,9 @@ export default function Hero() {
                 >
                     Experience Belgrade like never before. Premium comfort meets
                     <span className="text-white font-medium"> unbeatable location </span>
-                    with stunning panoramic views of Kalemegdan Fortress.
+                    with stunning panoramic city views.
                 </motion.p>
 
-                {/* CTA Buttons */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -95,7 +88,6 @@ export default function Hero() {
                     </a>
                 </motion.div>
 
-                {/* Trust Indicators */}
                 <motion.div
                     animate={{ opacity: 1 }}
                     transition={{ duration: 1, delay: 1 }}
@@ -104,7 +96,7 @@ export default function Hero() {
                     {[
                         { value: '4.8★', label: 'TripAdvisor Rating' },
                         { value: '10K+', label: 'Happy Guests' },
-                        { value: '24/7', label: 'Reception' },
+                        { value: 'City', label: 'Views' },
                     ].map((stat, index) => (
                         <div key={index} className="text-center">
                             <div className="text-2xl md:text-3xl font-bold text-gradient-gold">
@@ -118,7 +110,6 @@ export default function Hero() {
                 </motion.div>
             </motion.div>
 
-            {/* Scroll Indicator */}
             <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -129,7 +120,7 @@ export default function Hero() {
                     <span className="text-xs uppercase tracking-widest text-slate-500">Scroll</span>
                     <motion.div
                         animate={{ y: [0, 8, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
                         className="w-6 h-10 rounded-full border-2 border-slate-600 flex items-start justify-center p-1"
                     >
                         <div className="w-1.5 h-3 rounded-full bg-[#39ff14]" />

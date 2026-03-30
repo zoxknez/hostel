@@ -23,7 +23,7 @@ export const roomsData: Room[] = [
         details: [
             'We are on the 5th level in the building without elevator but we are clean, cheap, located in center (middle of bohemian quarter Savamala and 10 min walking distance from the pedestrian zone Knez Mihailova Street).',
             'Upon arrival every guest pays €1.35 per night for city tax in cash.',
-            '24/7 reception'
+            'Terrace lounge with city views'
         ],
         features: [
             { icon: '🛏️', title: 'Double Bed', desc: 'Comfortable mattress' },
@@ -47,7 +47,7 @@ export const roomsData: Room[] = [
         details: [
             'We are on the 5th level in the building without elevator but we are clean, cheap, located in center (middle of bohemian quarter Savamala and 10 min walking distance from the pedestrian zone Knez Mihailova Street).',
             'Upon arrival every guest pays €1.35 per night for city tax in cash.',
-            '24/7 reception'
+            'Terrace lounge with city views'
         ],
         features: [
             { icon: '👥', title: '4 Beds', desc: '2 bunk beds' },
@@ -76,7 +76,7 @@ export const roomsData: Room[] = [
         details: [
             'We are on the 5th level in the building without elevator but we are clean, cheap, located in center (middle of bohemian quarter Savamala and 10 min walking distance from the pedestrian zone Knez Mihailova Street).',
             'Upon arrival every guest pays €1.35 per night for city tax in cash.',
-            '24/7 reception'
+            'Terrace lounge with city views'
         ],
         features: [
             { icon: '👥', title: '6 Beds', desc: '3 bunk beds' },

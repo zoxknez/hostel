@@ -1,15 +1,15 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 
 export default function Location() {
     const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, margin: "-100px" });
+    const isInView = useInView(ref, { once: true, margin: '-100px' });
+    const mapSrc = 'https://maps.google.com/maps?ll=44.812727,20.454593&q=44.812727,20.454593+(Hostel%20Downtown%20Inn)&t=&z=18&ie=UTF8&iwloc=B&output=embed';
 
     const nearbyPlaces = [
-        { icon: '🏰', name: 'Kalemegdan Fortress', distance: '5 min walk' },
+        { icon: '🏰', name: 'Kalemegdan Fortress', distance: '10 min walk' },
         { icon: '🌉', name: "Branko's Bridge", distance: '3 min walk' },
         { icon: '🚶', name: 'Knez Mihailova', distance: '10 min walk' },
         { icon: '🎭', name: 'Republic Square', distance: '12 min walk' },
@@ -17,7 +17,6 @@ export default function Location() {
 
     return (
         <section id="location" className="relative py-32 px-6 md:px-8 overflow-hidden">
-            {/* Background Decoration */}
             <div
                 className="absolute top-1/2 left-0 w-96 h-96 rounded-full opacity-15 pointer-events-none"
                 style={{
@@ -35,7 +34,6 @@ export default function Location() {
                     transition={{ duration: 0.8 }}
                     className="text-center mb-20"
                 >
-                    {/* Section Badge */}
                     <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full border border-purple-400/30 bg-purple-400/10">
                         <span className="text-purple-400 text-sm font-semibold tracking-wide uppercase">
                             📍 Location
@@ -46,12 +44,11 @@ export default function Location() {
                         Find <span className="text-gradient">Us</span>
                     </h2>
                     <p className="section-subtitle">
-                        Located in the heart of Belgrade's historic Savamala district
+                        Located in the heart of Belgrade&apos;s historic Savamala district
                     </p>
                 </motion.div>
 
                 <div className="grid lg:grid-cols-2 gap-8 items-stretch">
-                    {/* Map */}
                     <motion.div
                         initial={{ opacity: 0, x: -40 }}
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -60,39 +57,37 @@ export default function Location() {
                     >
                         <div className="relative rounded-xl overflow-hidden h-full w-full">
                             <iframe
-                                src="https://maps.google.com/maps?q=Karađorđeva%2069,%20Belgrade&t=&z=17&ie=UTF8&iwloc=&output=embed"
+                                src={mapSrc}
                                 width="100%"
                                 height="100%"
                                 style={{ border: 0, minHeight: '100%' }}
                                 allowFullScreen
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
+                                title="Hostel Downtown Inn location"
                             />
                         </div>
                     </motion.div>
 
-                    {/* Info */}
                     <motion.div
                         initial={{ opacity: 0, x: 40 }}
                         animate={isInView ? { opacity: 1, x: 0 } : {}}
                         transition={{ duration: 0.8, delay: 0.4 }}
                         className="space-y-6 h-full flex flex-col"
                     >
-                        {/* Address Card */}
                         <div className="glass-card">
                             <h3 className="font-heading text-xl font-bold mb-4 flex items-center gap-3">
                                 <span className="text-2xl">🏠</span>
                                 <span className="text-gradient">Our Address</span>
                             </h3>
                             <p className="text-slate-300 text-lg mb-2">
-                                Karađorđeva 69
+                                Koče Popovića 6
                             </p>
                             <p className="text-slate-400">
                                 11000 Belgrade, Serbia
                             </p>
                         </div>
 
-                        {/* Nearby Places */}
                         <div className="glass-card flex-grow">
                             <h3 className="font-heading text-xl font-bold mb-6 flex items-center gap-3">
                                 <span className="text-2xl">🗺️</span>
@@ -114,7 +109,6 @@ export default function Location() {
                             </div>
                         </div>
 
-                        {/* Contact */}
                         <div className="glass-card">
                             <h3 className="font-heading text-xl font-bold mb-6 flex items-center gap-3">
                                 <span className="text-2xl">📞</span>
@@ -124,7 +118,8 @@ export default function Location() {
                                 <a
                                     href="tel:+381652288200"
                                     className="flex items-center gap-4 p-3 rounded-xl bg-white/5 hover:bg-[#39ff14]/10 transition-colors group"
-                                    target="_blank" rel="noopener noreferrer"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                 >
                                     <span className="text-xl">📱</span>
                                     <span className="text-slate-300 group-hover:text-[#39ff14] transition-colors">
