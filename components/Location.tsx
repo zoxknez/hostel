@@ -24,15 +24,14 @@ export default function Location() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-100px' });
     const streetAddress = 'Koče Popović 6';
+    const mapsAddress = 'Коче Поповића 6, Београд 11000';
     const fullAddress = `${streetAddress}, Belgrade`;
     const mapSrc =
         'https://maps.google.com/maps?ll=44.812727,20.454593&q=44.812727,20.454593+(Hostel%20Downtown%20Inn)&t=&z=18&ie=UTF8&iwloc=B&output=embed';
     const googleMapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
         `${streetAddress}, 11000 Belgrade, Serbia`
     )}`;
-    const navigationHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
-        '44.812727,20.454593'
-    )}&travelmode=driving`;
+    const navigationHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapsAddress)}&travelmode=driving`;
 
     return (
         <section
