@@ -13,6 +13,7 @@ const quickLinks = [
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
+    const streetAddress = 'Koče Popović 6';
 
     return (
         <footer
@@ -86,7 +87,7 @@ export default function Footer() {
                                     <div className="flex items-start gap-3">
                                         <MapPinned size={18} className="mt-0.5 shrink-0 text-[#39ff14]" />
                                         <div>
-                                            <p className="font-medium text-white">Koce Popovica 6</p>
+                                            <p className="font-medium text-white">{streetAddress}</p>
                                             <p className="mt-1 text-sm leading-6 text-slate-300">
                                                 11000 Belgrade, Serbia
                                             </p>

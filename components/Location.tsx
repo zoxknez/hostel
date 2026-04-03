@@ -2,6 +2,7 @@
 
 import { motion, useInView } from 'framer-motion';
 import {
+    ArrowUpRight,
     Building2,
     Clock3,
     Mail,
@@ -22,8 +23,16 @@ const nearbyPlaces = [
 export default function Location() {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-100px' });
+    const streetAddress = 'Koče Popović 6';
+    const fullAddress = `${streetAddress}, Belgrade`;
     const mapSrc =
         'https://maps.google.com/maps?ll=44.812727,20.454593&q=44.812727,20.454593+(Hostel%20Downtown%20Inn)&t=&z=18&ie=UTF8&iwloc=B&output=embed';
+    const googleMapsHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+        `${streetAddress}, 11000 Belgrade, Serbia`
+    )}`;
+    const navigationHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+        '44.812727,20.454593'
+    )}&travelmode=driving`;
 
     return (
         <section
@@ -68,7 +77,7 @@ export default function Location() {
                                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
                                     Hostel Downtown Inn
                                 </p>
-                                <h3 className="mt-1 text-xl font-bold text-white">Koce Popovica 6, Belgrade</h3>
+                                <h3 className="mt-1 text-xl font-bold text-white">{fullAddress}</h3>
                             </div>
                             <span className="inline-flex rounded-full border border-[#39ff14]/15 bg-[#39ff14]/8 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#39ff14]">
                                 Exact pinned location
@@ -76,7 +85,7 @@ export default function Location() {
                         </div>
 
                         <div className="flex flex-1 overflow-hidden rounded-[1.6rem] border border-white/8 bg-[#08101f]">
-                            <div className="relative h-full min-h-[300px] w-full sm:min-h-[360px] md:min-h-[520px]">
+                            <div className="relative h-full min-h-[280px] w-full sm:min-h-[340px] md:min-h-[460px]">
                                 <iframe
                                     src={mapSrc}
                                     width="100%"
@@ -89,6 +98,50 @@ export default function Location() {
                                     className="h-full w-full"
                                 />
                             </div>
+                        </div>
+
+                        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                            <a
+                                href={googleMapsHref}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="group inline-flex items-center justify-between rounded-[1.35rem] border border-white/8 bg-white/[0.035] px-4 py-3.5 text-left transition-colors hover:border-[#39ff14]/20 hover:bg-[#39ff14]/[0.06]"
+                            >
+                                <span className="flex items-center gap-3">
+                                    <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-[#08101f]/85 text-[#39ff14]">
+                                        <MapPinned size={18} strokeWidth={2.1} />
+                                    </span>
+                                    <span>
+                                        <span className="block text-sm font-medium text-white">Google Maps</span>
+                                        <span className="mt-1 block text-xs text-slate-400">Open pinned location</span>
+                                    </span>
+                                </span>
+                                <ArrowUpRight
+                                    size={16}
+                                    className="text-slate-500 transition-colors group-hover:text-[#39ff14]"
+                                />
+                            </a>
+
+                            <a
+                                href={navigationHref}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="group inline-flex items-center justify-between rounded-[1.35rem] border border-white/8 bg-white/[0.035] px-4 py-3.5 text-left transition-colors hover:border-[#39ff14]/20 hover:bg-[#39ff14]/[0.06]"
+                            >
+                                <span className="flex items-center gap-3">
+                                    <span className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-[#08101f]/85 text-[#39ff14]">
+                                        <Route size={18} strokeWidth={2.1} />
+                                    </span>
+                                    <span>
+                                        <span className="block text-sm font-medium text-white">Navigation</span>
+                                        <span className="mt-1 block text-xs text-slate-400">Start route to hostel</span>
+                                    </span>
+                                </span>
+                                <ArrowUpRight
+                                    size={16}
+                                    className="text-slate-500 transition-colors group-hover:text-[#39ff14]"
+                                />
+                            </a>
                         </div>
                     </motion.div>
 
@@ -107,7 +160,7 @@ export default function Location() {
                             </div>
 
                             <div className="mt-5 rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-4">
-                                <p className="font-heading text-2xl font-bold text-white">Koce Popovica 6</p>
+                                <p className="font-heading text-2xl font-bold text-white">{streetAddress}</p>
                                 <p className="mt-2 text-sm leading-6 text-slate-300">11000 Belgrade, Serbia</p>
                                 <p className="mt-4 text-sm leading-6 text-slate-400">
                                     A central city base close to the river, bridges, and the walkable core of Belgrade.
