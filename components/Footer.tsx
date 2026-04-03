@@ -110,7 +110,18 @@ export default function Footer() {
                     </div>
 
                     <div className="mt-8 flex flex-col gap-3 border-t border-white/8 pt-6 text-sm text-slate-500 md:flex-row md:items-center md:justify-between">
-                        <p>© {currentYear} Hostel Downtown Inn Belgrade. All rights reserved.</p>
+                        <div className="flex flex-wrap items-center gap-2">
+                            <p>&copy; {currentYear} Hostel Downtown Inn Belgrade. All rights reserved.</p>
+                            <span className="hidden text-slate-700 md:inline">|</span>
+                            <a
+                                href="https://mojportfolio.vercel.app"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="text-slate-400 transition-colors hover:text-[#39ff14]"
+                            >
+                                Created by o0o0o0o
+                            </a>
+                        </div>
                         <div className="flex flex-wrap gap-4">
                             <span>Belgrade, Serbia</span>
                             <span>Central hostel stay</span>
