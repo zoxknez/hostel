@@ -61,7 +61,7 @@ export default function Hero() {
                 <h1 className="section-title mt-8 text-4xl sm:text-6xl md:text-7xl lg:text-8xl">
                     <span className="text-white">Welcome to</span>
                     <br />
-                    <span className="text-gradient">Downtown Inn</span>
+                    <span className="text-gradient">Hostel Downtown Inn</span>
                 </h1>
 
                 <motion.p

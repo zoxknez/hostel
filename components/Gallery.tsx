@@ -1,55 +1,13 @@
 'use client';
 
+import { galleryMedia } from '@/lib/media';
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import { Camera, Expand, Sparkles } from 'lucide-react';
 import { useRef, useState } from 'react';
 import Image from 'next/image';
 import ImageGallery from './ImageGallery';
 
-const galleryImages = [
-    {
-        src: '/assets/images/terrace-view.jpg',
-        alt: 'Rooftop terrace view over Belgrade',
-        title: 'Terrace View',
-        label: 'City Outlook',
-        accent: 'from-[#39ff14]/18 via-[#39ff14]/8 to-transparent',
-    },
-    {
-        src: '/assets/images/common-room.jpg',
-        alt: 'Shared lounge area inside the hostel',
-        title: 'Shared Lounge',
-        label: 'Common Space',
-        accent: 'from-[#ffff00]/18 via-[#ffff00]/8 to-transparent',
-    },
-    {
-        src: '/assets/images/kitchen.jpg',
-        alt: 'Guest kitchen available during the stay',
-        title: 'Guest Kitchen',
-        label: 'Everyday Essential',
-        accent: 'from-cyan-400/16 via-cyan-400/8 to-transparent',
-    },
-    {
-        src: '/assets/images/bathroom.jpg',
-        alt: 'Clean bathroom facilities',
-        title: 'Bathroom',
-        label: 'Clean Facilities',
-        accent: 'from-emerald-400/16 via-emerald-400/8 to-transparent',
-    },
-    {
-        src: '/assets/images/about-2.jpg',
-        alt: 'Atmosphere and shared details inside the hostel',
-        title: 'Hostel Atmosphere',
-        label: 'Shared Feel',
-        accent: 'from-slate-200/10 via-slate-200/4 to-transparent',
-    },
-    {
-        src: '/assets/images/lounge-area.jpg',
-        alt: 'Additional lounge seating area',
-        title: 'Lounge Area',
-        label: 'Relaxed Corner',
-        accent: 'from-[#39ff14]/14 via-[#ffff00]/6 to-transparent',
-    },
-] as const;
+const galleryImages = galleryMedia;
 
 export default function Gallery() {
     const ref = useRef(null);

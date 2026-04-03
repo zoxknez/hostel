@@ -37,7 +37,7 @@ export default function AdminLoginPage() {
                 <div className="text-center mb-10">
                     <Image
                         src="/logo.png"
-                        alt="Downtown Inn"
+                        alt="Hostel Downtown Inn"
                         width={96}
                         height={96}
                         className="w-24 h-24 rounded-2xl mx-auto mb-6 shadow-[0_0_30px_rgba(57,255,20,0.3)] object-cover"

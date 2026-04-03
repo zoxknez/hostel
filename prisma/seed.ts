@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { roomMedia } from '../lib/media';
 
 const prisma = new PrismaClient();
 
@@ -32,7 +33,7 @@ async function main() {
             beds: 1,
             pricePerNight: 45.0,
             description: 'Private room with double bed, perfect for couples. Bright and spacious with a view.',
-            images: JSON.stringify(['/assets/images/double-room.jpg', '/assets/images/terrace-view.jpg']),
+            images: JSON.stringify(roomMedia.double),
             amenities: JSON.stringify(['WiFi', 'Linens', 'Towels', 'Heating', 'Shared Bathroom']),
             sortOrder: 1,
         },
@@ -44,7 +45,7 @@ async function main() {
             beds: 4,
             pricePerNight: 20.0,
             description: 'Spacious 4-bed mixed dormitory. Comfortable bunk beds with individual lockers.',
-            images: JSON.stringify(['/assets/images/four-bed-dorm.jpg', '/assets/images/common-room.jpg']),
+            images: JSON.stringify(roomMedia.fourBed),
             amenities: JSON.stringify(['WiFi', 'Linens', 'Lockers', 'Heating', 'Shared Bathroom']),
             sortOrder: 2,
         },
@@ -56,7 +57,7 @@ async function main() {
             beds: 6,
             pricePerNight: 18.0,
             description: 'Budget-friendly 6-bed mixed dormitory. Ideal for solo travelers and groups.',
-            images: JSON.stringify(['/assets/images/six-bed-room.jpg', '/assets/images/kitchen.jpg']),
+            images: JSON.stringify(roomMedia.sixBed),
             amenities: JSON.stringify(['WiFi', 'Linens', 'Lockers', 'Heating', 'Shared Bathroom']),
             sortOrder: 3,
         },

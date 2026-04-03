@@ -1,3 +1,5 @@
+import { roomMedia } from './media';
+
 export interface RoomFeature {
     icon: string;
     title: string;
@@ -25,18 +27,14 @@ export const roomsData: Room[] = [
             'City tax is EUR 1.35 per night and is paid in cash on arrival.',
         ],
         features: [
-            { icon: '🛏️', title: 'Double Bed' },
-            { icon: '🚿', title: 'Shared Bathroom' },
-            { icon: '🍳', title: 'Kitchen Access' },
-            { icon: '🌇', title: 'Terrace' },
-            { icon: '📶', title: 'WiFi' },
-            { icon: '🗺️', title: 'City Maps' },
+            { icon: 'Bed', title: 'Double Bed' },
+            { icon: 'Bath', title: 'Shared Bathroom' },
+            { icon: 'Kitchen', title: 'Kitchen Access' },
+            { icon: 'Terrace', title: 'Terrace' },
+            { icon: 'WiFi', title: 'WiFi' },
+            { icon: 'Maps', title: 'City Maps' },
         ],
-        images: [
-            '/assets/images/double-room.jpg',
-            '/assets/images/rooms/double/1.jpg',
-            '/assets/images/rooms/double/2.jpg',
-        ],
+        images: [...roomMedia.double],
     },
     {
         id: 'four-bed',
@@ -49,23 +47,14 @@ export const roomsData: Room[] = [
             'City tax is EUR 1.35 per night and is paid in cash on arrival.',
         ],
         features: [
-            { icon: '👥', title: '4 Beds' },
-            { icon: '🔒', title: 'Personal Lockers' },
-            { icon: '💡', title: 'Reading Lights' },
-            { icon: '🚿', title: 'Shared Bathroom' },
-            { icon: '📶', title: 'WiFi' },
-            { icon: '🗺️', title: 'City Maps' },
+            { icon: 'Guests', title: '4 Beds' },
+            { icon: 'Locker', title: 'Personal Lockers' },
+            { icon: 'Light', title: 'Reading Lights' },
+            { icon: 'Bath', title: 'Shared Bathroom' },
+            { icon: 'WiFi', title: 'WiFi' },
+            { icon: 'Maps', title: 'City Maps' },
         ],
-        images: [
-            '/assets/images/four-bed-dorm.jpg',
-            '/assets/images/rooms/four-bed/1.jpg',
-            '/assets/images/rooms/four-bed/2.jpg',
-            '/assets/images/rooms/four-bed/3.jpg',
-            '/assets/images/rooms/four-bed/4.jpg',
-            '/assets/images/rooms/four-bed/5.jpg',
-            '/assets/images/rooms/four-bed/6.jpg',
-            '/assets/images/rooms/four-bed/7.jpg',
-        ],
+        images: [...roomMedia.fourBed],
     },
     {
         id: 'six-bed',
@@ -78,27 +67,14 @@ export const roomsData: Room[] = [
             'City tax is EUR 1.35 per night and is paid in cash on arrival.',
         ],
         features: [
-            { icon: '👥', title: '6 Beds' },
-            { icon: '🔒', title: 'Personal Lockers' },
-            { icon: '👁️', title: 'Great Views' },
-            { icon: '🚿', title: 'Shared Bathroom' },
-            { icon: '📶', title: 'WiFi' },
-            { icon: '🗺️', title: 'City Maps' },
+            { icon: 'Guests', title: '6 Beds' },
+            { icon: 'Locker', title: 'Personal Lockers' },
+            { icon: 'Views', title: 'Great Views' },
+            { icon: 'Bath', title: 'Shared Bathroom' },
+            { icon: 'WiFi', title: 'WiFi' },
+            { icon: 'Maps', title: 'City Maps' },
         ],
-        images: [
-            '/assets/images/six-bed-room.jpg',
-            '/assets/images/rooms/six-bed-yellow/1.jpg',
-            '/assets/images/rooms/six-bed-yellow/2.jpg',
-            '/assets/images/rooms/six-bed-yellow/3.jpg',
-            '/assets/images/rooms/six-bed-yellow/4.jpg',
-            '/assets/images/rooms/six-bed-blue/1.jpg',
-            '/assets/images/rooms/six-bed-blue/2.jpg',
-            '/assets/images/rooms/six-bed-blue/3.jpg',
-            '/assets/images/rooms/six-bed-blue/4.jpg',
-            '/assets/images/rooms/six-bed-blue/5.jpg',
-            '/assets/images/rooms/six-bed-blue/6.jpg',
-            '/assets/images/rooms/six-bed-blue/7.jpg',
-        ],
+        images: [...roomMedia.sixBed],
     },
 ];
 
@@ -110,32 +86,32 @@ export interface Feature {
 
 export const featuresData: Feature[] = [
     {
-        icon: '📶',
+        icon: 'WiFi',
         title: 'High-Speed WiFi',
         description: 'Unlimited high-speed internet access throughout the entire hostel',
     },
     {
-        icon: '📺',
+        icon: 'TV',
         title: 'Entertainment',
         description: 'TV with 50+ international and movie channels',
     },
     {
-        icon: '🗺️',
+        icon: 'Maps',
         title: 'City Maps',
         description: 'Belgrade maps with highlighted attractions and recommendations',
     },
     {
-        icon: '🌇',
+        icon: 'Terrace',
         title: 'Panoramic Terrace',
         description: 'Stunning rooftop terrace with breathtaking city views',
     },
     {
-        icon: '📍',
+        icon: 'Location',
         title: 'Prime Location',
         description: 'Perfectly centrally located in the heart of Belgrade',
     },
     {
-        icon: '🛏️',
+        icon: 'Comfort',
         title: 'Comfort First',
         description: 'Bright, spacious, spotless rooms with comfortable mattresses',
     },

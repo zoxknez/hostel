@@ -3,13 +3,22 @@
 import { AnimatePresence, motion, useInView } from 'framer-motion';
 import {
     ArrowUpRight,
+    Bath,
+    BedDouble,
     Building2,
+    CookingPot,
+    Eye,
     Footprints,
     Info,
+    Lightbulb,
+    LockKeyhole,
     type LucideIcon,
     MapPinned,
     Sparkles,
+    SunMedium,
+    Users,
     WalletCards,
+    Wifi,
 } from 'lucide-react';
 import { useRef, useState } from 'react';
 import Image from 'next/image';
@@ -81,6 +90,20 @@ const infoCards: Array<{
         label: 'Payment Detail',
     },
 ];
+
+const roomFeatureIconMap: Record<string, LucideIcon> = {
+    'Double Bed': BedDouble,
+    '4 Beds': Users,
+    '6 Beds': Users,
+    'Shared Bathroom': Bath,
+    'Kitchen Access': CookingPot,
+    Terrace: SunMedium,
+    WiFi: Wifi,
+    'City Maps': MapPinned,
+    'Personal Lockers': LockKeyhole,
+    'Reading Lights': Lightbulb,
+    'Great Views': Eye,
+};
 
 export default function Rooms() {
     const ref = useRef(null);
@@ -186,14 +209,19 @@ export default function Rooms() {
                                             </p>
 
                                             <div className="mt-5 flex flex-wrap gap-2.5">
-                                                {room.features.slice(0, 3).map((feature, idx) => (
-                                                    <span
-                                                        key={idx}
-                                                        className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-300"
-                                                    >
-                                                        {feature.icon} {feature.title}
-                                                    </span>
-                                                ))}
+                                                {room.features.slice(0, 3).map((feature) => {
+                                                    const Icon = roomFeatureIconMap[feature.title] ?? Sparkles;
+
+                                                    return (
+                                                        <span
+                                                            key={feature.title}
+                                                            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-300"
+                                                        >
+                                                            <Icon size={12} strokeWidth={2.2} className="text-[#39ff14]" />
+                                                            {feature.title}
+                                                        </span>
+                                                    );
+                                                })}
                                             </div>
 
                                             <div className="mt-7 flex flex-col gap-3 sm:flex-row">

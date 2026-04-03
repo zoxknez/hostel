@@ -104,14 +104,14 @@ export default function Navigation() {
                         >
                             <Image
                                 src="/logo.png"
-                                alt="Downtown Inn"
+                                alt="Hostel Downtown Inn"
                                 width={44}
                                 height={44}
                                 className="h-11 w-11 rounded-2xl border border-white/10 object-cover shadow-[0_0_24px_rgba(57,255,20,0.22)]"
                             />
                             <div className="hidden min-w-0 sm:block">
                                 <p className="font-heading text-lg font-bold leading-none text-white md:text-xl">
-                                    Downtown <span className="text-gradient">Inn</span>
+                                    Hostel Downtown <span className="text-gradient">Inn</span>
                                 </p>
                                 <p className="mt-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">
                                     Belgrade Stay

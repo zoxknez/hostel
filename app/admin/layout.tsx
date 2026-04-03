@@ -40,7 +40,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Link href="/" className="flex items-center gap-3 mb-12 hover:opacity-80 transition-opacity">
                 <Image
                     src="/logo.png"
-                    alt="Downtown Inn"
+                    alt="Hostel Downtown Inn"
                     width={40}
                     height={40}
                     className="w-10 h-10 rounded-xl shadow-[0_0_15px_rgba(57,255,20,0.3)] object-cover"
@@ -94,7 +94,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <div className="flex items-center gap-2">
                     <Image
                         src="/logo.png"
-                        alt="Downtown Inn"
+                        alt="Hostel Downtown Inn"
                         width={32}
                         height={32}
                         className="w-8 h-8 rounded-lg shadow-[0_0_10px_rgba(57,255,20,0.3)] object-cover"

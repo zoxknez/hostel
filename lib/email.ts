@@ -14,16 +14,16 @@ export async function sendBookingConfirmationEmail(booking: BookingEmailPayload)
 
   try {
     const { error } = await resend.emails.send({
-      from: 'Downtown Inn <bookings@hosteldowntowninn.com>', // Replace with verified domain
+      from: 'Hostel Downtown Inn <bookings@hosteldowntowninn.com>', // Replace with verified domain
       to: [booking.guestEmail],
       subject: isStaff
         ? `NEW BOOKING RECEIVED: ${booking.bookingNumber}`
         : `Booking Confirmed: ${booking.bookingNumber}`,
       html: `
         <div style="font-family: sans-serif; color: #333; max-width: 600px; margin: auto;">
-          <h1 style="color: #00f5ff; background: #050816; padding: 20px; text-align: center; border-radius: 10px;">Downtown Inn</h1>
+          <h1 style="color: #00f5ff; background: #050816; padding: 20px; text-align: center; border-radius: 10px;">Hostel Downtown Inn</h1>
           <p>Hi ${isStaff ? 'Admin' : booking.guestName},</p>
-          <p>${isStaff ? 'A new booking has been received.' : 'Thank you for choosing Downtown Inn! Your booking has been successfully received.'}</p>
+          <p>${isStaff ? 'A new booking has been received.' : 'Thank you for choosing Hostel Downtown Inn! Your booking has been successfully received.'}</p>
           
           <div style="background: #f4f4f4; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h3>Booking Reference: ${booking.bookingNumber}</h3>
@@ -34,7 +34,7 @@ export async function sendBookingConfirmationEmail(booking: BookingEmailPayload)
           </div>
           
           <p>We look forward to seeing you soon!</p>
-          <p>Best regards,<br/>The Downtown Inn Team</p>
+          <p>Best regards,<br/>The Hostel Downtown Inn Team</p>
         </div>
       `,
     });

@@ -83,7 +83,7 @@ export const guestGuides: GuestGuide[] = [
                     {
                         title: 'By Taxi',
                         description:
-                            'Do not take a taxi from drivers waiting inside the terminal. Go to the Taxi Info desk, give them our address, and ask for a fixed-price voucher. The ride should be around RSD 3,000, or roughly EUR 25.',
+                            'Do not take a taxi directly from drivers waiting inside the terminal. Go to the Taxi Info desk, give them our address, and ask for a fixed-price voucher. The ride should be around RSD 3,000, or roughly EUR 25.',
                     },
                 ],
             },
@@ -119,7 +119,7 @@ export const guestGuides: GuestGuide[] = [
                 tone: 'highlight',
                 bullets: [
                     'Some older maps and GPS systems still show our street as Zagrebačka. If needed, try searching for Zagrebačka 6.',
-                    'As of January 1, 2026, public city transport in Belgrade is free for everyone. Buses, trams, and trolleybuses do not require tickets. The A1 shuttle may still charge a fare.',
+                    'As of January 1, 2025, public city transport in Belgrade is free for everyone. Buses, trams, and trolleybuses do not require tickets. The A1 shuttle may still charge a fare.',
                     'If you expect to arrive very late or very early, please let us know in advance so we can arrange your welcome smoothly.',
                 ],
                 note: 'The hostel is inside a residential building in central Belgrade, so a quick message before unusual arrival hours is always appreciated.',
@@ -243,12 +243,12 @@ export const guestGuides: GuestGuide[] = [
             'A simple city guide for one, two, or three days in Belgrade, plus local tips, emergency numbers, and sightseeing ideas for first-time visitors.',
         cardSummary:
             'A clean itinerary for 1, 2, or 3 days in Belgrade, with local tips, tours, and guest-friendly city advice.',
-        cardPoints: ['One, two, or three-day plans', 'Free transport note for 2026', 'Tours, cruises, and local tips'],
+        cardPoints: ['One, two, or three-day plans', 'Free transport note for 2025', 'Tours, cruises, and local tips'],
         icon: 'map',
         readTime: '8 min read',
         quickFacts: [
             { label: 'Best for', value: 'First-time guests staying 1 to 3 days' },
-            { label: 'Public transport', value: 'Free in Belgrade since January 1, 2026' },
+            { label: 'Public transport', value: 'Free in Belgrade since January 1, 2025' },
             { label: 'Main emergency line', value: '112' },
             { label: 'Tourist info tip', value: 'TOB Info Center, Knez Mihailova 5' },
         ],
@@ -326,7 +326,7 @@ export const guestGuides: GuestGuide[] = [
                 bullets: [
                     'Belgraders love coffee and take cafe time seriously, so slow down and enjoy it.',
                     'Tap water in Belgrade is safe to drink.',
-                    'Public transport is free as of January 1, 2026, so you do not need tickets. If you want route planning, apps such as Beograd Plus can still be useful.',
+                    'Public transport is free as of January 1, 2025, so you do not need tickets. If you want route planning, apps such as Beograd Plus can still be useful.',
                     'If you expect a very late or very early hostel arrival, please let us know in advance.',
                 ],
             },
