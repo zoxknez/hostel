@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
-import { parseISO, startOfDay, endOfDay } from 'date-fns';
+import { isValid, parseISO, startOfDay } from 'date-fns';
 
 export async function GET(
     request: NextRequest,
@@ -17,7 +17,11 @@ export async function GET(
         }
 
         const startDate = startOfDay(parseISO(startDateStr));
-        const endDate = endOfDay(parseISO(endDateStr));
+        const endDate = startOfDay(parseISO(endDateStr));
+
+        if (!isValid(startDate) || !isValid(endDate) || endDate <= startDate) {
+            return NextResponse.json({ error: 'Invalid booking dates' }, { status: 400 });
+        }
 
         // 1. Check if room exists
         const room = await prisma.room.findUnique({
@@ -52,28 +56,24 @@ export async function GET(
             where: {
                 roomId: id,
                 status: { in: ['PENDING', 'CONFIRMED'] },
-                OR: [
-                    {
-                        // Requested check-in is between existing booking dates
-                        checkIn: { lte: startDate },
-                        checkOut: { gt: startDate },
-                    },
-                    {
-                        // Requested check-out is between existing booking dates
-                        checkIn: { lt: endDate },
-                        checkOut: { gte: endDate },
-                    },
-                    {
-                        // Existing booking is entirely within requested dates
-                        checkIn: { gte: startDate },
-                        checkOut: { lte: endDate },
-                    },
-                ],
+                checkIn: { lt: endDate },
+                checkOut: { gt: startDate },
+            },
+            select: {
+                checkIn: true,
+                checkOut: true,
             },
         });
 
+        const hasOverlap = bookings.some((booking) => {
+            const existingStart = startOfDay(booking.checkIn);
+            const existingEnd = startOfDay(booking.checkOut);
+
+            return startDate < existingEnd && endDate > existingStart;
+        });
+
         return NextResponse.json({
-            available: bookings.length === 0,
+            available: !hasOverlap,
             roomName: room.name,
             pricePerNight: room.pricePerNight
         });

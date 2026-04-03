@@ -1,7 +1,13 @@
 import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { requireAdminRequest } from '@/lib/admin-session';
 
-export async function POST(request: Request): Promise<NextResponse> {
+export async function POST(request: NextRequest): Promise<NextResponse> {
+    const unauthorizedResponse = requireAdminRequest(request);
+    if (unauthorizedResponse) {
+        return unauthorizedResponse;
+    }
+
     const body = (await request.json()) as HandleUploadBody;
 
     try {

@@ -1,10 +1,45 @@
+import crypto from 'node:crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
-import { differenceInDays, parseISO, startOfDay, endOfDay } from 'date-fns';
+import { differenceInCalendarDays, differenceInDays, isValid, parseISO, startOfDay } from 'date-fns';
 import { sendBookingConfirmationEmail } from '@/lib/email';
+import { requireAdminRequest } from '@/lib/admin-session';
+import { getHostelSettings } from '@/lib/settings';
+
+async function generateUniqueBookingNumber() {
+    for (let attempt = 0; attempt < 10; attempt += 1) {
+        const bookingNumber = `DI-${crypto.randomBytes(3).toString('hex').toUpperCase()}`;
+        const existingBooking = await prisma.booking.findUnique({
+            where: { bookingNumber },
+            select: { id: true },
+        });
+
+        if (!existingBooking) {
+            return bookingNumber;
+        }
+    }
+
+    throw new Error('Unable to generate a unique booking number');
+}
+
+function bookingsOverlap(
+    existingBooking: { checkIn: Date; checkOut: Date },
+    requestedStart: Date,
+    requestedEnd: Date
+) {
+    const existingStart = startOfDay(existingBooking.checkIn);
+    const existingEnd = startOfDay(existingBooking.checkOut);
+
+    return requestedStart < existingEnd && requestedEnd > existingStart;
+}
 
 // GET: List all bookings (for admin)
-export async function GET() {
+export async function GET(request: NextRequest) {
+    const unauthorizedResponse = requireAdminRequest(request);
+    if (unauthorizedResponse) {
+        return unauthorizedResponse;
+    }
+
     try {
         const bookings = await prisma.booking.findMany({
             include: {
@@ -43,11 +78,36 @@ export async function POST(request: NextRequest) {
         }
 
         const startDate = startOfDay(parseISO(checkIn));
-        const endDate = endOfDay(parseISO(checkOut));
-        const nights = differenceInDays(endDate, startDate);
+        const endDate = startOfDay(parseISO(checkOut));
 
+        if (!isValid(startDate) || !isValid(endDate)) {
+            return NextResponse.json({ error: 'Invalid dates selected' }, { status: 400 });
+        }
+
+        const nights = differenceInDays(endDate, startDate);
         if (nights <= 0) {
             return NextResponse.json({ error: 'Invalid dates selected' }, { status: 400 });
+        }
+
+        const parsedGuestCount = Number(numberOfGuests);
+        if (!Number.isInteger(parsedGuestCount) || parsedGuestCount <= 0) {
+            return NextResponse.json({ error: 'Invalid guest count' }, { status: 400 });
+        }
+
+        const settings = await getHostelSettings();
+        const today = startOfDay(new Date());
+        const advanceDays = differenceInCalendarDays(startDate, today);
+
+        if (advanceDays < settings.minAdvanceBooking) {
+            return NextResponse.json({
+                error: `Bookings must be made at least ${settings.minAdvanceBooking} day(s) in advance.`,
+            }, { status: 400 });
+        }
+
+        if (advanceDays > settings.maxAdvanceBooking) {
+            return NextResponse.json({
+                error: `Bookings can only be made up to ${settings.maxAdvanceBooking} day(s) ahead.`,
+            }, { status: 400 });
         }
 
         // 2. Room check
@@ -55,8 +115,14 @@ export async function POST(request: NextRequest) {
             where: { id: roomId },
         });
 
-        if (!room) {
+        if (!room || !room.isActive) {
             return NextResponse.json({ error: 'Room not found' }, { status: 404 });
+        }
+
+        if (parsedGuestCount > room.capacity) {
+            return NextResponse.json({
+                error: `This room allows up to ${room.capacity} guest(s).`,
+            }, { status: 400 });
         }
 
         // 3. Final availability double-check
@@ -64,41 +130,43 @@ export async function POST(request: NextRequest) {
             where: {
                 roomId,
                 status: { in: ['PENDING', 'CONFIRMED'] },
-                OR: [
-                    { checkIn: { lte: startDate }, checkOut: { gt: startDate } },
-                    { checkIn: { lt: endDate }, checkOut: { gte: endDate } },
-                    { checkIn: { gte: startDate }, checkOut: { lte: endDate } },
-                ],
+                checkIn: { lt: endDate },
+                checkOut: { gt: startDate },
+            },
+            select: {
+                checkIn: true,
+                checkOut: true,
             },
         });
 
-        if (existingBookings.length > 0) {
+        if (existingBookings.some((booking) => bookingsOverlap(booking, startDate, endDate))) {
             return NextResponse.json({ error: 'Room no longer available for selected dates' }, { status: 409 });
         }
 
         // 4. Generate booking number
-        const bookingNumber = `DI-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+        const bookingNumber = await generateUniqueBookingNumber();
 
         // 5. Calculate price
         const totalPrice = nights * room.pricePerNight;
+        const cityTaxTotal = nights * settings.cityTax;
 
         // 6. Create booking
         const booking = await prisma.booking.create({
             data: {
                 bookingNumber,
                 roomId,
-                guestName,
-                guestEmail,
-                guestPhone,
-                guestCountry,
-                numberOfGuests: parseInt(numberOfGuests),
+                guestName: guestName.trim(),
+                guestEmail: guestEmail.trim().toLowerCase(),
+                guestPhone: typeof guestPhone === 'string' ? guestPhone.trim() : '',
+                guestCountry: typeof guestCountry === 'string' && guestCountry.trim() ? guestCountry.trim() : null,
+                numberOfGuests: parsedGuestCount,
                 checkIn: startDate,
                 checkOut: endDate,
                 nights,
                 pricePerNight: room.pricePerNight,
                 totalPrice,
                 status: 'PENDING',
-                specialRequests,
+                specialRequests: typeof specialRequests === 'string' && specialRequests.trim() ? specialRequests.trim() : null,
             },
         });
 
@@ -118,7 +186,12 @@ export async function POST(request: NextRequest) {
             });
         }
 
-        return NextResponse.json(booking);
+        return NextResponse.json({
+            ...booking,
+            cityTaxPerNight: settings.cityTax,
+            cityTaxTotal,
+            grandTotal: totalPrice + cityTaxTotal,
+        });
     } catch (error) {
         console.error('Error creating booking:', error);
         return NextResponse.json({ error: 'Failed to create booking' }, { status: 500 });

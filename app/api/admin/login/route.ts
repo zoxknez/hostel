@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { applyAdminSessionCookie, clearAdminSessionCookie } from '@/lib/admin-session';
 
 export async function POST(request: NextRequest) {
     try {
@@ -6,18 +7,7 @@ export async function POST(request: NextRequest) {
         const adminPassword = process.env.ADMIN_PASSWORD || 'hostel2025';
 
         if (password === adminPassword) {
-            const response = NextResponse.json({ success: true });
-
-            // Set httpOnly cookie for better security
-            response.cookies.set('admin_token', 'valid_session', {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
-                maxAge: 86400, // 24 hours
-                path: '/',
-            });
-
-            return response;
+            return applyAdminSessionCookie(NextResponse.json({ success: true }));
         }
 
         return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
@@ -27,7 +17,5 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE() {
-    const response = NextResponse.json({ success: true });
-    response.cookies.delete('admin_token');
-    return response;
+    return clearAdminSessionCookie(NextResponse.json({ success: true }));
 }

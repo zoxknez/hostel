@@ -119,10 +119,15 @@ export default function BookingConfirmation() {
                                 Total
                             </p>
                             <p className="mt-2 text-sm font-bold text-white">
-                                {bookingData ? `EUR ${bookingData.totalPrice.toFixed(2)}` : 'Pending'}
+                                {bookingData ? `EUR ${bookingData.grandTotal.toFixed(2)}` : 'Pending'}
                             </p>
                         </div>
                     </div>
+                    {bookingData && (
+                        <p className="mt-4 text-xs leading-5 text-slate-400">
+                            Includes accommodation, plus EUR {bookingData.cityTaxTotal.toFixed(2)} city tax for this stay.
+                        </p>
+                    )}
                 </div>
 
                 <button

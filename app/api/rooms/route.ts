@@ -1,12 +1,13 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { parseRoomRecord, serializeRoomPayload } from '@/lib/rooms';
 import type { AdminRoomFormData } from '@/lib/types';
+import { hasValidAdminSession, requireAdminRequest } from '@/lib/admin-session';
 
-export async function GET() {
+export async function GET(request: NextRequest) {
     try {
         const rooms = await prisma.room.findMany({
-            where: { isActive: true },
+            where: hasValidAdminSession(request) ? undefined : { isActive: true },
             orderBy: { sortOrder: 'asc' },
         });
 
@@ -19,13 +20,25 @@ export async function GET() {
     }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
+    const unauthorizedResponse = requireAdminRequest(request);
+    if (unauthorizedResponse) {
+        return unauthorizedResponse;
+    }
+
     try {
         const body = (await request.json()) as Partial<AdminRoomFormData>;
+        const roomName = body.name?.trim();
+        const pricePerNight = Number(body.pricePerNight);
+        const capacity = Number(body.capacity);
 
         // Basic validation
-        if (!body.name || !body.pricePerNight) {
-            return NextResponse.json({ error: 'Name and Price are required' }, { status: 400 });
+        if (!roomName || !Number.isFinite(pricePerNight) || pricePerNight < 0) {
+            return NextResponse.json({ error: 'A valid room name and price are required' }, { status: 400 });
+        }
+
+        if (!Number.isInteger(capacity) || capacity < 1) {
+            return NextResponse.json({ error: 'Capacity must be at least 1' }, { status: 400 });
         }
 
         // Helper to create slug
@@ -35,17 +48,17 @@ export async function POST(request: Request) {
                 .replace(/(^-|-$)+/g, '');
         };
 
-        const slug = generateSlug(body.name) + '-' + Math.random().toString(36).substring(2, 7);
+        const slug = generateSlug(roomName) + '-' + Math.random().toString(36).substring(2, 7);
         const roomData = serializeRoomPayload(body);
 
         const room = await prisma.room.create({
             data: {
-                name: body.name.trim(),
+                name: roomName,
                 slug: slug,
                 type: roomData.type ?? 'Standard',
-                pricePerNight: roomData.pricePerNight ?? 0,
-                capacity: roomData.capacity ?? 2,
-                beds: roomData.beds ?? roomData.capacity ?? 2,
+                pricePerNight: roomData.pricePerNight ?? pricePerNight,
+                capacity: roomData.capacity ?? capacity,
+                beds: roomData.beds ?? roomData.capacity ?? capacity,
                 description: roomData.description ?? '',
                 amenities: roomData.amenities ?? '[]',
                 images: roomData.images ?? '[]',

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, addMonths, subMonths, isToday } from 'date-fns';
+import { format, startOfDay, startOfMonth, endOfMonth, eachDayOfInterval, addMonths, subMonths, isToday } from 'date-fns';
 
 interface Booking {
     id: string;
@@ -56,10 +56,13 @@ export default function AdminCalendar() {
     const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
 
     const getBookingsForDay = (day: Date) => {
+        const targetDay = startOfDay(day);
+
         return bookings.filter((booking) => {
-            const start = new Date(booking.checkIn);
-            const end = new Date(booking.checkOut);
-            return (isSameDay(day, start) || isSameDay(day, end) || (day > start && day < end)) && booking.status !== 'CANCELLED';
+            const start = startOfDay(new Date(booking.checkIn));
+            const end = startOfDay(new Date(booking.checkOut));
+
+            return targetDay >= start && targetDay < end && booking.status !== 'CANCELLED';
         });
     };
 

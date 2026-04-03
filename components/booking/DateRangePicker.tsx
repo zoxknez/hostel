@@ -1,7 +1,8 @@
 'use client';
 
 import { useBooking } from '@/lib/context/BookingContext';
-import { format, startOfToday } from 'date-fns';
+import type { PublicSettings } from '@/lib/types';
+import { addDays, format, startOfToday } from 'date-fns';
 import { ArrowRight, CalendarRange, MoonStar } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { DateRange, DayPicker } from 'react-day-picker';
@@ -10,6 +11,7 @@ import 'react-day-picker/dist/style.css';
 export default function DateRangePicker() {
     const { checkIn, checkOut, setDates, setStep } = useBooking();
     const [numMonths, setNumMonths] = useState(2);
+    const [bookingWindow, setBookingWindow] = useState<Pick<PublicSettings, 'minAdvanceBooking' | 'maxAdvanceBooking'> | null>(null);
 
     useEffect(() => {
         const handleResize = () => {
@@ -21,11 +23,43 @@ export default function DateRangePicker() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    useEffect(() => {
+        let active = true;
+
+        async function loadBookingWindow() {
+            try {
+                const res = await fetch('/api/settings');
+                if (!res.ok) {
+                    throw new Error('Failed to load booking rules');
+                }
+
+                const data = (await res.json()) as PublicSettings;
+                if (active) {
+                    setBookingWindow({
+                        minAdvanceBooking: data.minAdvanceBooking,
+                        maxAdvanceBooking: data.maxAdvanceBooking,
+                    });
+                }
+            } catch (error) {
+                console.error('Failed to load booking window:', error);
+            }
+        }
+
+        void loadBookingWindow();
+
+        return () => {
+            active = false;
+        };
+    }, []);
+
     const handleSelect = (range: DateRange | undefined) => {
         setDates(range?.from, range?.to);
     };
 
     const isStepValid = Boolean(checkIn && checkOut);
+    const today = startOfToday();
+    const earliestBookableDate = addDays(today, bookingWindow?.minAdvanceBooking ?? 0);
+    const latestBookableDate = addDays(today, bookingWindow?.maxAdvanceBooking ?? 365);
 
     return (
         <div className="overflow-hidden rounded-[1.8rem] border border-white/8 bg-[linear-gradient(135deg,rgba(16,24,51,0.95)_0%,rgba(9,15,34,0.92)_100%)] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.24)] md:p-6">
@@ -44,12 +78,20 @@ export default function DateRangePicker() {
                                 mode="range"
                                 selected={{ from: checkIn, to: checkOut }}
                                 onSelect={handleSelect}
-                                disabled={{ before: startOfToday() }}
+                                disabled={[
+                                    { before: earliestBookableDate },
+                                    { after: latestBookableDate },
+                                ]}
                                 numberOfMonths={numMonths}
                                 className="!bg-transparent text-white"
                             />
                         </div>
                     </div>
+                    {bookingWindow && (
+                        <p className="mt-4 text-xs leading-6 text-slate-400">
+                            Booking window: from {format(earliestBookableDate, 'MMM d, yyyy')} to {format(latestBookableDate, 'MMM d, yyyy')}.
+                        </p>
+                    )}
                 </div>
 
                 <div className="rounded-[1.55rem] border border-white/8 bg-white/[0.03] p-4 md:p-5">

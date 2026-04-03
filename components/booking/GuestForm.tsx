@@ -2,9 +2,11 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowLeft, ArrowRight, ContactRound, MessageSquareMore } from 'lucide-react';
+import type { ApiRoom } from '@/lib/types';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { useBooking } from '@/lib/context/BookingContext';
+import { useEffect, useState } from 'react';
 
 const formSchema = z.object({
     guestName: z.string().min(2, 'Name is required'),
@@ -17,7 +19,8 @@ const formSchema = z.object({
 type FormData = z.infer<typeof formSchema>;
 
 export default function GuestForm() {
-    const { setGuestDetails, setStep, ...state } = useBooking();
+    const { setGuestDetails, setStep, roomId, ...state } = useBooking();
+    const [maxGuests, setMaxGuests] = useState<number | null>(null);
 
     const {
         register,
@@ -38,6 +41,41 @@ export default function GuestForm() {
         setGuestDetails(data);
         setStep(4);
     };
+
+    useEffect(() => {
+        let active = true;
+
+        async function loadSelectedRoom() {
+            if (!roomId) {
+                if (active) {
+                    setMaxGuests(null);
+                }
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/rooms');
+                if (!res.ok) {
+                    throw new Error('Failed to load rooms');
+                }
+
+                const rooms = (await res.json()) as ApiRoom[];
+                const selectedRoom = rooms.find((room) => room.id === roomId) ?? null;
+
+                if (active) {
+                    setMaxGuests(selectedRoom?.capacity ?? null);
+                }
+            } catch (error) {
+                console.error('Failed to load room capacity:', error);
+            }
+        }
+
+        void loadSelectedRoom();
+
+        return () => {
+            active = false;
+        };
+    }, [roomId]);
 
     const inputBaseClass =
         'w-full rounded-[1.1rem] border bg-[#08101f]/70 px-4 py-3 text-white outline-none transition-colors placeholder:text-slate-500 focus:border-[#39ff14]/35';
@@ -90,9 +128,14 @@ export default function GuestForm() {
                     <input
                         type="number"
                         {...register('numberOfGuests', { valueAsNumber: true })}
+                        min={1}
+                        max={maxGuests ?? undefined}
                         className={`${inputBaseClass} ${errors.numberOfGuests ? 'border-red-500/50' : 'border-white/10'}`}
                     />
                     {errors.numberOfGuests && <p className="text-xs text-red-400">{errors.numberOfGuests.message}</p>}
+                    {!errors.numberOfGuests && maxGuests && (
+                        <p className="text-xs text-slate-500">Up to {maxGuests} guest(s) for the selected room.</p>
+                    )}
                 </div>
             </div>
 

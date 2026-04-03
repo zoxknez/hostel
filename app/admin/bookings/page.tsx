@@ -20,7 +20,7 @@ export default function BookingsAdminPage() {
                 </div>
                 <div className="flex gap-4">
                     <div className="bg-white/5 p-1 rounded-xl border border-white/10 flex">
-                        {(['ALL', 'PENDING', 'CONFIRMED'] as const).map((status) => (
+                        {(['ALL', 'PENDING', 'CONFIRMED', 'CANCELLED', 'COMPLETED'] as const).map((status) => (
                             <button
                                 key={status}
                                 onClick={() => setStatusFilter(status)}
@@ -29,7 +29,15 @@ export default function BookingsAdminPage() {
                                     : 'text-slate-500 hover:text-white'
                                     }`}
                             >
-                                {status === 'ALL' ? 'All' : status === 'PENDING' ? 'Pending' : 'Confirmed'}
+                                {status === 'ALL'
+                                    ? 'All'
+                                    : status === 'PENDING'
+                                        ? 'Pending'
+                                        : status === 'CONFIRMED'
+                                            ? 'Confirmed'
+                                            : status === 'CANCELLED'
+                                                ? 'Cancelled'
+                                                : 'Completed'}
                             </button>
                         ))}
                     </div>

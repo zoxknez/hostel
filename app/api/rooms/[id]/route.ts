@@ -2,12 +2,18 @@ import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/db';
 import { parseRoomRecord, serializeRoomPayload } from '@/lib/rooms';
 import type { AdminRoomFormData } from '@/lib/types';
+import { requireAdminRequest } from '@/lib/admin-session';
 
 // GET: Single room details
 export async function GET(
-    _request: NextRequest,
+    request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
+    const unauthorizedResponse = requireAdminRequest(request);
+    if (unauthorizedResponse) {
+        return unauthorizedResponse;
+    }
+
     try {
         const { id } = await params;
         const room = await prisma.room.findUnique({
@@ -29,9 +35,33 @@ export async function PATCH(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
+    const unauthorizedResponse = requireAdminRequest(request);
+    if (unauthorizedResponse) {
+        return unauthorizedResponse;
+    }
+
     try {
         const { id } = await params;
         const body = (await request.json()) as Partial<AdminRoomFormData>;
+
+        if (body.name !== undefined && !body.name.trim()) {
+            return NextResponse.json({ error: 'Room name cannot be empty' }, { status: 400 });
+        }
+
+        if (body.pricePerNight !== undefined) {
+            const pricePerNight = Number(body.pricePerNight);
+            if (!Number.isFinite(pricePerNight) || pricePerNight < 0) {
+                return NextResponse.json({ error: 'Price must be a valid positive number' }, { status: 400 });
+            }
+        }
+
+        if (body.capacity !== undefined) {
+            const capacity = Number(body.capacity);
+            if (!Number.isInteger(capacity) || capacity < 1) {
+                return NextResponse.json({ error: 'Capacity must be at least 1' }, { status: 400 });
+            }
+        }
+
         const data = serializeRoomPayload(body);
 
         const room = await prisma.room.update({
@@ -48,9 +78,14 @@ export async function PATCH(
 
 // DELETE: Remove room (or deactivate)
 export async function DELETE(
-    _request: NextRequest,
+    request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
+    const unauthorizedResponse = requireAdminRequest(request);
+    if (unauthorizedResponse) {
+        return unauthorizedResponse;
+    }
+
     try {
         const { id } = await params;
 

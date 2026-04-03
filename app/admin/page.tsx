@@ -1,5 +1,6 @@
 'use client';
 
+import { startOfDay } from 'date-fns';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import type { Booking } from '@prisma/client';
@@ -25,7 +26,7 @@ export default function AdminDashboard() {
                 }
 
                 const bookings = (await res.json()) as BookingStatsRecord[];
-                const today = new Date();
+                const today = startOfDay(new Date());
 
                 const pendingBookings = bookings.filter((booking) => booking.status === 'PENDING').length;
                 const activeCheckins = bookings.filter((booking) => {
@@ -33,8 +34,8 @@ export default function AdminDashboard() {
                         return false;
                     }
 
-                    const checkIn = new Date(booking.checkIn);
-                    const checkOut = new Date(booking.checkOut);
+                    const checkIn = startOfDay(new Date(booking.checkIn));
+                    const checkOut = startOfDay(new Date(booking.checkOut));
                     return checkIn <= today && checkOut > today;
                 }).length;
                 const revenue = bookings.reduce((total, booking) => {

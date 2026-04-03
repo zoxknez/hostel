@@ -1,4 +1,4 @@
-import type { Booking, Room } from '@prisma/client';
+import type { Booking, Room, Settings } from '@prisma/client';
 
 export type ApiRoom = Omit<Room, 'images' | 'amenities'> & {
     images: string[];
@@ -24,6 +24,24 @@ export type BookingListItem = Booking & {
 export type BookingConfirmationResponse = Pick<
     Booking,
     'id' | 'bookingNumber' | 'checkIn' | 'checkOut' | 'totalPrice'
+> & {
+    cityTaxPerNight: number;
+    cityTaxTotal: number;
+    grandTotal: number;
+};
+
+export type PublicSettings = Pick<
+    Settings,
+    | 'hostelName'
+    | 'hostelEmail'
+    | 'hostelPhone'
+    | 'checkInTime'
+    | 'checkOutTime'
+    | 'cityTax'
+    | 'currency'
+    | 'minAdvanceBooking'
+    | 'maxAdvanceBooking'
+    | 'cancellationPolicy'
 >;
 
 export interface BookingEmailPayload {

@@ -1,6 +1,6 @@
 'use client';
 
-import type { ApiRoom } from '@/lib/types';
+import type { ApiRoom, PublicSettings } from '@/lib/types';
 import { differenceInDays, format } from 'date-fns';
 import { BedDouble, CalendarRange, Receipt, UserRound } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -9,25 +9,52 @@ import { useBooking } from '@/lib/context/BookingContext';
 export default function BookingSummary() {
     const { checkIn, checkOut, roomId, guestName, guestEmail, numberOfGuests, specialRequests } = useBooking();
     const [room, setRoom] = useState<ApiRoom | null>(null);
+    const [settings, setSettings] = useState<Pick<PublicSettings, 'cityTax' | 'currency'> | null>(null);
 
     useEffect(() => {
-        if (!roomId) {
-            return;
-        }
-
         let active = true;
 
-        async function loadRoom() {
-            const res = await fetch('/api/rooms');
-            const rooms = (await res.json()) as ApiRoom[];
-            const selectedRoom = rooms.find((item) => item.id === roomId) ?? null;
+        async function loadSummaryData() {
+            try {
+                const requests: Promise<void>[] = [];
 
-            if (active) {
-                setRoom(selectedRoom);
+                requests.push((async () => {
+                    const res = await fetch('/api/settings');
+                    if (!res.ok) {
+                        throw new Error('Failed to load settings');
+                    }
+
+                    const data = (await res.json()) as PublicSettings;
+                    if (active) {
+                        setSettings({ cityTax: data.cityTax, currency: data.currency });
+                    }
+                })());
+
+                if (roomId) {
+                    requests.push((async () => {
+                        const res = await fetch('/api/rooms');
+                        if (!res.ok) {
+                            throw new Error('Failed to load rooms');
+                        }
+
+                        const rooms = (await res.json()) as ApiRoom[];
+                        const selectedRoom = rooms.find((item) => item.id === roomId) ?? null;
+
+                        if (active) {
+                            setRoom(selectedRoom);
+                        }
+                    })());
+                } else if (active) {
+                    setRoom(null);
+                }
+
+                await Promise.all(requests);
+            } catch (error) {
+                console.error('Failed to load booking summary data:', error);
             }
         }
 
-        void loadRoom();
+        void loadSummaryData();
 
         return () => {
             active = false;
@@ -37,7 +64,8 @@ export default function BookingSummary() {
     const selectedRoom = roomId ? room : null;
     const nights = checkIn && checkOut ? differenceInDays(checkOut, checkIn) : 0;
     const total = selectedRoom ? nights * selectedRoom.pricePerNight : 0;
-    const cityTaxTotal = nights * 1.35;
+    const currency = settings?.currency || 'EUR';
+    const cityTaxTotal = nights * (settings?.cityTax ?? 1.35);
 
     return (
         <div className="overflow-hidden rounded-[1.8rem] border border-white/8 bg-[linear-gradient(135deg,rgba(16,24,51,0.95)_0%,rgba(9,15,34,0.92)_100%)] p-5 shadow-[0_24px_80px_rgba(0,0,0,0.24)] md:p-6">
@@ -80,7 +108,7 @@ export default function BookingSummary() {
                     {selectedRoom ? (
                         <div className="mt-3">
                             <p className="font-semibold text-white">{selectedRoom.name}</p>
-                            <p className="mt-1 text-sm text-slate-400">EUR {selectedRoom.pricePerNight} per night</p>
+                            <p className="mt-1 text-sm text-slate-400">{currency} {selectedRoom.pricePerNight} per night</p>
                         </div>
                     ) : (
                         <p className="mt-3 text-sm italic text-slate-500">No room selected</p>
@@ -115,16 +143,16 @@ export default function BookingSummary() {
                 <div className="rounded-[1.5rem] border border-[#39ff14]/18 bg-[#39ff14]/8 p-4">
                     <div className="flex items-center justify-between text-sm text-slate-300">
                         <span>Accommodation</span>
-                        <span className="font-medium text-white">EUR {total.toFixed(2)}</span>
+                        <span className="font-medium text-white">{currency} {total.toFixed(2)}</span>
                     </div>
                     <div className="mt-2 flex items-center justify-between text-sm text-slate-300">
                         <span>City Tax (estimated)</span>
-                        <span className="font-medium text-white">EUR {cityTaxTotal.toFixed(2)}</span>
+                        <span className="font-medium text-white">{currency} {cityTaxTotal.toFixed(2)}</span>
                     </div>
                     <div className="mt-4 flex items-center justify-between border-t border-[#39ff14]/18 pt-4">
                         <span className="font-semibold text-white">Total</span>
                         <span className="text-2xl font-black text-[#39ff14]">
-                            EUR {(total + cityTaxTotal).toFixed(2)}
+                            {currency} {(total + cityTaxTotal).toFixed(2)}
                         </span>
                     </div>
                 </div>

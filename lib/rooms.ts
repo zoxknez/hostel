@@ -13,6 +13,12 @@ type SerializedRoomPayload = {
     isActive?: boolean;
 };
 
+function sanitizeStringArray(value: string[]) {
+    return value
+        .map((item) => item.trim())
+        .filter(Boolean);
+}
+
 function parseStringArray(value: string): string[] {
     try {
         const parsed = JSON.parse(value) as unknown;
@@ -42,25 +48,30 @@ export function serializeRoomPayload(room: Partial<AdminRoomFormData>): Serializ
     }
 
     if (room.pricePerNight !== undefined) {
-        data.pricePerNight = Number(room.pricePerNight);
+        const pricePerNight = Number(room.pricePerNight);
+        if (Number.isFinite(pricePerNight) && pricePerNight >= 0) {
+            data.pricePerNight = pricePerNight;
+        }
     }
 
     if (room.capacity !== undefined) {
         const capacity = Number(room.capacity);
-        data.capacity = capacity;
-        data.beds = capacity;
+        if (Number.isInteger(capacity) && capacity > 0) {
+            data.capacity = capacity;
+            data.beds = capacity;
+        }
     }
 
     if (room.description !== undefined) {
-        data.description = room.description;
+        data.description = room.description.trim();
     }
 
     if (room.amenities !== undefined) {
-        data.amenities = JSON.stringify(room.amenities);
+        data.amenities = JSON.stringify(sanitizeStringArray(room.amenities));
     }
 
     if (room.images !== undefined) {
-        data.images = JSON.stringify(room.images);
+        data.images = JSON.stringify(sanitizeStringArray(room.images));
     }
 
     if (room.isActive !== undefined) {
