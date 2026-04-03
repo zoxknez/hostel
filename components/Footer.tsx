@@ -7,13 +7,14 @@ const quickLinks = [
     { label: 'Home', href: '/#home' },
     { label: 'Rooms', href: '/#rooms' },
     { label: 'Gallery', href: '/#gallery' },
+    { label: 'Guides', href: '/#guides' },
     { label: 'Location', href: '/#location' },
     { label: 'Book Stay', href: '/book' },
 ];
 
 export default function Footer() {
     const currentYear = new Date().getFullYear();
-    const streetAddress = 'Koče Popović 6';
+    const streetAddress = 'Ko\u010de Popovi\u0107 6';
 
     return (
         <footer

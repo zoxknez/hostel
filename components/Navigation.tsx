@@ -12,6 +12,7 @@ const navLinks = [
     { id: 'features', label: 'Features' },
     { id: 'rooms', label: 'Rooms' },
     { id: 'gallery', label: 'Gallery' },
+    { id: 'guides', label: 'Guides' },
     { id: 'about', label: 'About Us' },
     { id: 'location', label: 'Location' },
 ];
