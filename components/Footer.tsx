@@ -117,7 +117,7 @@ export default function Footer() {
                                 href="https://mojportfolio.vercel.app"
                                 target="_blank"
                                 rel="noreferrer"
-                                className="text-slate-400 transition-colors hover:text-[#39ff14]"
+                                className="text-white transition-colors hover:text-[#39ff14]"
                             >
                                 Created by o0o0o0o
                             </a>
