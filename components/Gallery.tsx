@@ -6,10 +6,12 @@ import { Camera, Expand, Sparkles } from 'lucide-react';
 import { useRef, useState } from 'react';
 import Image from 'next/image';
 import ImageGallery from './ImageGallery';
+import { useTranslations } from 'next-intl';
 
 const galleryImages = galleryMedia;
 
 export default function Gallery() {
+    const t = useTranslations('Gallery');
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-100px' });
     const [selectedImage, setSelectedImage] = useState<number | null>(null);
@@ -37,19 +39,19 @@ export default function Gallery() {
                         <div className="inline-flex items-center gap-2 rounded-full border border-[#39ff14]/20 bg-[#39ff14]/10 px-4 py-2">
                             <Camera size={14} className="text-[#39ff14]" />
                             <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#39ff14]">
-                                Photo Gallery
+                                {t('photoGallery')}
                             </span>
                         </div>
 
                         <h2 className="section-title mt-6 text-4xl leading-[0.95] md:text-5xl lg:text-6xl">
-                            Inside The <span className="text-gradient">Hostel</span>
+                            {t('insideThe')} <span className="text-gradient">{t('hostel')}</span>
                         </h2>
                         <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-slate-300 md:text-lg">
-                            A cleaner look at the terrace, lounge, kitchen, and practical shared spaces guests actually use.
+                            {t('subtitle')}
                         </p>
 
                         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-                            {['Terrace scenes', 'Shared spaces', 'Everyday essentials'].map((item) => (
+                            {[t('pill1'), t('pill2'), t('pill3')].map((item) => (
                                 <span
                                     key={item}
                                     className="inline-flex rounded-full border border-white/10 bg-white/[0.035] px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400"
@@ -94,7 +96,7 @@ export default function Gallery() {
                                     <div className="absolute inset-x-0 bottom-0 p-5">
                                         <div className="rounded-[1.35rem] border border-white/10 bg-[#08101f]/68 px-4 py-3.5 backdrop-blur-md">
                                             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500">
-                                                Click To Expand
+                                                {t('clickExpand')}
                                             </p>
                                             <h3 className="mt-2 font-heading text-2xl font-bold text-white">
                                                 {image.title}

@@ -15,87 +15,89 @@ import {
     type LucideIcon,
 } from 'lucide-react';
 import { useRef } from 'react';
-
-const facilityCards = [
-    {
-        title: 'Sunny Rooms',
-        description: 'Bright, air-conditioned rooms with a spotless and relaxed feel.',
-        icon: SunMedium,
-        accent: 'from-[#39ff14]/16 via-[#39ff14]/8 to-transparent',
-        iconColor: 'text-[#39ff14]',
-    },
-    {
-        title: 'Entertainment',
-        description: 'Cable TV, book exchange, and a relaxed common area for guests.',
-        icon: Tv2,
-        accent: 'from-[#ffff00]/18 via-[#ffff00]/8 to-transparent',
-        iconColor: 'text-[#ffff00]',
-    },
-    {
-        title: 'Guest Services',
-        description: 'Laundry service and CCTV security focused on everyday comfort.',
-        icon: ShieldCheck,
-        accent: 'from-cyan-400/16 via-cyan-400/8 to-transparent',
-        iconColor: 'text-cyan-300',
-    },
-];
-
-const facilityAmenities = [
-    'Unlimited High-speed WiFi',
-    'Clean Sheets & Towels',
-    '24h Hot Water',
-    'Security Access Keys',
-    'Fully Equipped Kitchen',
-    'Belgrade Maps',
-];
-
-const guestInfoItems: Array<{
-    title: string;
-    description: string;
-    icon: LucideIcon;
-    accent: string;
-    iconColor: string;
-}> = [
-    {
-        title: 'City & Country Info',
-        description: 'Helpful orientation and practical local pointers for moving around Belgrade.',
-        icon: MapPinned,
-        accent: 'from-[#39ff14]/16 via-[#39ff14]/8 to-transparent',
-        iconColor: 'text-[#39ff14]',
-    },
-    {
-        title: 'Accommodation Advice',
-        description: 'Useful stay-related recommendations if you need help planning around the city.',
-        icon: CircleHelp,
-        accent: 'from-[#ffff00]/18 via-[#ffff00]/8 to-transparent',
-        iconColor: 'text-[#ffff00]',
-    },
-    {
-        title: 'Transport Timetables',
-        description: 'Quick guidance for buses, local transport timing, and practical route details.',
-        icon: TrainFront,
-        accent: 'from-cyan-400/16 via-cyan-400/8 to-transparent',
-        iconColor: 'text-cyan-300',
-    },
-    {
-        title: 'Ticket Reservations',
-        description: 'Support with ticket-related questions and planning for onward travel.',
-        icon: Ticket,
-        accent: 'from-emerald-400/14 via-emerald-400/6 to-transparent',
-        iconColor: 'text-emerald-300',
-    },
-    {
-        title: 'Maps & Guides',
-        description: 'Belgrade maps and practical tips that make exploring the city easier.',
-        icon: Sparkles,
-        accent: 'from-slate-200/10 via-slate-200/4 to-transparent',
-        iconColor: 'text-white',
-    },
-];
+import { useTranslations } from 'next-intl';
 
 export default function About() {
+    const t = useTranslations('About');
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-100px' });
+
+    const facilityCards = [
+        {
+            title: t('fac1Title'),
+            description: t('fac1Desc'),
+            icon: SunMedium,
+            accent: 'from-[#39ff14]/16 via-[#39ff14]/8 to-transparent',
+            iconColor: 'text-[#39ff14]',
+        },
+        {
+            title: t('fac2Title'),
+            description: t('fac2Desc'),
+            icon: Tv2,
+            accent: 'from-[#ffff00]/18 via-[#ffff00]/8 to-transparent',
+            iconColor: 'text-[#ffff00]',
+        },
+        {
+            title: t('fac3Title'),
+            description: t('fac3Desc'),
+            icon: ShieldCheck,
+            accent: 'from-cyan-400/16 via-cyan-400/8 to-transparent',
+            iconColor: 'text-cyan-300',
+        },
+    ];
+
+    const facilityAmenities = [
+        t('am1'),
+        t('am2'),
+        t('am3'),
+        t('am4'),
+        t('am5'),
+        t('am6'),
+    ];
+
+    const guestInfoItems: Array<{
+        title: string;
+        description: string;
+        icon: LucideIcon;
+        accent: string;
+        iconColor: string;
+    }> = [
+        {
+            title: t('info1Title'),
+            description: t('info1Desc'),
+            icon: MapPinned,
+            accent: 'from-[#39ff14]/16 via-[#39ff14]/8 to-transparent',
+            iconColor: 'text-[#39ff14]',
+        },
+        {
+            title: t('info2Title'),
+            description: t('info2Desc'),
+            icon: CircleHelp,
+            accent: 'from-[#ffff00]/18 via-[#ffff00]/8 to-transparent',
+            iconColor: 'text-[#ffff00]',
+        },
+        {
+            title: t('info3Title'),
+            description: t('info3Desc'),
+            icon: TrainFront,
+            accent: 'from-cyan-400/16 via-cyan-400/8 to-transparent',
+            iconColor: 'text-cyan-300',
+        },
+        {
+            title: t('info4Title'),
+            description: t('info4Desc'),
+            icon: Ticket,
+            accent: 'from-emerald-400/14 via-emerald-400/6 to-transparent',
+            iconColor: 'text-emerald-300',
+        },
+        {
+            title: t('info5Title'),
+            description: t('info5Desc'),
+            icon: Sparkles,
+            accent: 'from-slate-200/10 via-slate-200/4 to-transparent',
+            iconColor: 'text-white',
+        },
+    ];
 
     return (
         <section id="about" className="relative py-12 md:py-20 bg-[#050816] overflow-hidden">
@@ -112,7 +114,7 @@ export default function About() {
                                 <span className="relative inline-flex rounded-full h-3 w-3 bg-[#39ff14]" />
                             </div>
                             <p className="text-white font-bold text-sm tracking-wide">
-                                Live from downtown
+                                {t('liveFrom')}
                             </p>
                         </div>
                         <div className="relative aspect-square md:aspect-video rounded-2xl overflow-hidden glass-card backdrop-blur-sm md:backdrop-blur-md p-2 group">
@@ -137,17 +139,19 @@ export default function About() {
                     >
                         <div>
                             <h2 className="text-3xl md:text-5xl font-bold mb-6 font-heading">
-                                Perfectly <span className="text-gradient">Centrally Located</span>
+                                {t('perfectlyLocated')} <span className="text-gradient">{t('centrallyLocated')}</span>
                             </h2>
                             <p className="mb-6 text-base leading-relaxed text-slate-300 md:mb-8 md:text-lg">
-                                We are located in the center of the city, around a <span className="text-[#39ff14]">10-minute walk from Kalemegdan</span>, close to the River Sava, Branko&apos;s Bridge, and many more attractions.
+                                {t.rich('locationDesc', {
+                                    highlight: (chunks) => <span className="text-[#39ff14]">{chunks}</span>
+                                })}
                             </p>
 
                             <ul className="mb-8 space-y-3">
                                 {[
-                                    'Tourist attractions, markets, and clubs just around the corner',
-                                    'About a 10-minute walk to Kalemegdan Fortress',
-                                    'Hidden from street noise despite central location'
+                                    t('bullet1'),
+                                    t('bullet2'),
+                                    t('bullet3')
                                 ].map((item, i) => (
                                     <li key={i} className="flex items-start gap-3">
                                         <div className="mt-1 flex h-[20px] min-w-[20px] items-center justify-center rounded-full bg-[#39ff14]/20">
@@ -161,10 +165,10 @@ export default function About() {
                             <div className="glass-card border-l-4 border-[#ffff00] bg-[#ffff00]/5 p-5">
                                 <h3 className="mb-2 flex items-center gap-2 text-lg font-bold text-white">
                                     <TriangleAlert size={18} className="text-[#ffff00]" />
-                                    <span>Important Note</span>
+                                    <span>{t('importantNoteTitle')}</span>
                                 </h3>
                                 <p className="text-sm leading-relaxed text-slate-300">
-                                    We are located on the <strong>5th floor</strong> of a building with no elevator. However, we offer a huge beautiful terrace lounge where you can relax, enjoy coffee/tea, and take in the city view away from the noise.
+                                    {t('importantNoteDesc')}
                                 </p>
                             </div>
                         </div>
@@ -188,20 +192,20 @@ export default function About() {
                                 <div className="inline-flex items-center gap-2 rounded-full border border-[#39ff14]/15 bg-[#39ff14]/8 px-3.5 py-2">
                                     <Sparkles size={14} className="text-[#39ff14]" />
                                     <span className="text-[10px] font-semibold uppercase tracking-[0.24em] text-[#39ff14]">
-                                        Designed Around Comfort
+                                        {t('designedSupport')}
                                     </span>
                                 </div>
 
                                 <h2 className="section-title mt-4 text-3xl md:text-4xl lg:text-5xl leading-[0.95]">
-                                    World-Class <span className="text-gradient">Facilities</span>
+                                    {t('worldClass')} <span className="text-gradient">{t('facilities')}</span>
                                 </h2>
                                 <p className="mt-4 max-w-xl text-sm md:text-[15px] leading-relaxed text-slate-300">
-                                    Bright rooms, shared spaces, and the practical details that make the stay feel easy from day one.
+                                    {t('comfortDesc')}
                                 </p>
                             </div>
 
                             <div className="inline-flex w-fit rounded-full border border-white/10 bg-white/[0.035] px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-400">
-                                3 comfort zones
+                                {t('comfortZones')}
                             </div>
                         </div>
 
@@ -239,14 +243,14 @@ export default function About() {
                             <div className="flex flex-col gap-3 border-b border-white/8 pb-4 md:flex-row md:items-center md:justify-between">
                                 <div>
                                     <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-                                        Included Essentials
+                                        {t('includedEssentials')}
                                     </p>
                                     <h3 className="mt-2 text-xl font-bold text-white">
-                                        The practical details that make the stay easy
+                                        {t('practicalDetails')}
                                     </h3>
                                 </div>
                                 <span className="inline-flex w-fit rounded-full border border-[#39ff14]/15 bg-[#39ff14]/8 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#39ff14]">
-                                    6 verified amenities
+                                    {t('verifiedAmenities')}
                                 </span>
                             </div>
 
@@ -282,16 +286,16 @@ export default function About() {
                                     <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#39ff14]/15 bg-[#39ff14]/8 px-3.5 py-2">
                                         <Sparkles size={14} className="text-[#39ff14]" />
                                         <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#39ff14]">
-                                            Experience The Vibe
+                                            {t('experienceVibe')}
                                         </span>
                                     </div>
 
                                     <div className="space-y-3">
                                         <h2 className="section-title text-3xl leading-tight md:text-4xl">
-                                            See The <span className="text-gradient">Atmosphere</span>
+                                            {t('seeThe')} <span className="text-gradient">{t('atmosphere')}</span>
                                         </h2>
                                         <p className="max-w-xl text-base leading-relaxed text-slate-300 md:text-lg">
-                                            A quick look at the terrace, lounge, and shared spaces that shape the everyday hostel feel.
+                                            {t('atmosphereDesc')}
                                         </p>
                                     </div>
                                 </div>
@@ -314,10 +318,10 @@ export default function About() {
                                         <div className="absolute inset-x-3 bottom-3 sm:inset-x-5 sm:bottom-5">
                                             <div className="rounded-[1.2rem] border border-white/10 bg-[#08101f]/68 p-3 backdrop-blur-md sm:rounded-[1.35rem] sm:p-4">
                                                 <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
-                                                    Inside The Stay
+                                                    {t('insideStay')}
                                                 </p>
                                                 <div className="mt-3 flex flex-wrap gap-2">
-                                                    {['Terrace scenes', 'Shared lounge', 'Real hostel atmosphere'].map((item) => (
+                                                    {[t('tag1'), t('tag2'), t('tag3')].map((item) => (
                                                         <span
                                                             key={item}
                                                             className="inline-flex rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-200 sm:px-3 sm:tracking-[0.16em]"
@@ -350,16 +354,16 @@ export default function About() {
                                     <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#ffff00]/15 bg-[#ffff00]/8 px-3.5 py-2">
                                         <Sparkles size={14} className="text-[#ffff00]" />
                                         <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#ffff00]">
-                                            Local Support
+                                            {t('localSupport')}
                                         </span>
                                     </div>
 
                                     <div className="space-y-3">
                                         <h2 className="section-title text-3xl leading-tight md:text-4xl">
-                                            Helpful <span className="text-gradient">Guest Info</span>
+                                            {t('helpful')} <span className="text-gradient">{t('guestInfo')}</span>
                                         </h2>
                                         <p className="max-w-xl text-base leading-relaxed text-slate-300 md:text-lg">
-                                            During your stay, we can help with practical local information, transport basics, and everyday pointers that make the city easier to navigate.
+                                            {t('guestInfoDesc')}
                                         </p>
                                     </div>
                                 </div>

@@ -1,6 +1,7 @@
 import { guestGuides } from '@/lib/guest-guides';
 import { ArrowUpRight, Compass, MapPinned, ShieldCheck, Sparkles, type LucideIcon } from 'lucide-react';
-import Link from 'next/link';
+import { Link } from '../i18n/routing';
+import { useTranslations } from 'next-intl';
 
 const iconMap: Record<(typeof guestGuides)[number]['icon'], LucideIcon> = {
     route: MapPinned,
@@ -20,7 +21,17 @@ const iconColorMap: Record<(typeof guestGuides)[number]['icon'], string> = {
     map: 'text-cyan-300',
 };
 
+type TKey = Parameters<ReturnType<typeof useTranslations<'GuestGuides'>>>[0];
+
+const guideKeysMap: Record<string, string> = {
+    'getting-here': 'gettingHere',
+    'house-rules': 'houseRules',
+    'belgrade-guide': 'belgradeGuide',
+};
+
 export default function GuestGuides() {
+    const t = useTranslations('GuestGuides');
+
     return (
         <section id="guides" className="relative overflow-hidden px-6 py-16 md:px-8 md:py-24">
             <div className="absolute left-0 top-24 h-72 w-72 -translate-x-1/3 rounded-full bg-[#39ff14]/6 blur-[120px] pointer-events-none" />
@@ -31,21 +42,31 @@ export default function GuestGuides() {
                     <div className="inline-flex items-center gap-2 rounded-full border border-[#39ff14]/20 bg-[#39ff14]/10 px-4 py-2">
                         <Sparkles size={14} className="text-[#39ff14]" />
                         <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#39ff14]">
-                            Guest Guides
+                            {t('guestGuides')}
                         </span>
                     </div>
 
                     <h2 className="section-title mt-6 text-4xl leading-[0.95] md:text-5xl lg:text-6xl">
-                        Practical <span className="text-gradient">Travel Notes</span>
+                        {t('practical')} <span className="text-gradient">{t('travelNotes')}</span>
                     </h2>
                     <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-slate-300 md:text-lg">
-                        We turned the most useful guest information into clean, easy-to-open guides so visitors can plan arrival, understand the stay, and make the most of Belgrade.
+                        {t('subtitle')}
                     </p>
                 </div>
 
                 <div className="mt-10 grid gap-5 xl:grid-cols-3">
                     {guestGuides.map((guide) => {
                         const Icon = iconMap[guide.icon];
+                        const baseKey = guideKeysMap[guide.slug];
+                        const eyebrowKey = `${baseKey}Eyebrow` as TKey;
+                        const titleKey = `${baseKey}Title` as TKey;
+                        const summaryKey = `${baseKey}Summary` as TKey;
+                        const pointsKey = `${baseKey}Points` as TKey;
+
+                        const translatedEyebrow = t(eyebrowKey);
+                        const translatedTitle = t(titleKey);
+                        const translatedSummary = t(summaryKey);
+                        const translatedPoints = t.raw(pointsKey) as string[];
 
                         return (
                             <article
@@ -61,24 +82,24 @@ export default function GuestGuides() {
                                             <Icon size={20} strokeWidth={2.1} />
                                         </div>
                                         <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-300">
-                                            Opens in new tab
+                                            {t('opensNewTab')}
                                         </span>
                                     </div>
 
                                     <div className="mt-5">
                                         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-                                            {guide.eyebrow}
+                                            {translatedEyebrow}
                                         </p>
                                         <h3 className="mt-2 font-heading text-2xl font-bold text-white">
-                                            {guide.title}
+                                            {translatedTitle}
                                         </h3>
                                         <p className="mt-3 text-sm leading-7 text-slate-300">
-                                            {guide.cardSummary}
+                                            {translatedSummary}
                                         </p>
                                     </div>
 
                                     <div className="mt-5 space-y-2.5">
-                                        {guide.cardPoints.map((point) => (
+                                        {translatedPoints.map((point) => (
                                             <div
                                                 key={point}
                                                 className="flex items-center gap-3 rounded-2xl border border-white/6 bg-white/[0.03] px-4 py-3"
@@ -96,7 +117,7 @@ export default function GuestGuides() {
                                             rel="noreferrer"
                                             className="inline-flex items-center gap-2 rounded-full border border-[#39ff14]/18 bg-[#39ff14]/10 px-4 py-2.5 text-sm font-semibold text-[#39ff14] transition-colors hover:border-[#39ff14]/30 hover:bg-[#39ff14]/16"
                                         >
-                                            Open guide
+                                            {t('openGuide')}
                                             <ArrowUpRight size={15} />
                                         </Link>
                                     </div>

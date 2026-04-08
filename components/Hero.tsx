@@ -2,14 +2,17 @@
 
 import { ArrowRight, MapPinned, Sparkles, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
-
-const heroStats = [
-    { value: '4.8', label: 'TripAdvisor rating' },
-    { value: '10K+', label: 'Happy guests' },
-    { value: 'City', label: 'Views' },
-];
+import { useTranslations } from 'next-intl';
 
 export default function Hero() {
+    const t = useTranslations('Hero');
+
+    const heroStats = [
+        { value: t('stat1Value'), label: t('stat1Label') },
+        { value: t('stat2Value'), label: t('stat2Label') },
+        { value: t('stat3Value'), label: t('stat3Label') },
+    ];
+
     return (
         <section id="home" className="relative flex min-h-screen items-center justify-center overflow-hidden">
             <video
@@ -54,14 +57,14 @@ export default function Hero() {
                 >
                     <Star size={14} className="fill-[#39ff14] text-[#39ff14]" />
                     <span className="text-sm font-semibold uppercase tracking-[0.22em] text-[#39ff14]">
-                        Top Rated in Belgrade
+                        {t('topRated')}
                     </span>
                 </motion.div>
 
                 <h1 className="section-title mt-8 text-4xl sm:text-6xl md:text-7xl lg:text-8xl">
-                    <span className="text-white">Welcome to</span>
+                    <span className="text-white">{t('welcomeTo')}</span>
                     <br />
-                    <span className="text-gradient">Hostel Downtown Inn</span>
+                    <span className="text-gradient">{t('hostelName')}</span>
                 </h1>
 
                 <motion.p
@@ -70,8 +73,7 @@ export default function Hero() {
                     transition={{ duration: 0.75, delay: 0.35 }}
                     className="mx-auto mt-8 max-w-3xl text-lg leading-relaxed text-slate-300 md:text-xl lg:text-2xl"
                 >
-                    Experience Belgrade with premium comfort, a central base in Savamala,
-                    and a calmer city stay shaped around practical details guests actually use.
+                    {t('description')}
                 </motion.p>
 
                 <motion.div
@@ -80,7 +82,7 @@ export default function Hero() {
                     transition={{ duration: 0.75, delay: 0.5 }}
                     className="mt-6 flex flex-wrap items-center justify-center gap-3"
                 >
-                    {['Central Savamala location', 'Bright rooms', 'City views'].map((item) => (
+                    {[t('perk1'), t('perk2'), t('perk3')].map((item) => (
                         <span
                             key={item}
                             className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-200"
@@ -98,7 +100,7 @@ export default function Hero() {
                     className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row"
                 >
                     <a href="#rooms" className="btn-primary min-w-[220px] justify-center gap-2">
-                        Explore Rooms
+                        {t('exploreRooms')}
                         <ArrowRight size={16} />
                     </a>
                     <a
@@ -108,7 +110,7 @@ export default function Hero() {
                         className="btn-outline min-w-[220px] justify-center gap-2"
                     >
                         <MapPinned size={16} />
-                        TripAdvisor Reviews
+                        {t('tripAdvisorReviews')}
                     </a>
                 </motion.div>
 
@@ -138,7 +140,7 @@ export default function Hero() {
                 className="absolute bottom-8 left-1/2 -translate-x-1/2"
             >
                 <div className="flex flex-col items-center gap-2">
-                    <span className="text-xs uppercase tracking-[0.28em] text-slate-500">Scroll</span>
+                    <span className="text-xs uppercase tracking-[0.28em] text-slate-500">{t('scroll')}</span>
                     <motion.div
                         animate={{ y: [0, 8, 0] }}
                         transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}

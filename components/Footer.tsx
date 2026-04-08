@@ -1,20 +1,22 @@
 'use client';
 
 import { Mail, MapPinned, Phone, Sparkles } from 'lucide-react';
-import Link from 'next/link';
-
-const quickLinks = [
-    { label: 'Home', href: '/#home' },
-    { label: 'Rooms', href: '/#rooms' },
-    { label: 'Gallery', href: '/#gallery' },
-    { label: 'Guides', href: '/#guides' },
-    { label: 'Location', href: '/#location' },
-    { label: 'Book Stay', href: '/book' },
-];
+import { Link } from '../i18n/routing';
+import { useTranslations } from 'next-intl';
 
 export default function Footer() {
+    const t = useTranslations('Footer');
     const currentYear = new Date().getFullYear();
-    const streetAddress = 'Ko\u010de Popovi\u0107 6';
+    const streetAddress = 'Koče Popović 6';
+
+    const quickLinks = [
+        { label: t('linkHome'), href: '/#home' },
+        { label: t('linkRooms'), href: '/#rooms' },
+        { label: t('linkGallery'), href: '/#gallery' },
+        { label: t('linkGuides'), href: '/#guides' },
+        { label: t('linkLocation'), href: '/#location' },
+        { label: t('linkBook'), href: '/book' },
+    ];
 
     return (
         <footer
@@ -38,10 +40,10 @@ export default function Footer() {
                             </div>
 
                             <h3 className="mt-5 font-heading text-3xl font-bold text-white md:text-4xl">
-                                A calmer city stay in <span className="text-gradient">Belgrade</span>
+                                {t('subtitle')} <span className="text-gradient">{t('city')}</span>
                             </h3>
                             <p className="mt-4 max-w-xl text-sm leading-7 text-slate-300 md:text-[15px]">
-                                Premium comfort, a central Savamala location, bright rooms, and practical details that make the stay feel easy from arrival to checkout.
+                                {t('desc')}
                             </p>
 
                             <div className="mt-6 flex flex-wrap gap-3">
@@ -57,14 +59,14 @@ export default function Footer() {
                                     className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-4 py-2.5 text-sm font-medium text-slate-200 transition-colors hover:border-[#39ff14]/20"
                                 >
                                     <Mail size={15} className="text-[#39ff14]" />
-                                    <span>Email Hostel</span>
+                                    <span>{t('emailHostel')}</span>
                                 </a>
                             </div>
                         </div>
 
                         <div>
                             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-                                Quick Links
+                                {t('quickLinks')}
                             </p>
                             <div className="mt-5 grid gap-2">
                                 {quickLinks.map((link) => (
@@ -81,7 +83,7 @@ export default function Footer() {
 
                         <div>
                             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-                                Contact & Address
+                                {t('contactAddress')}
                             </p>
                             <div className="mt-5 space-y-3">
                                 <div className="rounded-[1.35rem] border border-white/6 bg-white/[0.03] px-4 py-4">
@@ -98,7 +100,7 @@ export default function Footer() {
 
                                 <div className="rounded-[1.35rem] border border-white/6 bg-white/[0.03] px-4 py-4">
                                     <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
-                                        Booking Contact
+                                        {t('bookingContact')}
                                     </p>
                                     <div className="mt-3 space-y-2 text-sm text-slate-300">
                                         <p>hostelinndowntown@gmail.com</p>
@@ -111,7 +113,7 @@ export default function Footer() {
 
                     <div className="mt-8 flex flex-col gap-3 border-t border-white/8 pt-6 text-sm text-slate-500 md:flex-row md:items-center md:justify-between">
                         <div className="flex flex-wrap items-center gap-2">
-                            <p>&copy; {currentYear} Hostel Downtown Inn Belgrade. All rights reserved.</p>
+                            <p>&copy; {currentYear} Hostel Downtown Inn Belgrade. {t('allRights')}</p>
                             <span className="hidden text-slate-700 md:inline">|</span>
                             <a
                                 href="https://mojportfolio.vercel.app"
@@ -119,12 +121,12 @@ export default function Footer() {
                                 rel="noreferrer"
                                 className="text-white transition-colors hover:text-[#39ff14]"
                             >
-                                Created by o0o0o0o
+                                {t('created')} o0o0o0o
                             </a>
                         </div>
                         <div className="flex flex-wrap gap-4">
-                            <span>Belgrade, Serbia</span>
-                            <span>Central hostel stay</span>
+                            <span>{t('country')}</span>
+                            <span>{t('hostelStay')}</span>
                         </div>
                     </div>
                 </div>

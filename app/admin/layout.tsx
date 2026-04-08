@@ -6,6 +6,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { Menu, X, LogOut, LayoutDashboard, Calendar, BedDouble, Settings, ClipboardList } from 'lucide-react';
+import { Outfit, Inter } from "next/font/google";
+import '../globals.css';
 
 const sidebarItems = [
     { label: 'Overview', href: '/admin', icon: LayoutDashboard },
@@ -14,6 +16,18 @@ const sidebarItems = [
     { label: 'Rooms', href: '/admin/rooms', icon: BedDouble },
     { label: 'Settings', href: '/admin/settings', icon: Settings },
 ];
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
     const pathname = usePathname();
@@ -88,67 +102,71 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     );
 
     return (
-        <div className="min-h-screen bg-[#02040a] flex flex-col md:flex-row">
-            {/* Mobile Header */}
-            <div className="md:hidden flex items-center justify-between p-4 border-b border-white/5 bg-[#050816]/80 backdrop-blur-xl sticky top-0 z-50">
-                <div className="flex items-center gap-2">
-                    <Image
-                        src="/logo.png"
-                        alt="Hostel Downtown Inn"
-                        width={32}
-                        height={32}
-                        className="w-8 h-8 rounded-lg shadow-[0_0_10px_rgba(57,255,20,0.3)] object-cover"
-                    />
-                    <span className="font-bold text-white">Admin</span>
-                </div>
-                <button
-                    onClick={() => setIsSidebarOpen(true)}
-                    className="p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
-                >
-                    <Menu size={24} />
-                </button>
-            </div>
-
-            {/* Mobile Sidebar Overlay */}
-            <AnimatePresence>
-                {isSidebarOpen && (
-                    <>
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            onClick={() => setIsSidebarOpen(false)}
-                            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 md:hidden"
-                        />
-                        <motion.aside
-                            initial={{ x: '-100%' }}
-                            animate={{ x: 0 }}
-                            exit={{ x: '-100%' }}
-                            transition={{ type: 'spring', damping: 20 }}
-                            className="fixed inset-y-0 left-0 w-64 bg-[#050816] border-r border-white/10 z-50 md:hidden"
+        <html lang="en" className={`${outfit.variable} ${inter.variable}`} suppressHydrationWarning>
+            <body className="antialiased bg-primary text-white font-body">
+                <div className="min-h-screen bg-[#02040a] flex flex-col md:flex-row">
+                    {/* Mobile Header */}
+                    <div className="md:hidden flex items-center justify-between p-4 border-b border-white/5 bg-[#050816]/80 backdrop-blur-xl sticky top-0 z-50">
+                        <div className="flex items-center gap-2">
+                            <Image
+                                src="/logo.png"
+                                alt="Hostel Downtown Inn"
+                                width={32}
+                                height={32}
+                                className="w-8 h-8 rounded-lg shadow-[0_0_10px_rgba(57,255,20,0.3)] object-cover"
+                            />
+                            <span className="font-bold text-white">Admin</span>
+                        </div>
+                        <button
+                            onClick={() => setIsSidebarOpen(true)}
+                            className="p-2 text-white hover:bg-white/10 rounded-lg transition-colors"
                         >
-                            <div className="absolute top-4 right-4">
-                                <button onClick={() => setIsSidebarOpen(false)} className="text-slate-400 hover:text-white">
-                                    <X size={20} />
-                                </button>
-                            </div>
-                            <SidebarContent />
-                        </motion.aside>
-                    </>
-                )}
-            </AnimatePresence>
+                            <Menu size={24} />
+                        </button>
+                    </div>
 
-            {/* Desktop Sidebar */}
-            <aside className="hidden md:block w-64 border-r border-white/5 bg-[#050816] fixed inset-y-0 left-0">
-                <SidebarContent />
-            </aside>
+                    {/* Mobile Sidebar Overlay */}
+                    <AnimatePresence>
+                        {isSidebarOpen && (
+                            <>
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    onClick={() => setIsSidebarOpen(false)}
+                                    className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 md:hidden"
+                                />
+                                <motion.aside
+                                    initial={{ x: '-100%' }}
+                                    animate={{ x: 0 }}
+                                    exit={{ x: '-100%' }}
+                                    transition={{ type: 'spring', damping: 20 }}
+                                    className="fixed inset-y-0 left-0 w-64 bg-[#050816] border-r border-white/10 z-50 md:hidden"
+                                >
+                                    <div className="absolute top-4 right-4">
+                                        <button onClick={() => setIsSidebarOpen(false)} className="text-slate-400 hover:text-white">
+                                            <X size={20} />
+                                        </button>
+                                    </div>
+                                    <SidebarContent />
+                                </motion.aside>
+                            </>
+                        )}
+                    </AnimatePresence>
 
-            {/* Main Content */}
-            <main className="flex-1 overflow-y-auto w-full md:pl-64">
-                <div className="p-4 md:p-12 max-w-7xl mx-auto">
-                    {children}
+                    {/* Desktop Sidebar */}
+                    <aside className="hidden md:block w-64 border-r border-white/5 bg-[#050816] fixed inset-y-0 left-0">
+                        <SidebarContent />
+                    </aside>
+
+                    {/* Main Content */}
+                    <main className="flex-1 overflow-y-auto w-full md:pl-64">
+                        <div className="p-4 md:p-12 max-w-7xl mx-auto">
+                            {children}
+                        </div>
+                    </main>
                 </div>
-            </main>
-        </div>
+            </body>
+        </html>
     );
 }

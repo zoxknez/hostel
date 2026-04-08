@@ -23,42 +23,13 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import type { Room } from '@/lib/data';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '../i18n/routing';
+import { useTranslations } from 'next-intl';
 
 interface RoomModalProps {
     room: Room;
     onClose: () => void;
 }
-
-const roomModalMeta: Record<string, {
-    eyebrow: string;
-    summary: string;
-    badge: string;
-    accent: string;
-    amenities: string[];
-}> = {
-    double: {
-        eyebrow: 'Private Stay',
-        summary: 'A calmer private room with a double bed, shared facilities, and full access to the terrace, kitchen, and lounge areas.',
-        badge: 'Best for two guests',
-        accent: 'from-[#39ff14]/18 via-[#39ff14]/8 to-transparent',
-        amenities: ['WiFi', 'Towels', 'Linens', 'Heating', 'Kitchen access', 'Terrace lounge'],
-    },
-    'four-bed': {
-        eyebrow: 'Social Dorm',
-        summary: 'A balanced shared room with two bunk beds, personal lockers, and a more intimate hostel atmosphere.',
-        badge: 'Shared comfort',
-        accent: 'from-[#ffff00]/16 via-[#ffff00]/7 to-transparent',
-        amenities: ['WiFi', 'Linens', 'Heating', 'Personal lockers', 'Reading lights', 'Shared bathroom'],
-    },
-    'six-bed': {
-        eyebrow: 'Shared Energy',
-        summary: 'A brighter, more social dorm with three bunk beds, personal storage, and a lively hostel feel.',
-        badge: 'Most social option',
-        accent: 'from-cyan-400/16 via-cyan-400/7 to-transparent',
-        amenities: ['WiFi', 'Linens', 'Heating', 'Personal lockers', 'Shared bathroom', 'Bright city-facing room'],
-    },
-};
 
 const featureIconMap: Record<string, LucideIcon> = {
     'Double Bed': BedDouble,
@@ -78,14 +49,37 @@ const featureIconMap: Record<string, LucideIcon> = {
 };
 
 export default function RoomModal({ room, onClose }: RoomModalProps) {
+    const t = useTranslations('Rooms');
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-    const meta = roomModalMeta[room.id] ?? {
-        eyebrow: 'Room Details',
+    const meta = {
+        double: {
+            eyebrow: t('doubleModalEyebrow'),
+            summary: t('doubleModalSummary'),
+            badge: t('doubleModalBadge'),
+            accent: 'from-[#39ff14]/18 via-[#39ff14]/8 to-transparent',
+            amenities: [t('doubleModalAm1'), t('doubleModalAm2'), t('doubleModalAm3'), t('doubleModalAm4'), t('doubleModalAm5'), t('doubleModalAm6')],
+        },
+        'four-bed': {
+            eyebrow: t('fourModalEyebrow'),
+            summary: t('fourModalSummary'),
+            badge: t('fourModalBadge'),
+            accent: 'from-[#ffff00]/16 via-[#ffff00]/7 to-transparent',
+            amenities: [t('fourModalAm1'), t('fourModalAm2'), t('fourModalAm3'), t('fourModalAm4'), t('fourModalAm5'), t('fourModalAm6')],
+        },
+        'six-bed': {
+            eyebrow: t('sixModalEyebrow'),
+            summary: t('sixModalSummary'),
+            badge: t('sixModalBadge'),
+            accent: 'from-cyan-400/16 via-cyan-400/7 to-transparent',
+            amenities: [t('sixModalAm1'), t('sixModalAm2'), t('sixModalAm3'), t('sixModalAm4'), t('sixModalAm5'), t('sixModalAm6')],
+        },
+    }[room.id] ?? {
+        eyebrow: t('modalEyebrow'),
         summary: room.description,
         badge: 'Hostel Downtown Inn',
         accent: 'from-[#39ff14]/16 via-[#39ff14]/8 to-transparent',
-        amenities: ['WiFi', 'Linens', 'Heating'],
+        amenities: ['WiFi'],
     };
 
     const stayNotes = useMemo(() => room.details.slice(0, 3), [room.details]);
@@ -147,11 +141,11 @@ export default function RoomModal({ room, onClose }: RoomModalProps) {
                 <div className="absolute right-0 top-0 h-64 w-64 rounded-full bg-[#39ff14]/6 blur-[130px] pointer-events-none" />
                 <div className="absolute bottom-0 left-0 h-56 w-56 rounded-full bg-[#ffff00]/5 blur-[120px] pointer-events-none" />
 
-                    <button
-                        type="button"
-                        onClick={onClose}
-                        aria-label="Close room details"
-                        className="absolute right-3 top-3 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#07101f]/85 text-slate-200 transition-all hover:scale-105 hover:border-[#39ff14]/30 hover:text-white md:right-4 md:top-4 md:h-11 md:w-11"
+                <button
+                    type="button"
+                    onClick={onClose}
+                    aria-label="Close room details"
+                    className="absolute right-3 top-3 z-30 flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-[#07101f]/85 text-slate-200 transition-all hover:scale-105 hover:border-[#39ff14]/30 hover:text-white md:right-4 md:top-4 md:h-11 md:w-11"
                 >
                     <X size={18} />
                 </button>
@@ -239,7 +233,7 @@ export default function RoomModal({ room, onClose }: RoomModalProps) {
                             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-[#39ff14]/15 bg-[#39ff14]/8 px-3.5 py-2">
                                 <Info size={14} className="text-[#39ff14]" />
                                 <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#39ff14]">
-                                    Room Details
+                                    {t('modalEyebrow')}
                                 </span>
                             </div>
 
@@ -257,12 +251,12 @@ export default function RoomModal({ room, onClose }: RoomModalProps) {
                             <div className="mt-6">
                                 <div className="flex items-center gap-2">
                                     <span className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-                                        Room Features
+                                        {t('modalEyebrow')}
                                     </span>
                                 </div>
                                 <div className="mt-3 grid gap-3 sm:grid-cols-2">
                                     {room.features.map((feature) => {
-                                        const Icon = featureIconMap[feature.title] ?? Sparkles;
+                                        const Icon = featureIconMap[feature.staticTitle ?? feature.icon] ?? Sparkles;
 
                                         return (
                                             <div
@@ -283,7 +277,7 @@ export default function RoomModal({ room, onClose }: RoomModalProps) {
 
                             <div className="mt-6">
                                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-                                    Stay Notes
+                                    {t('stayNotes')}
                                 </p>
                                 <div className="mt-3 space-y-3">
                                     {stayNotes.map((detail) => (
@@ -300,7 +294,7 @@ export default function RoomModal({ room, onClose }: RoomModalProps) {
 
                             <div className="mt-6">
                                 <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-                                    Included Essentials
+                                    {t('includedEssentials')}
                                 </p>
                                 <div className="mt-3 flex flex-wrap gap-2.5">
                                     {meta.amenities.map((amenity) => (
@@ -319,14 +313,14 @@ export default function RoomModal({ room, onClose }: RoomModalProps) {
                                     href={`/book?room=${room.id}`}
                                     className="btn-primary flex-1 py-3.5 text-center text-sm"
                                 >
-                                    Book This Stay
+                                    {t('bookThisStay')}
                                 </Link>
                                 <a
                                     href="tel:+381652288200"
                                     className="btn-outline flex flex-1 items-center justify-center gap-2 py-3.5 text-center text-sm"
                                 >
                                     <Phone size={16} />
-                                    Quick Call
+                                    {t('quickCall')}
                                 </a>
                             </div>
                         </div>

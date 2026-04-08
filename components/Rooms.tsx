@@ -22,74 +22,13 @@ import {
 } from 'lucide-react';
 import { useRef, useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
+import { Link } from '../i18n/routing';
 import { roomsData } from '@/lib/data';
 import type { Room } from '@/lib/data';
 import RoomModal from './RoomModal';
+import { useTranslations } from 'next-intl';
 
-const roomMeta: Record<string, {
-    eyebrow: string;
-    accent: string;
-    note: string;
-}> = {
-    double: {
-        eyebrow: 'Private Stay',
-        accent: 'from-[#39ff14]/18 via-[#39ff14]/8 to-transparent',
-        note: 'Best for couples or a quieter city stay.',
-    },
-    'four-bed': {
-        eyebrow: 'Social Dorm',
-        accent: 'from-[#ffff00]/16 via-[#ffff00]/7 to-transparent',
-        note: 'Balanced comfort with a more intimate hostel feel.',
-    },
-    'six-bed': {
-        eyebrow: 'Shared Energy',
-        accent: 'from-cyan-400/16 via-cyan-400/7 to-transparent',
-        note: 'More social, more movement, still bright and well kept.',
-    },
-};
-
-const infoCards: Array<{
-    title: string;
-    description: string;
-    icon: LucideIcon;
-    accent: string;
-    glow: string;
-    label: string;
-}> = [
-    {
-        title: '5th Floor Location',
-        description: 'Building without elevator',
-        icon: MapPinned,
-        accent: 'text-[#39ff14]',
-        glow: 'from-[#39ff14]/16 via-[#39ff14]/6 to-transparent',
-        label: 'Arrival Note',
-    },
-    {
-        title: 'Savamala District',
-        description: "Belgrade's bohemian quarter",
-        icon: Building2,
-        accent: 'text-[#ffff00]',
-        glow: 'from-[#ffff00]/16 via-[#ffff00]/6 to-transparent',
-        label: 'Neighborhood',
-    },
-    {
-        title: '10 Min to Knez Mihailova',
-        description: 'Main pedestrian zone',
-        icon: Footprints,
-        accent: 'text-cyan-300',
-        glow: 'from-cyan-400/16 via-cyan-400/6 to-transparent',
-        label: 'Walkability',
-    },
-    {
-        title: 'City Tax: EUR 1.35/night',
-        description: 'Paid in cash on arrival',
-        icon: WalletCards,
-        accent: 'text-emerald-300',
-        glow: 'from-emerald-400/16 via-emerald-400/6 to-transparent',
-        label: 'Payment Detail',
-    },
-];
+type TKey = Parameters<ReturnType<typeof useTranslations<'Rooms'>>>[0];
 
 const roomFeatureIconMap: Record<string, LucideIcon> = {
     'Double Bed': BedDouble,
@@ -106,9 +45,124 @@ const roomFeatureIconMap: Record<string, LucideIcon> = {
 };
 
 export default function Rooms() {
+    const t = useTranslations('Rooms');
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-100px' });
     const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
+
+    const roomMeta: Record<string, {
+        eyebrow: string;
+        accent: string;
+        note: string;
+    }> = {
+        double: {
+            eyebrow: t('doubleEyebrow'),
+            accent: 'from-[#39ff14]/18 via-[#39ff14]/8 to-transparent',
+            note: t('doubleNote'),
+        },
+        'four-bed': {
+            eyebrow: t('fourEyebrow'),
+            accent: 'from-[#ffff00]/16 via-[#ffff00]/7 to-transparent',
+            note: t('fourNote'),
+        },
+        'six-bed': {
+            eyebrow: t('sixEyebrow'),
+            accent: 'from-cyan-400/16 via-cyan-400/7 to-transparent',
+            note: t('sixNote'),
+        },
+    };
+
+    const infoCards: Array<{
+        title: string;
+        description: string;
+        icon: LucideIcon;
+        accent: string;
+        glow: string;
+        label: string;
+    }> = [
+        {
+            title: t('info1Title'),
+            description: t('info1Desc'),
+            icon: MapPinned,
+            accent: 'text-[#39ff14]',
+            glow: 'from-[#39ff14]/16 via-[#39ff14]/6 to-transparent',
+            label: t('info1Label'),
+        },
+        {
+            title: t('info2Title'),
+            description: t('info2Desc'),
+            icon: Building2,
+            accent: 'text-[#ffff00]',
+            glow: 'from-[#ffff00]/16 via-[#ffff00]/6 to-transparent',
+            label: t('info2Label'),
+        },
+        {
+            title: t('info3Title'),
+            description: t('info3Desc'),
+            icon: Footprints,
+            accent: 'text-cyan-300',
+            glow: 'from-cyan-400/16 via-cyan-400/6 to-transparent',
+            label: t('info3Label'),
+        },
+        {
+            title: t('info4Title'),
+            description: t('info4Desc'),
+            icon: WalletCards,
+            accent: 'text-emerald-300',
+            glow: 'from-emerald-400/16 via-emerald-400/6 to-transparent',
+            label: t('info4Label'),
+        },
+    ];
+
+    const translatedRoomsData: Room[] = roomsData.map(room => {
+        let titleKey = 'doubleTitle';
+        let subKey = 'doubleSubtitle';
+        let descKey = 'doubleDesc';
+        let feat1Key = 'doubleFeature1';
+        let feat1Static = 'Double Bed';
+        
+        if (room.id === 'four-bed') {
+            titleKey = 'fourTitle';
+            subKey = 'fourSubtitle';
+            descKey = 'fourDesc';
+            feat1Key = 'fourFeature1';
+            feat1Static = '4 Beds';
+        } else if (room.id === 'six-bed') {
+            titleKey = 'sixTitle';
+            subKey = 'sixSubtitle';
+            descKey = 'sixDesc';
+            feat1Key = 'sixFeature1';
+            feat1Static = '6 Beds';
+        }
+
+        const roomInfoDetails = [
+            t('info1Desc'),
+            t('info3Desc'),
+            t('info4Desc')
+        ];
+
+        return {
+            ...room,
+            title: t(titleKey as TKey),
+            subtitle: t(subKey as TKey),
+            description: t(descKey as TKey),
+            details: roomInfoDetails,
+            features: room.features.map(f => {
+                let trans;
+                if (f.title === feat1Static) trans = t(feat1Key as TKey);
+                else if (f.title === 'Shared Bathroom') trans = t('sharedFeatureBath');
+                else if (f.title === 'Kitchen Access') trans = t('sharedFeatureKitchen');
+                else if (f.title === 'Terrace') trans = t('sharedFeatureTerrace');
+                else if (f.title === 'WiFi') trans = t('sharedFeatureWiFi');
+                else if (f.title === 'City Maps') trans = t('sharedFeatureMaps');
+                else if (f.title === 'Personal Lockers') trans = t('sharedFeatureLocker');
+                else if (f.title === 'Reading Lights') trans = t('sharedFeatureLight');
+                else if (f.title === 'Great Views') trans = t('sharedFeatureViews');
+                else trans = f.title;
+                return { ...f, staticTitle: f.title, title: trans };
+            })
+        };
+    });
 
     return (
         <>
@@ -140,21 +194,20 @@ export default function Rooms() {
                         <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full border border-[#39ff14]/30 bg-[#39ff14]/10">
                             <Sparkles size={14} className="text-[#39ff14]" />
                             <span className="text-[#39ff14] text-[11px] font-semibold tracking-[0.24em] uppercase">
-                                Accommodations
+                                {t('accommodations')}
                             </span>
                         </div>
 
                         <h2 className="section-title text-4xl md:text-5xl lg:text-6xl mb-6 leading-[0.95]">
-                            Our <span className="text-gradient">Rooms</span>
+                            {t('our')} <span className="text-gradient">{t('rooms')}</span>
                         </h2>
                         <p className="text-slate-300 text-base md:text-lg leading-relaxed max-w-3xl mx-auto">
-                            Sunny, bright, and spotless rooms designed to make you feel relaxed,
-                            whether you want a private stay or a more social hostel atmosphere.
+                            {t('description')}
                         </p>
                     </motion.div>
 
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-7 mb-12">
-                        {roomsData.map((room, index) => {
+                        {translatedRoomsData.map((room, index) => {
                             const meta = roomMeta[room.id];
 
                             return (
@@ -187,7 +240,7 @@ export default function Rooms() {
                                                 {meta.eyebrow}
                                             </div>
                                             <div className="absolute top-4 right-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/30 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                                <span>View Details</span>
+                                                <span>{t('viewDetails')}</span>
                                                 <ArrowUpRight size={12} />
                                             </div>
                                         </div>
@@ -210,7 +263,7 @@ export default function Rooms() {
 
                                             <div className="mt-5 flex flex-wrap gap-2.5">
                                                 {room.features.slice(0, 3).map((feature) => {
-                                                    const Icon = roomFeatureIconMap[feature.title] ?? Sparkles;
+                                                    const Icon = roomFeatureIconMap[feature.staticTitle ?? feature.icon] ?? Sparkles;
 
                                                     return (
                                                         <span
@@ -232,14 +285,14 @@ export default function Rooms() {
                                                     }}
                                                     className="btn-primary flex-1 py-3 text-xs"
                                                 >
-                                                    View Details
+                                                    {t('viewDetails')}
                                                 </button>
                                                 <Link
                                                     href={`/book?room=${room.id}`}
                                                     className="btn-outline flex-1 py-3 text-xs text-center"
                                                     onClick={(e) => e.stopPropagation()}
                                                 >
-                                                    Book Now
+                                                    {t('bookNow')}
                                                 </Link>
                                             </div>
                                         </div>
@@ -262,25 +315,25 @@ export default function Rooms() {
                                 <div className="inline-flex items-center gap-2 rounded-full border border-[#39ff14]/15 bg-[#39ff14]/8 px-3.5 py-2">
                                     <Info size={14} className="text-[#39ff14]" />
                                     <span className="text-[#39ff14] text-[11px] font-semibold uppercase tracking-[0.22em]">
-                                        Stay Details
+                                        {t('stayDetails')}
                                     </span>
                                 </div>
 
                                 <div>
                                     <h4 className="font-heading text-2xl md:text-3xl font-bold text-white">
-                                        <span className="text-gradient">Important Information</span>
+                                        <span className="text-gradient">{t('importantInformation')}</span>
                                     </h4>
                                     <p className="mt-4 max-w-md text-sm md:text-base leading-relaxed text-slate-300">
-                                        A few practical details that help guests know exactly what to expect before arrival.
+                                        {t('importantDesc')}
                                     </p>
                                 </div>
 
                                 <div className="rounded-[1.4rem] border border-white/6 bg-white/[0.035] px-4 py-4">
                                     <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-                                        Before You Arrive
+                                        {t('beforeYouArrive')}
                                     </p>
                                     <p className="mt-2 text-sm leading-relaxed text-slate-300">
-                                        Short, practical notes about the building, neighborhood, walking distance, and payment details.
+                                        {t('beforeDesc')}
                                     </p>
                                 </div>
                             </div>

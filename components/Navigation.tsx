@@ -3,23 +3,26 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, Phone, Sparkles, X } from 'lucide-react';
 import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { Link, usePathname, useRouter } from '../i18n/routing';
+import { useTranslations } from 'next-intl';
+import LanguageSwitcher from './LanguageSwitcher';
 import { useEffect, useState } from 'react';
 
-const navLinks = [
-    { id: 'home', label: 'Home' },
-    { id: 'features', label: 'Features' },
-    { id: 'rooms', label: 'Rooms' },
-    { id: 'gallery', label: 'Gallery' },
-    { id: 'guides', label: 'Guides' },
-    { id: 'about', label: 'About Us' },
-    { id: 'location', label: 'Location' },
-];
-
 export default function Navigation() {
+    const t = useTranslations('Navigation');
     const pathname = usePathname();
     const router = useRouter();
+    
+    const navLinks = [
+        { id: 'home', label: t('home') },
+        { id: 'features', label: t('features') },
+        { id: 'rooms', label: t('rooms') },
+        { id: 'gallery', label: t('gallery') },
+        { id: 'guides', label: t('guides') },
+        { id: 'about', label: t('about') },
+        { id: 'location', label: t('location') },
+    ];
+
     const [isScrolled, setIsScrolled] = useState(false);
     const [isHidden, setIsHidden] = useState(false);
     const [lastScrollY, setLastScrollY] = useState(0);
@@ -144,6 +147,7 @@ export default function Navigation() {
                         </div>
 
                         <div className="hidden items-center gap-3 lg:flex">
+                            <LanguageSwitcher />
                             <a
                                 href="tel:+381652288200"
                                 className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-4 py-2 text-sm font-medium text-slate-300 transition-colors hover:text-white"
@@ -152,7 +156,7 @@ export default function Navigation() {
                                 <span>+381 65 228 8200</span>
                             </a>
                             <Link href="/book" className="btn-primary px-6 py-2.5 text-sm">
-                                Book Now
+                                {t('bookNow')}
                             </Link>
                         </div>
 
@@ -227,7 +231,7 @@ export default function Navigation() {
                                     onClick={closeMobileMenu}
                                     className="btn-primary justify-center py-3 text-sm"
                                 >
-                                    Book Now
+                                    {t('bookNow')}
                                 </Link>
                             </div>
                         </motion.div>

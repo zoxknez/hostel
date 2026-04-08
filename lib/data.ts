@@ -3,6 +3,7 @@ import { roomMedia } from './media';
 export interface RoomFeature {
     icon: string;
     title: string;
+    staticTitle?: string;
 }
 
 export interface Room {

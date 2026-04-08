@@ -4,16 +4,24 @@ import { motion, useInView } from 'framer-motion';
 import { MessageSquareQuote, ShieldCheck, Star } from 'lucide-react';
 import Script from 'next/script';
 import { useRef } from 'react';
-
-const trustPoints = [
-    'Live TripAdvisor feed',
-    'Verified guest reviews',
-    'Social proof from real stays',
-];
+import { useTranslations } from 'next-intl';
 
 export default function Testimonials() {
+    const t = useTranslations('Testimonials');
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-100px' });
+
+    const trustPoints = [
+        t('trustPoint1'),
+        t('trustPoint2'),
+        t('trustPoint3'),
+    ];
+
+    const livePoints = [
+        t('livePoint1'),
+        t('livePoint2'),
+        t('livePoint3'),
+    ];
 
     return (
         <section className="relative overflow-hidden px-6 py-16 md:px-8 md:py-24 lg:py-28">
@@ -32,15 +40,15 @@ export default function Testimonials() {
                     <div className="inline-flex items-center gap-2 rounded-full border border-[#39ff14]/20 bg-[#39ff14]/10 px-4 py-2">
                         <MessageSquareQuote size={14} className="text-[#39ff14]" />
                         <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#39ff14]">
-                            Guest Reviews
+                            {t('guestReviews')}
                         </span>
                     </div>
 
                     <h2 className="section-title mt-6 text-4xl leading-[0.95] md:text-5xl lg:text-6xl">
-                        What Guests <span className="text-gradient">Say</span>
+                        {t('whatGuests')} <span className="text-gradient">{t('say')}</span>
                     </h2>
                     <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-slate-300 md:text-lg">
-                        Real feedback from travelers who stayed with us in Belgrade, presented inside the same refined visual language as the rest of the site.
+                        {t('subtitle')}
                     </p>
 
                     <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -68,23 +76,19 @@ export default function Testimonials() {
                             <div className="inline-flex items-center gap-2 rounded-full border border-[#ffff00]/15 bg-[#ffff00]/8 px-3.5 py-2">
                                 <Star size={14} className="fill-[#ffff00] text-[#ffff00]" />
                                 <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#ffff00]">
-                                    Trusted Social Proof
+                                    {t('trustedSocialProof')}
                                 </span>
                             </div>
 
                             <h3 className="mt-5 font-heading text-2xl font-bold text-white">
-                                Live review feed
+                                {t('liveReviewFeed')}
                             </h3>
                             <p className="mt-3 text-sm leading-7 text-slate-300">
-                                This section stays connected to real guest reviews, so the presentation feels premium without losing credibility.
+                                {t('liveReviewDesc')}
                             </p>
 
                             <div className="mt-6 space-y-3">
-                                {[
-                                    'Updated directly from the review platform',
-                                    'Clearer contrast and framing for readability',
-                                    'Integrated into the visual rhythm of the homepage',
-                                ].map((item) => (
+                                {livePoints.map((item) => (
                                     <div
                                         key={item}
                                         className="flex items-start gap-3 rounded-2xl border border-white/6 bg-white/[0.035] px-4 py-3.5"
@@ -113,7 +117,7 @@ export default function Testimonials() {
                     <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.035] px-5 py-3 backdrop-blur-md">
                         <span className="h-2 w-2 rounded-full bg-[#39ff14] shadow-[0_0_12px_rgba(57,255,20,0.7)]" />
                         <p className="text-[10px] font-semibold uppercase tracking-[0.32em] text-slate-300">
-                            Live feed synchronized with <span className="text-[#39ff14]">TripAdvisor</span>
+                            {t('liveSync')} <span className="text-[#39ff14]">TripAdvisor</span>
                         </p>
                     </div>
                 </motion.div>

@@ -12,15 +12,10 @@ import {
     Sparkles,
 } from 'lucide-react';
 import { useRef } from 'react';
-
-const nearbyPlaces = [
-    { name: 'Kalemegdan Fortress', distance: '10 min walk', icon: Building2 },
-    { name: "Branko's Bridge", distance: '3 min walk', icon: Route },
-    { name: 'Knez Mihailova', distance: '10 min walk', icon: Route },
-    { name: 'Republic Square', distance: '12 min walk', icon: Clock3 },
-];
+import { useTranslations } from 'next-intl';
 
 export default function Location() {
+    const t = useTranslations('Location');
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: '-100px' });
     const streetAddress = 'Koče Popović 6';
@@ -32,6 +27,13 @@ export default function Location() {
         `${streetAddress}, 11000 Belgrade, Serbia`
     )}`;
     const navigationHref = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapsAddress)}&travelmode=driving`;
+
+    const nearbyPlaces = [
+        { name: 'Kalemegdan Fortress', distance: t('dist10'), icon: Building2 },
+        { name: "Branko's Bridge", distance: t('dist3'), icon: Route },
+        { name: 'Knez Mihailova', distance: t('dist10'), icon: Route },
+        { name: 'Republic Square', distance: t('dist12'), icon: Clock3 },
+    ];
 
     return (
         <section
@@ -52,15 +54,15 @@ export default function Location() {
                     <div className="inline-flex items-center gap-2 rounded-full border border-[#39ff14]/20 bg-[#39ff14]/10 px-4 py-2">
                         <MapPinned size={14} className="text-[#39ff14]" />
                         <span className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#39ff14]">
-                            Find Us
+                            {t('findUs')}
                         </span>
                     </div>
 
                     <h2 className="section-title mt-6 text-4xl leading-[0.95] md:text-5xl lg:text-6xl">
-                        Our <span className="text-gradient">Location</span>
+                        {t('our')} <span className="text-gradient">{t('location')}</span>
                     </h2>
                     <p className="mx-auto mt-5 max-w-3xl text-base leading-relaxed text-slate-300 md:text-lg">
-                        Located in Belgrade&apos;s Savamala district, within walking distance of the river, the city center, and the practical spots guests use most.
+                        {t('subtitle')}
                     </p>
                 </motion.div>
 
@@ -79,7 +81,7 @@ export default function Location() {
                                 <h3 className="mt-1 text-xl font-bold text-white">{fullAddress}</h3>
                             </div>
                             <span className="inline-flex rounded-full border border-[#39ff14]/15 bg-[#39ff14]/8 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-[#39ff14]">
-                                Exact pinned location
+                                {t('exactPinned')}
                             </span>
                         </div>
 
@@ -111,8 +113,8 @@ export default function Location() {
                                         <MapPinned size={18} strokeWidth={2.1} />
                                     </span>
                                     <span>
-                                        <span className="block text-sm font-medium text-white">Google Maps</span>
-                                        <span className="mt-1 block text-xs text-slate-400">Open pinned location</span>
+                                        <span className="block text-sm font-medium text-white">{t('googleMaps')}</span>
+                                        <span className="mt-1 block text-xs text-slate-400">{t('openPinned')}</span>
                                     </span>
                                 </span>
                                 <ArrowUpRight
@@ -132,8 +134,8 @@ export default function Location() {
                                         <Route size={18} strokeWidth={2.1} />
                                     </span>
                                     <span>
-                                        <span className="block text-sm font-medium text-white">Navigation</span>
-                                        <span className="mt-1 block text-xs text-slate-400">Start route to hostel</span>
+                                        <span className="block text-sm font-medium text-white">{t('navigation')}</span>
+                                        <span className="mt-1 block text-xs text-slate-400">{t('startRoute')}</span>
                                     </span>
                                 </span>
                                 <ArrowUpRight
@@ -154,15 +156,15 @@ export default function Location() {
                             <div className="inline-flex items-center gap-2 rounded-full border border-[#39ff14]/15 bg-[#39ff14]/8 px-3.5 py-2">
                                 <Sparkles size={14} className="text-[#39ff14]" />
                                 <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#39ff14]">
-                                    Our Address
+                                    {t('ourAddress')}
                                 </span>
                             </div>
 
                             <div className="mt-5 rounded-[1.35rem] border border-white/8 bg-white/[0.03] p-4">
                                 <p className="font-heading text-2xl font-bold text-white">{streetAddress}</p>
-                                <p className="mt-2 text-sm leading-6 text-slate-300">11000 Belgrade, Serbia</p>
+                                <p className="mt-2 text-sm leading-6 text-slate-300">{t('cityZip')}</p>
                                 <p className="mt-4 text-sm leading-6 text-slate-400">
-                                    A central city base close to the river, bridges, and the walkable core of Belgrade.
+                                    {t('addressDesc')}
                                 </p>
                             </div>
                         </div>
@@ -171,12 +173,12 @@ export default function Location() {
                             <div className="flex items-center justify-between gap-3 border-b border-white/8 pb-4">
                                 <div>
                                     <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-500">
-                                        Nearby Attractions
+                                        {t('nearbyAttractions')}
                                     </p>
-                                    <h3 className="mt-2 text-2xl font-bold text-white">Walkable highlights</h3>
+                                    <h3 className="mt-2 text-2xl font-bold text-white">{t('walkable')}</h3>
                                 </div>
                                 <span className="inline-flex rounded-full border border-white/10 bg-white/[0.035] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400">
-                                    From the hostel
+                                    {t('fromHostel')}
                                 </span>
                             </div>
 
@@ -211,7 +213,7 @@ export default function Location() {
                             >
                                 <Phone size={18} className="text-[#39ff14]" />
                                 <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
-                                    Call Us
+                                    {t('callUs')}
                                 </p>
                                 <p className="mt-2 text-sm font-medium text-white">+381 65 228 8200</p>
                             </a>
@@ -222,7 +224,7 @@ export default function Location() {
                             >
                                 <Mail size={18} className="text-[#39ff14]" />
                                 <p className="mt-4 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
-                                    Email
+                                    {t('email')}
                                 </p>
                                 <p className="mt-2 break-all text-sm font-medium text-white">
                                     hostelinndowntown@gmail.com
