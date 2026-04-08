@@ -26,7 +26,7 @@
     "stat2Label": "Zadovoljnih gostiju",
     "stat3Value": "Grad",
     "stat3Label": "Pogled",
-    "scroll": "Skroluj"
+    "scroll": "Skrolujte"
   },
   "About": {
     "liveFrom": "Uživo iz centra",
@@ -233,7 +233,7 @@
     "pill1": "Terasa",
     "pill2": "Zajednički prostor",
     "pill3": "Svakodnevica",
-    "clickExpand": "Klikni za uvećanje"
+    "clickExpand": "Kliknite za uvećanje"
   },
   "Location": {
     "findUs": "Pronađite Nas",
@@ -242,7 +242,7 @@
     "subtitle": "Nalazimo se u Savamali, na par minuta hoda od reke, strogog centra grada i najvažnijih znamenitosti.",
     "exactPinned": "Tačna lokacija",
     "googleMaps": "Google Mape",
-    "openPinned": "Otvori lokaciju mapama",
+    "openPinned": "Otvorite lokaciju mapama",
     "navigation": "Navigacija",
     "startRoute": "Pokreni rutu do hostela",
     "ourAddress": "Naša Adresa",
@@ -263,7 +263,7 @@
     "travelNotes": "Beleške",
     "subtitle": "Kreirali smo korisne vodiče kako bismo gostima olakšali dolazak, snalaženje i boravak u Beogradu.",
     "opensNewTab": "Otvara se u novom prozoru",
-    "openGuide": "Otvori vodič",
+    "openGuide": "Otvorite vodič",
     "gettingHereEyebrow": "Kako do nas",
     "gettingHereTitle": "Kako stići do hostela Downtown Inn",
     "gettingHereSummary": "Najpraktičnije rute do hostela sa aerodroma, autobuske i železničke stanice.",
