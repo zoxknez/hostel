@@ -15,7 +15,7 @@ export async function GET() {
 }
 
 export async function PATCH(request: NextRequest) {
-    const unauthorizedResponse = requireAdminRequest(request);
+    const unauthorizedResponse = await requireAdminRequest(request);
     if (unauthorizedResponse) {
         return unauthorizedResponse;
     }

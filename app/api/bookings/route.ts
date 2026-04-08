@@ -35,7 +35,7 @@ function bookingsOverlap(
 
 // GET: List all bookings (for admin)
 export async function GET(request: NextRequest) {
-    const unauthorizedResponse = requireAdminRequest(request);
+    const unauthorizedResponse = await requireAdminRequest(request);
     if (unauthorizedResponse) {
         return unauthorizedResponse;
     }

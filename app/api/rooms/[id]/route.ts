@@ -9,7 +9,7 @@ export async function GET(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
-    const unauthorizedResponse = requireAdminRequest(request);
+    const unauthorizedResponse = await requireAdminRequest(request);
     if (unauthorizedResponse) {
         return unauthorizedResponse;
     }
@@ -35,7 +35,7 @@ export async function PATCH(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
-    const unauthorizedResponse = requireAdminRequest(request);
+    const unauthorizedResponse = await requireAdminRequest(request);
     if (unauthorizedResponse) {
         return unauthorizedResponse;
     }
@@ -81,7 +81,7 @@ export async function DELETE(
     request: NextRequest,
     { params }: { params: Promise<{ id: string }> }
 ) {
-    const unauthorizedResponse = requireAdminRequest(request);
+    const unauthorizedResponse = await requireAdminRequest(request);
     if (unauthorizedResponse) {
         return unauthorizedResponse;
     }

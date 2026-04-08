@@ -1,4 +1,8 @@
-import type { NextRequest } from 'next/server';
+const fs = require('fs');
+const path = require('path');
+
+const adminSessionPath = path.join(__dirname, 'lib', 'admin-session.ts');
+const newAdminSession = `import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 const ADMIN_COOKIE_NAME = 'admin_token';
@@ -46,10 +50,10 @@ async function signSessionPayload(payload: string) {
 
 export async function createAdminSessionToken(now = Date.now()) {
     const expiresAt = now + SESSION_TTL_SECONDS * 1000;
-    const payload = `v1.${expiresAt}`;
+    const payload = \`v1.\${expiresAt}\`;
     const signature = await signSessionPayload(payload);
 
-    return `${payload}.${signature}`;
+    return \`\${payload}.\${signature}\`;
 }
 
 export async function isValidAdminSessionToken(token?: string | null) {
@@ -67,7 +71,7 @@ export async function isValidAdminSessionToken(token?: string | null) {
         return false;
     }
 
-    const expectedSignature = await signSessionPayload(`${version}.${expiresAtRaw}`);
+    const expectedSignature = await signSessionPayload(\`\${version}.\${expiresAtRaw}\`);
 
     return timingSafeEqualStr(signature, expectedSignature);
 }
@@ -100,3 +104,31 @@ export async function requireAdminRequest(request: NextRequest) {
 
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 }
+`;
+
+fs.writeFileSync(adminSessionPath, newAdminSession);
+console.log('Updated admin-session.ts');
+
+const replaceFiles = [
+    'middleware.ts',
+    'app/api/admin/login/route.ts',
+    'app/api/bookings/[id]/route.ts',
+    'app/api/bookings/route.ts',
+    'app/api/rooms/[id]/route.ts',
+    'app/api/rooms/route.ts',
+    'app/api/settings/route.ts',
+    'app/api/upload/route.ts'
+];
+
+replaceFiles.forEach(relPath => {
+    const fullPath = path.join(__dirname, relPath);
+    if (!fs.existsSync(fullPath)) return;
+    let content = fs.readFileSync(fullPath, 'utf8');
+
+    content = content.replace(/(!)?hasValidAdminSession\(/g, '$1await hasValidAdminSession(');
+    content = content.replace(/requireAdminRequest\(/g, 'await requireAdminRequest(');
+    content = content.replace(/applyAdminSessionCookie\(/g, 'await applyAdminSessionCookie(');
+
+    fs.writeFileSync(fullPath, content);
+    console.log('Updated', relPath);
+});

@@ -7,7 +7,7 @@ import { hasValidAdminSession, requireAdminRequest } from '@/lib/admin-session';
 export async function GET(request: NextRequest) {
     try {
         const rooms = await prisma.room.findMany({
-            where: hasValidAdminSession(request) ? undefined : { isActive: true },
+            where: await hasValidAdminSession(request) ? undefined : { isActive: true },
             orderBy: { sortOrder: 'asc' },
         });
 
@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-    const unauthorizedResponse = requireAdminRequest(request);
+    const unauthorizedResponse = await requireAdminRequest(request);
     if (unauthorizedResponse) {
         return unauthorizedResponse;
     }

@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { requireAdminRequest } from '@/lib/admin-session';
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-    const unauthorizedResponse = requireAdminRequest(request);
+    const unauthorizedResponse = await requireAdminRequest(request);
     if (unauthorizedResponse) {
         return unauthorizedResponse;
     }

@@ -6,12 +6,12 @@ import { hasValidAdminSession } from '@/lib/admin-session';
 
 const intlMiddleware = createMiddleware(routing);
 
-export default function middleware(request: NextRequest) {
+export default async function middleware(request: NextRequest) {
     const isAdminRoute = request.nextUrl.pathname.startsWith('/admin');
     const isLoginRoute = request.nextUrl.pathname === '/admin/login';
 
     if (isAdminRoute) {
-        if (!isLoginRoute && !hasValidAdminSession(request)) {
+        if (!isLoginRoute && !await hasValidAdminSession(request)) {
             return NextResponse.redirect(new URL('/admin/login', request.url));
         }
         return NextResponse.next();
