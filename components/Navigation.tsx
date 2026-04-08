@@ -221,21 +221,29 @@ export default function Navigation() {
                                 </div>
                             </div>
 
-                            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                                <a
-                                    href="tel:+381652288200"
-                                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-4 py-3 text-sm font-medium text-slate-300"
-                                >
-                                    <Phone size={15} className="text-[#39ff14]" />
-                                    <span>Call Hostel</span>
-                                </a>
-                                <Link
-                                    href="/book"
-                                    onClick={closeMobileMenu}
-                                    className="btn-primary justify-center py-3 text-sm"
-                                >
-                                    {t('bookNow')}
-                                </Link>
+                            <div className="mt-4 flex flex-col gap-3">
+                                <div>
+                                    <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
+                                        Language
+                                    </p>
+                                    <LanguageSwitcher />
+                                </div>
+                                <div className="grid gap-3 sm:grid-cols-2">
+                                    <a
+                                        href="tel:+381652288200"
+                                        className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-4 py-3 text-sm font-medium text-slate-300"
+                                    >
+                                        <Phone size={15} className="text-[#39ff14]" />
+                                        <span>Call Hostel</span>
+                                    </a>
+                                    <Link
+                                        href="/book"
+                                        onClick={closeMobileMenu}
+                                        className="btn-primary justify-center py-3 text-sm"
+                                    >
+                                        {t('bookNow')}
+                                    </Link>
+                                </div>
                             </div>
                         </motion.div>
                     </>
