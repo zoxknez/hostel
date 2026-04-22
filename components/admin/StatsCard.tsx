@@ -10,10 +10,10 @@ interface StatsCardProps {
 }
 
 const colorMap = {
-    cyan: 'from-[#39ff14]/20 to-[#39ff14]/5 text-[#39ff14] border-[#39ff14]/20',
-    purple: 'from-[#ffff00]/20 to-[#ffff00]/5 text-[#ffff00] border-[#ffff00]/20',
-    emerald: 'from-[#00754a]/40 to-[#00754a]/10 text-[#39ff14] border-[#00754a]/40',
-    gold: 'from-[#ffff00]/20 to-[#ffff00]/5 text-[#ffff00] border-[#ffff00]/20',
+    cyan: 'from-cyan-500/20 to-cyan-500/5 text-cyan-400 border-cyan-500/20',
+    purple: 'from-purple-500/20 to-purple-500/5 text-purple-400 border-purple-500/20',
+    emerald: 'from-emerald-500/20 to-emerald-500/5 text-emerald-400 border-emerald-500/20',
+    gold: 'from-amber-500/20 to-amber-500/5 text-amber-400 border-amber-500/20',
 };
 
 export default function StatsCard({ label, value, icon, trend, color, highlight }: StatsCardProps) {
