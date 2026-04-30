@@ -73,7 +73,7 @@ export const guestGuides: GuestGuide[] = [
                     {
                         title: 'By A1 Shuttle (Recommended)',
                         description:
-                            'Take the A1 airport shuttle, which is usually faster than the regular city line. It costs about EUR 4. Get off at Glavna železnička stanica / Savski Trg and walk about 5 minutes to the hostel.',
+                            'Take the A1 airport shuttle toward Slavija. The ticket is bought from the driver in cash (RSD). If the bus stops at Savski Trg / Palace of Justice, get off there and walk about 5 to 8 minutes to the hostel. If it continues to Slavija, take a short taxi ride or a free city line back toward Savski Trg.',
                     },
                     {
                         title: 'By Bus 72',
@@ -88,13 +88,18 @@ export const guestGuides: GuestGuide[] = [
                 ],
             },
             {
-                title: 'From the Main Bus Station (BAS)',
-                intro: 'The bus station is very close, so walking is usually the best option.',
+                title: 'From the Main Bus Station (BAS - New Belgrade)',
+                intro: 'The main Belgrade bus station is now in New Belgrade, so it is no longer a short walk from the hostel.',
                 items: [
                     {
-                        title: 'On Foot (About 5 to 7 Minutes)',
+                        title: 'By Taxi (Simplest with Luggage)',
                         description:
-                            'When you exit the station, head toward Karađorđeva, the street with the tram tracks. Walk uphill toward the city center using Lička or Kraljevića Marka until you reach Gavrila Principa. Turn right, and the next street is Koče Popovića. We are at number 6.',
+                            'Give the driver our address: Koče Popovića 6, Savski Venac. The ride is usually around 10 to 15 minutes, depending on traffic.',
+                    },
+                    {
+                        title: 'By Public Transport',
+                        description:
+                            'From the BAS / Novi Beograd station area, use a city line toward Savski Trg, Zeleni Venac, or Branko’s Bridge, then walk 5 to 10 minutes to Koče Popovića 6. City public transport is free, but route apps are still useful because lines can change.',
                     },
                 ],
             },
@@ -139,7 +144,7 @@ export const guestGuides: GuestGuide[] = [
         icon: 'shield',
         readTime: '6 min read',
         quickFacts: [
-            { label: 'Standard check-in', value: 'From 12:00 AM' },
+            { label: 'Standard check-in', value: 'From 12:00 PM (noon)' },
             { label: 'Check-out', value: 'By 10:00 AM on departure day' },
             { label: 'Quiet hours', value: '11:00 PM to 7:00 AM' },
             { label: 'Lost key fee', value: 'EUR 10, charged in RSD' },
@@ -150,12 +155,12 @@ export const guestGuides: GuestGuide[] = [
                 items: [
                     {
                         title: 'Standard Check-in',
-                        description: 'Regular check-in starts from 12:00 AM.',
+                        description: 'Regular check-in starts from 12:00 PM (noon).',
                     },
                     {
                         title: 'Early Check-in',
                         description:
-                            'If you arrive up to 5 hours before standard check-in, between 7:00 AM and 12:00 AM, the surcharge is 50% of the nightly rate. If you arrive more than 5 hours earlier, before 7:00 AM, one full nightly rate is charged.',
+                            'If you arrive up to 5 hours before standard check-in, between 7:00 AM and 12:00 PM, the surcharge is 50% of the nightly rate. If you arrive more than 5 hours earlier, before 7:00 AM, one full nightly rate is charged.',
                     },
                     {
                         title: 'Check-out',

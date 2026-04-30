@@ -453,7 +453,7 @@ body {
 .section-title {
   font-family: var(--font-outfit), system-ui, sans-serif;
   font-weight: 800;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
   line-height: 1.1;
 }
 

@@ -8,7 +8,12 @@
     "gallery": "Galerie",
     "guides": "Reiseführer",
     "location": "Standort",
-    "bookNow": "Jetzt buchen"
+    "bookNow": "Jetzt buchen",
+    "mobileExplore": "Hostel Downtown Inn",
+    "language": "Sprache",
+    "callHostel": "Hostel anrufen",
+    "openMenu": "Navigation öffnen",
+    "closeMenu": "Navigation schließen"
   },
   "Hero": {
     "topRated": "Bestbewertet in Belgrad",
@@ -256,7 +261,7 @@
     "practical": "Praktische",
     "travelNotes": "Reisenotizen",
     "subtitle": "Wir haben die nützlichsten Infos gebündelt, damit unsere Gäste entspannt in Belgrad ankommen.",
-    "opensNewTab": "Öffnet im neuen Tab",
+    "opensNewTab": "Teilbare Seite",
     "openGuide": "Guide öffnen",
     "gettingHereEyebrow": "Anreise",
     "gettingHereTitle": "So finden Sie das Hostel Downtown Inn",

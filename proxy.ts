@@ -6,7 +6,7 @@ import { hasValidAdminSession } from '@/lib/admin-session';
 
 const intlMiddleware = createMiddleware(routing);
 
-export default async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
     const isAdminRoute = request.nextUrl.pathname.startsWith('/admin');
     const isLoginRoute = request.nextUrl.pathname === '/admin/login';
 

@@ -8,7 +8,12 @@
     "gallery": "Галерея",
     "guides": "Гиды",
     "location": "Локация",
-    "bookNow": "Забронировать"
+    "bookNow": "Забронировать",
+    "mobileExplore": "Hostel Downtown Inn",
+    "language": "Язык",
+    "callHostel": "Позвонить в хостел",
+    "openMenu": "Открыть навигацию",
+    "closeMenu": "Закрыть навигацию"
   },
   "Hero": {
     "topRated": "Лучший рейтинг в Белграде",
@@ -256,7 +261,7 @@
     "practical": "Практические",
     "travelNotes": "Заметки",
     "subtitle": "Полезная информация для гостей: организация заезда, советы по городу и детали проживания.",
-    "opensNewTab": "Новая вкладка",
+    "opensNewTab": "Страница для гостей",
     "openGuide": "Открыть гид",
     "gettingHereEyebrow": "Как добраться",
     "gettingHereTitle": "Как до нас доехать",

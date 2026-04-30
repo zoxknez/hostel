@@ -7,13 +7,13 @@ import { useTranslations } from 'next-intl';
 export default function Footer() {
     const t = useTranslations('Footer');
     const currentYear = new Date().getFullYear();
-    const streetAddress = 'Koče Popović 6';
+    const streetAddress = 'Koče Popovića 6';
 
     const quickLinks = [
         { label: t('linkHome'), href: '/#home' },
         { label: t('linkRooms'), href: '/#rooms' },
         { label: t('linkGallery'), href: '/#gallery' },
-        { label: t('linkGuides'), href: '/#guides' },
+        { label: t('linkGuides'), href: '/guides' },
         { label: t('linkLocation'), href: '/#location' },
         { label: t('linkBook'), href: '/book' },
     ];

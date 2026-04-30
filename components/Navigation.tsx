@@ -1,27 +1,34 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { Menu, Phone, Sparkles, X } from 'lucide-react';
+import { ArrowUpRight, Menu, Phone, Sparkles, X } from 'lucide-react';
 import Image from 'next/image';
 import { Link, usePathname, useRouter } from '../i18n/routing';
 import { useTranslations } from 'next-intl';
 import LanguageSwitcher from './LanguageSwitcher';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+
+type NavLink = {
+    id: string;
+    label: string;
+    sectionId?: string;
+    href?: string;
+};
 
 export default function Navigation() {
     const t = useTranslations('Navigation');
     const pathname = usePathname();
     const router = useRouter();
-    
-    const navLinks = [
-        { id: 'home', label: t('home') },
-        { id: 'features', label: t('features') },
-        { id: 'rooms', label: t('rooms') },
-        { id: 'gallery', label: t('gallery') },
-        { id: 'guides', label: t('guides') },
-        { id: 'about', label: t('about') },
-        { id: 'location', label: t('location') },
-    ];
+
+    const navLinks = useMemo<NavLink[]>(() => [
+        { id: 'home', label: t('home'), sectionId: 'home' },
+        { id: 'features', label: t('features'), sectionId: 'features' },
+        { id: 'rooms', label: t('rooms'), sectionId: 'rooms' },
+        { id: 'gallery', label: t('gallery'), sectionId: 'gallery' },
+        { id: 'guides', label: t('guides'), href: '/guides' },
+        { id: 'about', label: t('about'), sectionId: 'about' },
+        { id: 'location', label: t('location'), sectionId: 'location' },
+    ], [t]);
 
     const [isScrolled, setIsScrolled] = useState(false);
     const [isHidden, setIsHidden] = useState(false);
@@ -37,7 +44,14 @@ export default function Navigation() {
             setIsHidden(currentScrollY > lastScrollY && currentScrollY > 220);
             setLastScrollY(currentScrollY);
 
-            for (const section of navLinks.map((link) => link.id)) {
+            if (pathname.startsWith('/guides')) {
+                setActiveSection('guides');
+                return;
+            }
+
+            const sectionIds = navLinks.flatMap((link) => (link.sectionId ? [link.sectionId] : []));
+
+            for (const section of sectionIds) {
                 const element = document.getElementById(section);
                 if (!element) {
                     continue;
@@ -51,9 +65,10 @@ export default function Navigation() {
             }
         };
 
+        handleScroll();
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [lastScrollY]);
+    }, [lastScrollY, navLinks, pathname]);
 
     const closeMobileMenu = () => {
         setIsMobileMenuOpen(false);
@@ -73,6 +88,16 @@ export default function Navigation() {
         }
 
         closeMobileMenu();
+    };
+
+    const openNavLink = (link: NavLink) => {
+        if (link.href) {
+            router.push(link.href);
+            closeMobileMenu();
+            return;
+        }
+
+        scrollToSection(link.sectionId ?? link.id);
     };
 
     const handleLogoClick = () => {
@@ -127,7 +152,7 @@ export default function Navigation() {
                             <button
                                 key={link.id}
                                 type="button"
-                                onClick={() => scrollToSection(link.id)}
+                                onClick={() => openNavLink(link)}
                                 className={`relative rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors ${
                                     activeSection === link.id
                                         ? 'text-white'
@@ -167,7 +192,7 @@ export default function Navigation() {
                         type="button"
                         onClick={() => setIsMobileMenuOpen((open) => !open)}
                         className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.035] text-white transition-colors hover:border-[#39ff14]/30 md:hidden"
-                        aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+                        aria-label={isMobileMenuOpen ? t('closeMenu') : t('openMenu')}
                     >
                         {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
                     </button>
@@ -197,7 +222,7 @@ export default function Navigation() {
                                 <div className="flex items-center gap-2">
                                     <Sparkles size={14} className="text-[#39ff14]" />
                                     <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#39ff14]">
-                                        Explore Hostel Downtown Inn
+                                        {t('mobileExplore')}
                                     </span>
                                 </div>
                                 <div className="mt-4 flex flex-col gap-2">
@@ -205,7 +230,7 @@ export default function Navigation() {
                                         <button
                                             key={link.id}
                                             type="button"
-                                            onClick={() => scrollToSection(link.id)}
+                                            onClick={() => openNavLink(link)}
                                             className={`flex items-center justify-between rounded-2xl px-4 py-3 text-left text-sm font-medium transition-colors ${
                                                 activeSection === link.id
                                                     ? 'bg-[#39ff14]/10 text-white'
@@ -213,9 +238,7 @@ export default function Navigation() {
                                             }`}
                                         >
                                             <span>{link.label}</span>
-                                            <span className="text-[10px] uppercase tracking-[0.18em] text-slate-500">
-                                                Open
-                                            </span>
+                                            <ArrowUpRight size={13} className="text-slate-500" aria-hidden="true" />
                                         </button>
                                     ))}
                                 </div>
@@ -224,7 +247,7 @@ export default function Navigation() {
                             <div className="mt-4 flex flex-col gap-3">
                                 <div>
                                     <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-                                        Language
+                                        {t('language')}
                                     </p>
                                     <LanguageSwitcher />
                                 </div>
@@ -234,7 +257,7 @@ export default function Navigation() {
                                         className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.035] px-4 py-3 text-sm font-medium text-slate-300"
                                     >
                                         <Phone size={15} className="text-[#39ff14]" />
-                                        <span>Call Hostel</span>
+                                        <span>{t('callHostel')}</span>
                                     </a>
                                     <Link
                                         href="/book"

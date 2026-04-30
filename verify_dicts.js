@@ -1,5 +1,6 @@
-const fs = require('fs');
-const path = require('path');
+(async () => {
+const fs = await import('node:fs');
+const path = await import('node:path');
 
 const messagesDir = path.join(__dirname, 'messages');
 const langs = ['en', 'sr', 'ru', 'de'];
@@ -45,3 +46,4 @@ langs.forEach(lang => {
 if (!hasError) {
   console.log("All languages have perfectly symmetric keys.");
 }
+})();

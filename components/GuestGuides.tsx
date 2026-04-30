@@ -113,8 +113,6 @@ export default function GuestGuides() {
                                     <div className="mt-6 pt-2">
                                         <Link
                                             href={`/guides/${guide.slug}`}
-                                            target="_blank"
-                                            rel="noreferrer"
                                             className="inline-flex items-center gap-2 rounded-full border border-[#39ff14]/18 bg-[#39ff14]/10 px-4 py-2.5 text-sm font-semibold text-[#39ff14] transition-colors hover:border-[#39ff14]/30 hover:bg-[#39ff14]/16"
                                         >
                                             {t('openGuide')}

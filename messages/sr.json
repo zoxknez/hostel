@@ -8,7 +8,12 @@
     "gallery": "Galerija",
     "guides": "Vodiči",
     "location": "Lokacija",
-    "bookNow": "Rezervišite"
+    "bookNow": "Rezervišite",
+    "mobileExplore": "Hostel Downtown Inn",
+    "language": "Jezik",
+    "callHostel": "Pozovite hostel",
+    "openMenu": "Otvorite navigaciju",
+    "closeMenu": "Zatvorite navigaciju"
   },
   "Hero": {
     "topRated": "Najbolje ocenjen u Beogradu",
@@ -256,7 +261,7 @@
     "practical": "Praktične",
     "travelNotes": "Beleške",
     "subtitle": "Kreirali smo korisne vodiče kako bismo gostima olakšali dolazak, snalaženje i boravak u Beogradu.",
-    "opensNewTab": "Otvara se u novom prozoru",
+    "opensNewTab": "Stranica za slanje gostima",
     "openGuide": "Otvorite vodič",
     "gettingHereEyebrow": "Kako do nas",
     "gettingHereTitle": "Kako stići do hostela Downtown Inn",

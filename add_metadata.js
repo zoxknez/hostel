@@ -1,5 +1,6 @@
-const fs = require('fs');
-const path = require('path');
+(async () => {
+const fs = await import('node:fs');
+const path = await import('node:path');
 
 const messagesDir = path.join(__dirname, 'messages');
 const langs = ['en', 'sr', 'ru', 'de'];
@@ -33,3 +34,4 @@ langs.forEach(lang => {
   fs.writeFileSync(file, JSON.stringify(data, null, 2));
   console.log(`Added Metadata to ${lang}.json`);
 });
+})();

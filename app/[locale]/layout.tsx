@@ -23,14 +23,31 @@ export async function generateMetadata(
   const t = await getTranslations({ locale, namespace: 'Metadata' });
 
   return {
+    metadataBase: new URL('https://www.hostelinn.rs'),
     title: t('title'),
     description: t('description'),
     keywords: ["hostel Belgrade", "downtown hostel", "Belgrade accommodation", "budget travel Belgrade", "hostel inn"],
     authors: [{ name: "Hostel Downtown Inn" }],
     openGraph: {
       type: "website",
+      siteName: "Hostel Downtown Inn",
+      url: "/",
       title: t('title'),
       description: t('description'),
+      images: [
+        {
+          url: "/logo.png",
+          width: 512,
+          height: 512,
+          alt: "Hostel Downtown Inn logo",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary",
+      title: t('title'),
+      description: t('description'),
+      images: ["/logo.png"],
     },
   };
 }
@@ -39,6 +56,12 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { routing } from '../../i18n/routing';
+
+type Locale = (typeof routing.locales)[number];
+
+function isLocale(locale: string): locale is Locale {
+  return routing.locales.includes(locale as Locale);
+}
 
 export default async function RootLayout({
   children,
@@ -49,7 +72,7 @@ export default async function RootLayout({
 }>) {
   const { locale } = await params;
 
-  if (!routing.locales.includes(locale as any)) {
+  if (!isLocale(locale)) {
     notFound();
   }
 
